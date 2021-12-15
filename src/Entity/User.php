@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Fnaim\FnAgency;
 use App\Entity\Formation\FoRegistration;
 use App\Entity\Formation\FoWorker;
 use App\Entity\Paiement\PaBank;
@@ -139,6 +140,12 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
      * @ORM\OneToMany(targetEntity=PaOrder::class, mappedBy="user")
      */
     private $paOrders;
+
+    /**
+     * @ORM\OneToOne(targetEntity=FnAgency::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $agency;
 
     /**
      * @throws Exception
@@ -572,6 +579,18 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
                 $paOrder->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAgency(): ?FnAgency
+    {
+        return $this->agency;
+    }
+
+    public function setAgency(FnAgency $agency): self
+    {
+        $this->agency = $agency;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Fnaim\FnAgency;
 use App\Entity\User;
 use App\Service\DatabaseService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -77,6 +78,21 @@ class AdminUsersCreateCommand extends Command
                 ->setLastname(mb_strtoupper($user['lastname']))
                 ->setPassword($password)
             ;
+
+            $agency = (new FnAgency())
+                ->setName("Logilink")
+                ->setphone("065204XXXX")
+                ->setNumCompta("LOGILINK")
+                ->setLastname(mb_strtoupper($user['lastname']))
+                ->setFirstname(ucfirst($user['firstname']))
+                ->setAddress("17 rue de la République")
+                ->setZipcode("13002")
+                ->setCity("MARSEILLE 02")
+            ;
+
+            $this->em->persist($agency);
+
+            $new->setAgency($agency);
 
             $this->em->persist($new);
             $io->text('USER : ' . $user['username'] . ' créé' );
