@@ -144,6 +144,7 @@ class User extends DataEntity implements UserInterface, PasswordAuthenticatedUse
     /**
      * @ORM\OneToOne(targetEntity=FnAgency::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"admin:read"})
      */
     private $agency;
 

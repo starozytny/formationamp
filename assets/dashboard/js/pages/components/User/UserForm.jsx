@@ -39,6 +39,22 @@ export function UserFormulaire ({ type, onChangeContext, onUpdateList, element }
         email={element ? element.email : ""}
         avatar={element ? element.avatar : null}
         roles={element ? element.roles : []}
+
+        name={element ? element.agency.name : ""}
+        phone={element ? element.agency.phone : ""}
+        siren={element ? element.agency.siren : ""}
+        garantie={element ? element.agency.garantie : ""}
+        numCompta={element ? element.agency.numCompta : ""}
+        nbFreeAca={element ? element.agency.nbFreeAca : ""}
+        type={element ? element.agency.type : []}
+        address={element ? element.agency.address : ""}
+        zipcode={element ? element.agency.zipcode : ""}
+        city={element ? element.agency.city : ""}
+        firstname2={element ? element.agency.firstname2 : ""}
+        lastname2={element ? element.agency.lastname2 : ""}
+        firstname3={element ? element.agency.firstname3 : ""}
+        lastname3={element ? element.agency.lastname3 : ""}
+
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
@@ -60,6 +76,20 @@ export class Form extends Component {
             avatar: props.avatar,
             password: '',
             passwordConfirm: '',
+            name: props.name,
+            phone: props.phone,
+            siren: props.siren,
+            garantie: props.garantie,
+            numCompta: props.numCompta,
+            nbFreeAca: props.nbFreeAca,
+            type: props.type,
+            address: props.address,
+            zipcode: props.zipcode,
+            city: props.city,
+            firstname2: props.firstname2,
+            lastname2: props.lastname2,
+            firstname3: props.firstname3,
+            lastname3: props.lastname3,
             errors: [],
             success: false
         }
@@ -85,6 +115,10 @@ export class Form extends Component {
 
         if(name === "roles"){
             value = Formulaire.updateValueCheckbox(e, roles, value);
+        }
+
+        if(name === "type"){
+            value = (e.currentTarget.checked) ? [parseInt(value)] : [] // parseInt because work with int this time
         }
 
         this.setState({[name]: value})
@@ -163,12 +197,16 @@ export class Form extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, success, username, firstname, lastname, email, password, passwordConfirm, roles, avatar } = this.state;
+        const { errors, success, username, firstname, lastname, email, password, passwordConfirm, roles, avatar,
+                name, phone, firstname2, lastname2, firstname3, lastname3, siren, garantie, numCompta, nbFreeAca,
+            address, zipcode, city, type } = this.state;
 
         let rolesItems = [
             { value: 'ROLE_ADMIN', label: 'Admin',          identifiant: 'admin' },
             { value: 'ROLE_USER',  label: 'Utilisateur',    identifiant: 'utilisateur' },
         ]
+
+        let switcherItems = [ { value: 0, label: 'Non', identifiant: 'non' } ]
 
         return <>
             <p className="form-infos">
@@ -178,14 +216,44 @@ export class Form extends Component {
 
                 {success !== false && <Alert type="info">{success}</Alert>}
 
+                <div className="line line-2">
+                    <Input valeur={name} identifiant="name" errors={errors} onChange={this.handleChange} >Raison sociale</Input>
+                    <Input valeur={phone} identifiant="phone" errors={errors} onChange={this.handleChange} >Téléphone</Input>
+                </div>
+
                 <div className={"line" + (context !== "profil" ? " line-2" : "")}>
                     {context !== "profil" && <Input valeur={username} identifiant="username" errors={errors} onChange={this.handleChange}>Nom utilisateur</Input>}
                     <Input valeur={email} identifiant="email" errors={errors} onChange={this.handleChange} type="email" >Adresse e-mail</Input>
                 </div>
 
-                <div className="line line-2">
+                <div className="line line-3">
                     <Input valeur={firstname} identifiant="firstname" errors={errors} onChange={this.handleChange} >Prénom</Input>
+                    <Input valeur={firstname2} identifiant="firstname2" errors={errors} onChange={this.handleChange} >Prénom 2</Input>
+                    <Input valeur={firstname3} identifiant="firstname3" errors={errors} onChange={this.handleChange} >Prénom 3</Input>
+                </div>
+
+                <div className="line line-3">
                     <Input valeur={lastname} identifiant="lastname" errors={errors} onChange={this.handleChange} >Nom</Input>
+                    <Input valeur={lastname2} identifiant="lastname2" errors={errors} onChange={this.handleChange} >Nom 2</Input>
+                    <Input valeur={lastname3} identifiant="lastname3" errors={errors} onChange={this.handleChange} >Nom 3</Input>
+                </div>
+
+                <div className="line line-3">
+                    <Input valeur={siren} identifiant="siren" errors={errors} onChange={this.handleChange} >SIREN</Input>
+                    <Input valeur={garantie} identifiant="garantie" errors={errors} onChange={this.handleChange} >Caisse garantie</Input>
+                    <Input valeur={numCompta} identifiant="numCompta" errors={errors} onChange={this.handleChange} >Numéro comptabilité</Input>
+                </div>
+
+                {context !== "profil" && <div className="line line-3">
+                    <Checkbox isSwitcher={true} items={switcherItems} identifiant="type" valeur={type} errors={errors} onChange={this.handleChange}>Succursale ?</Checkbox>
+                    <Input valeur={nbFreeAca} identifiant="nbFreeAca" errors={errors} onChange={this.handleChange} type="number">Gratuité académie</Input>
+                    <div className="form-group" />
+                </div>}
+
+                <div className="line line-3">
+                    <Input valeur={address} identifiant="address" errors={errors} onChange={this.handleChange}>Adresse</Input>
+                    <Input valeur={zipcode} identifiant="zipcode" errors={errors} onChange={this.handleChange}>Code postal</Input>
+                    <Input valeur={city} identifiant="city" errors={errors} onChange={this.handleChange}>Ville</Input>
                 </div>
 
                 {context !== "profil" && <div className="line line-2">
