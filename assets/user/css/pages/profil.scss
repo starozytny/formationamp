@@ -14,7 +14,21 @@
   }
 }
 
+.profil-card-avatar{
+  @include flex(row, center, center);
+  width: 100%;
+  margin-bottom: 12px;
+
+  img{
+    max-width: 120px;
+    border-radius: 200px;
+    background-color: var(--fondContent);
+  }
+}
+
 .profil-card-header{
+  text-align: center;
+
   .title{
     @include fontSemibold();
   }
@@ -25,10 +39,33 @@
   border-bottom: 1px solid var(--grey);
   padding: 12px 0;
   margin: 12px 0;
+
+  .item{
+    @include flex(row, center, flex-start);
+
+    &:not(:last-child){
+      margin-bottom: 4px;
+    }
+
+    [class^="icon-"]{
+      display: inline-block;
+      transform: translateY(-2px);
+      margin-right: 4px;
+      color: var(--grey2);
+    }
+  }
 }
 
 .profil-card-footer{
   text-align: center;
+}
+
+#profil-users{
+  margin-top: 24px;
+
+  .role + .sub{
+    margin-top: 6px;
+  }
 }
 
 #profil-teams, #profil-banks, #profil-orders {
@@ -63,6 +100,10 @@
       width: calc(50% - 12px);
       margin-right: 12px;
     }
+  }
+
+  #profil-users{
+    margin-top: 0;
   }
 
   #profil-teams, #profil-banks{
@@ -106,6 +147,10 @@
   }
   .profil-card{
     padding: 24px;
+  }
+
+  .profil-card-footer{
+    margin-top: 24px;
   }
 
   #profil-teams{

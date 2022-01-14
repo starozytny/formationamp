@@ -55,4 +55,14 @@ class SanitizeData
 
         return null;
     }
+
+
+    public function trimData($value): ?string
+    {
+        if($value != "" && $value != null){
+            return trim($value);
+        }
+
+        return null;
+    }
 }

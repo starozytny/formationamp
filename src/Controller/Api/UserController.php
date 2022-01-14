@@ -29,7 +29,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class UserController extends AbstractController
 {
-    const FOLDER_AVATARS = "avatars";
+    const FOLDER_AVATARS = User::FOLDER_AVATARS;
     const ICON = "user";
 
     private $doctrine;
@@ -83,12 +83,13 @@ class UserController extends AbstractController
      * @param Request $request
      * @param ValidatorService $validator
      * @param ApiResponse $apiResponse
+     * @param UserPasswordHasherInterface $passwordHasher
      * @param FileUploader $fileUploader
      * @param NotificationService $notificationService
      * @param DataUser $dataEntity
      * @return JsonResponse
      */
-    public function create(Request $request, ValidatorService $validator, ApiResponse $apiResponse,
+    public function create(Request $request, ValidatorService $validator, ApiResponse $apiResponse, UserPasswordHasherInterface $passwordHasher,
                            FileUploader $fileUploader, NotificationService $notificationService, DataUser $dataEntity): JsonResponse
     {
         $em = $this->doctrine->getManager();
@@ -103,6 +104,7 @@ class UserController extends AbstractController
         }
 
         $obj = $dataEntity->setData(new User(), $data);
+        $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
 
         $file = $request->files->get('avatar');
         if ($file) {
@@ -146,6 +148,7 @@ class UserController extends AbstractController
      * @param Request $request
      * @param ValidatorService $validator
      * @param NotificationService $notificationService
+     * @param UserPasswordHasherInterface $passwordHasher
      * @param ApiResponse $apiResponse
      * @param User $obj
      * @param FileUploader $fileUploader
@@ -153,9 +156,10 @@ class UserController extends AbstractController
      * @return JsonResponse
      */
     public function update(Request $request, ValidatorService $validator, NotificationService $notificationService,
-                           ApiResponse $apiResponse, User $obj, FileUploader $fileUploader, DataUser $dataEntity): JsonResponse
+                           UserPasswordHasherInterface $passwordHasher, ApiResponse $apiResponse, User $obj,
+                           FileUploader $fileUploader, DataUser $dataEntity): JsonResponse
     {
-        if ($this->getUser() != $obj && !$this->isGranted("ROLE_ADMIN")) {
+        if ($this->getUser() !== $obj) {
             return $apiResponse->apiJsonResponseForbidden();
         }
 
@@ -167,6 +171,10 @@ class UserController extends AbstractController
         }
 
         $obj = $dataEntity->setData($obj, $data);
+
+        if($data->password != ""){
+            $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
+        }
 
         $file = $request->files->get('avatar');
         if ($file) {
@@ -287,7 +295,7 @@ class UserController extends AbstractController
                     return $apiResponse->apiJsonResponseBadRequest('Vous ne pouvez pas vous supprimer.');
                 }
 
-                array_push($avatars, $obj->getAvatar());
+                $avatars[] = $obj->getAvatar();
 
                 $em->remove($obj);
             }

@@ -1,7 +1,8 @@
 const L = require("leaflet/dist/leaflet");
 
-function createMap(initLat = 43.2953, initLon = 5.3691, mapId = "mapid", mapUrl = "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                   initZoom = 15, minZoom = 13, maxZoom = 18)
+function createMap(initLat = 43.2953, initLon = 5.3691,
+                   initZoom = 15, minZoom = 13, maxZoom = 18,
+                   mapId = "mapid", mapUrl = "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png")
 {
     let mymap = L.map(mapId).setView([initLat, initLon], initZoom);
     L.tileLayer(mapUrl, {
@@ -37,11 +38,11 @@ function getLeafletIcon(el)
     })
 }
 
-function getOriginalLeafletIcon()
+function getOriginalLeafletIcon(path="")
 {
     return L.icon({
-        iconUrl: '../../maps/images/marker-icon.png',
-        shadowUrl: '../../maps/images/marker-shadow.png',
+        iconUrl: path + '../../maps/images/marker-icon.png',
+        shadowUrl: path + '../../maps/images/marker-shadow.png',
         iconSize:     [25, 41], // size of the icon
         shadowSize:   [41, 41], // size of the shadow
         iconAnchor:   [9, 40], // point of the icon which will correspond to marker's location 38 95

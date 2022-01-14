@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import axios                   from "axios";
-import toastr                  from "toastr";
 import Routing                 from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Input, Checkbox }     from "@dashboardComponents/Tools/Fields";
@@ -11,6 +10,7 @@ import { Drop }                from "@dashboardComponents/Tools/Drop";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 import Validateur              from "@commonComponents/functions/validateur";
+import Helper                  from "@commonComponents/functions/helper";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
 
 const URL_CREATE_ELEMENT     = "api_users_create";
@@ -22,12 +22,12 @@ export function UserFormulaire ({ type, onChangeContext, onUpdateList, element }
 {
     let title = "Ajouter un utilisateur";
     let url = Routing.generate(URL_CREATE_ELEMENT);
-    let msg = "Félicitation ! Vous avez ajouté un nouveau utilisateur !"
+    let msg = "Félicitations ! Vous avez ajouté un nouveau utilisateur !"
 
     if(type === "update" || type === "profil"){
         title = "Modifier " + element.username;
         url = Routing.generate(URL_UPDATE_GROUP, {'id': element.id});
-        msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
+        msg = "Félicitations ! La mise à jour s'est réalisée avec succès !";
     }
 
     let form = <Form
@@ -101,8 +101,7 @@ export class Form extends Component {
     }
 
     componentDidMount() {
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        Helper.toTop();
         let username = document.getElementById("username");
         if(username){ username.focus(); }
     }
@@ -153,8 +152,7 @@ export class Form extends Component {
         // validate global
         let validate = Validateur.validateur(paramsToValidate)
         if(!validate.code){
-            toastr.warning("Veuillez vérifier les informations transmises.");
-            this.setState({ errors: validate.errors });
+            Formulaire.showErrors(this, validate);
         }else{
             Formulaire.loader(true);
             let self = this;
@@ -169,6 +167,7 @@ export class Form extends Component {
             axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
                     let data = response.data;
+                    Helper.toTop();
                     if(self.props.onUpdateList){
                         self.props.onUpdateList(data);
                     }
@@ -260,7 +259,7 @@ export class Form extends Component {
                     <Checkbox items={rolesItems} identifiant="roles" valeur={roles} errors={errors} onChange={this.handleChange}>Roles</Checkbox>
 
                     <Drop ref={this.inputAvatar} identifiant="avatar" file={avatar} folder="avatars" errors={errors} accept={"image/*"} maxFiles={1}
-                          label="Téléverser un avatar" labelError="Seules les images sont acceptées.">Fichier</Drop>
+                          label="Téléverser un avatar" labelError="Seules les images sont acceptées.">Fichier (facultatif)</Drop>
                 </div>}
 
                 {(context === "create" || context === "profil") ? <>

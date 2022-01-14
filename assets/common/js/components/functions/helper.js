@@ -95,6 +95,18 @@ function setActive(tab, value)
     return active;
 }
 
+function setActiveByValue(tab, value)
+{
+    let active = "";
+    tab.forEach(elem => {
+        if(elem.value === value){
+            active = " active";
+        }
+    })
+
+    return active;
+}
+
 function createTimeHoursMinutes(hours, minutes)
 {
     let date = new Date();
@@ -200,15 +212,22 @@ function downloadBinaryFile(data, filename, targetBlank=false) {
     link.click();
 }
 
+function toTop() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
 module.exports = {
     getPostalCodes,
     setCityFromZipcode,
     setActive,
+    setActiveByValue,
     setIncludeTimes,
     createTimeHoursMinutes,
     extractDateToArray,
     getNbDayBetweenDateArray,
+    downloadBinaryFile,
+    toTop,
     getBicCodes,
     setBicFromIban,
-    downloadBinaryFile
 }

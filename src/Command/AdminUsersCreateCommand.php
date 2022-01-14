@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Notification;
 use App\Entity\Fnaim\FnAgency;
 use App\Entity\User;
 use App\Service\DatabaseService;
@@ -31,7 +32,7 @@ class AdminUsersCreateCommand extends Command
     {
         $this
             ->setDescription('Create an user and an admin.')
-            ->addOption('fake', null, InputOption::VALUE_NONE, 'Option shit values')
+            ->addOption('fake', "f", InputOption::VALUE_NONE, 'Option shit values')
         ;
     }
 
@@ -40,7 +41,7 @@ class AdminUsersCreateCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $io->title('Reset des tables');
-        $this->databaseService->resetTable($io, [User::class]);
+        $this->databaseService->resetTable($io, [Notification::class, User::class]);
 
         $users = array(
             [

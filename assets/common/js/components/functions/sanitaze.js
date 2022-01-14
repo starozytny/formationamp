@@ -65,6 +65,13 @@ function toFormatCurrency(number)
     return  num.replaceAll('.', ' ');
 }
 
+function toFormatBytesToSize(bytes) {
+    let sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes === 0) return '0 Byte';
+    let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
+
 function toFormatIban(elem)
 {
     if(elem !== "" && elem !== undefined && elem !== null){
@@ -94,6 +101,7 @@ module.exports = {
     toFormatDateTime,
     toFormatPhone,
     toFormatCurrency,
+    toFormatBytesToSize,
     toFormatIban,
     toFormatIbanHidden
 }

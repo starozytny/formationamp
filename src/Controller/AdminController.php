@@ -31,12 +31,12 @@ class AdminController extends AbstractController
         $this->doctrine = $doctrine;
     }
     
-    private function getAllData($classe, SerializerInterface $serializer): string
+    private function getAllData($classe, SerializerInterface $serializer, $groups = User::ADMIN_READ): string
     {
         $em = $this->doctrine->getManager();
         $objs = $em->getRepository($classe)->findAll();
 
-        return $serializer->serialize($objs, 'json', ['groups' => User::ADMIN_READ]);
+        return $serializer->serialize($objs, 'json', ['groups' => $groups]);
     }
 
     private function getRenderView(Request $request, SerializerInterface $serializer, $class, $route): Response

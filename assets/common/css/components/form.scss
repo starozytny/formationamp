@@ -12,13 +12,32 @@
   }
 
   h2{
-    margin-bottom: 8px;
+    margin-bottom: 24px;
   }
 
   .form-infos{
     opacity: 0.7;
     max-width: 414px;
     margin-bottom: 24px;
+  }
+
+  .line-separator{
+    margin-top: 12px;
+    width: 100%;
+
+    .title{
+      margin-top: 12px;
+      margin-bottom: 12px;
+      background-color: var(--fondContent);
+      padding: 12px;
+      @include fontSemibold();
+      text-transform: uppercase;
+      width: calc(100% - 24px);
+    }
+  }
+
+  .line-buttons{
+    margin-top: 24px;
   }
 }
 
@@ -65,10 +84,11 @@
   width: 100%;
 
   &:not(:last-child){
-    margin-bottom: 16px;
+    margin-bottom: 4px;
   }
 
-  & > .form-group:not(:last-child){
+  & > .form-files,
+  & > .form-group{
     margin-bottom: 8px;
   }
 
@@ -204,7 +224,7 @@ select{
 
   &.checked > label{
     border: 1px solid var(--primary);
-    background-color: var(--apha);
+    background-color: var(--alpha);
     color: var(--primary);
     opacity: 1;
 
@@ -365,10 +385,10 @@ select{
     color: var(--error);
   }
   input, textarea, select,
-    .react-selectize.default.root-node .react-selectize-control .react-selectize-placeholder,
-    .react-selectize.default.root-node:not(.open) .react-selectize-control,
-    .simple-select.react-selectize.default.root-node.open .react-selectize-control,
-    .trumbowyg-box, .trumbowyg-editor,
+  .react-selectize.default.root-node .react-selectize-control .react-selectize-placeholder,
+  .react-selectize.default.root-node:not(.open) .react-selectize-control,
+  .simple-select.react-selectize.default.root-node.open .react-selectize-control,
+  .trumbowyg-box, .trumbowyg-editor,
   {
     border-color: var(--error);
     color: var(--error);
@@ -424,6 +444,20 @@ select{
     opacity: 0.8;
   }
 }
+
+.multi-select.react-selectize.default.root-node .simple-value{
+  border-radius: 4px;
+
+  [class^="icon-"]{
+    font-size: 10px;
+    transform: translate(2px, -1px);
+  }
+
+  span{
+    padding: 3px 4px 2px 4px;
+  }
+}
+
 // **************************************
 // DARK-MODE
 // STYLE
@@ -531,6 +565,28 @@ select{
 @media (min-width:1280px) {
   .form {
     padding: 24px;
+  }
+
+  .line.line-2{
+    & > .form-group:first-child{
+      margin-right: 12px;
+    }
+    & > .form-group:last-child{
+      margin-left: 12px;
+    }
+  }
+
+  .line.line-3,
+  .line.line-4{
+    & > .form-group:not(:last-child){
+      margin-right: 24px;
+    }
+  }
+
+  .form-button{
+    & > *:not(:last-child){
+      margin-right: 24px;
+    }
   }
 }
 

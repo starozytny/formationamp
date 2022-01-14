@@ -16,15 +16,13 @@ export class UserItem extends Component {
 
         let url = Routing.generate(routeName, {'_switch_user' : elem.username})
 
-        let avatar = (elem.avatar) ? "/avatars/" + elem.avatar : `https://robohash.org/${elem.username}?size=64x64`;
-
         return <div className="item">
             <Selector id={elem.id} onSelectors={onSelectors} />
 
             <div className="item-content">
                 <div className="item-body item-body-image">
                     <div className="item-image" onClick={() => onChangeContext('read', elem)}>
-                        <img src={avatar} alt={`Avatar de ${elem.username}`}/>
+                        <img src={elem.avatarFile} alt={`Avatar de ${elem.username}`}/>
                     </div>
                     <div className="infos infos-col-3">
                         <div className="col-1">

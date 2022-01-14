@@ -26,12 +26,13 @@ export class Notifications extends Component{
     componentDidMount = () => { Formulaire.axiosGetData(this, Routing.generate('api_notifications_index'), Sort.compareCreatedAt) }
 
     componentWillUnmount() {
+        const self = this;
         document.removeEventListener('mousedown', this.handleClickOutside);
     }
 
     handleClickOutside(event) {
         if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-            this.setState({ open: !this.state.open })
+            this.setState({ open: false })
         }
     }
 
