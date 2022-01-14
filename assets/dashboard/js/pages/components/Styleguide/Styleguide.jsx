@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
 import { StyleguideForm }      from "./components/StyleguideForm";
-import { StyleguideMaps }      from "./components/StyleguideMaps";
+// import { StyleguideMaps }      from "./components/StyleguideMaps";
 import { StyleguideHelp }      from "./components/StyleguideHelp";
-import { StyleguideLozad }     from "./components/StyleguideLozad";
+// import { StyleguideLozad }     from "./components/StyleguideLozad";
 import { StyleguideTable }     from "./components/StyleguideTable";
 import { StyleguideAside }     from "./components/StyleguideAside";
 import { StyleguideAlert }     from "./components/StyleguideAlert";

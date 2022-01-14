@@ -5,12 +5,12 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
 import { render } from "react-dom";
-import { UserFormulaire } from "@userComponents/Profil/UserForm";
-import { TeamFormulaire } from "@userComponents/Profil/Team/TeamForm";
-import { Team }           from "@userComponents/Profil/Team/Team";
-import { BankFormulaire } from "@userComponents/Profil/Bank/BankForm";
-import { Banks }          from "@userComponents/Profil/Bank/Banks";
-import { Orders }         from "@userComponents/Profil/Order/Orders";
+import { UserFormulaire } from "@userPages/components/Profil/UserForm";
+import { BankFormulaire } from "@userPages/components/Profil/Bank/BankForm";
+import { TeamFormulaire } from "@userPages/components/Profil/Team/TeamForm";
+import { Team }           from "@userPages/components/Profil/Team/Team";
+import { Banks }          from "@userPages/components/Profil/Bank/Banks";
+import { Orders }         from "@userPages/components/Profil/Order/Orders";
 
 Routing.setRoutingData(routes);
 

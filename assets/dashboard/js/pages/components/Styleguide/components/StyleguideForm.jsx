@@ -4,10 +4,10 @@ import axios       from "axios";
 import toastr      from "toastr";
 import Routing     from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
+import { Trumb }                                       from "@dashboardComponents/Tools/Trumb";
 import { DatePick, DateTimePick, TimePick }            from "@dashboardComponents/Tools/DatePicker";
 import { Drop }                                        from "@dashboardComponents/Tools/Drop"
 import { Button }                                      from "@dashboardComponents/Tools/Button";
-import { Trumb }                                       from "@dashboardComponents/Tools/Trumb";
 import {
     Checkbox, Input, Radiobox, Select, TextArea,
     SelectReactSelectize, SelectizeMultiple

@@ -10,7 +10,7 @@ import { Layout }        from "@dashboardComponents/Layout/Page";
 import Sort              from "@commonComponents/functions/sort";
 import Formulaire        from "@dashboardComponents/functions/Formulaire";
 
-import { OrdersList }    from "@userComponents/Profil/Order/OrdersList";
+import { OrdersList }    from "@userPages/components/Profil/Order/OrdersList";
 
 const SORTER = Sort.compareCreatedAtInverse;
 
