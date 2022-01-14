@@ -1,0 +1,9 @@
+{% if submenu is defined %}
+    <div class="submenu">
+        <div class="submenu-container">
+            {% for item in submenu %}
+                <a href="{{ item.path }}" class="{{ item.label == submenuActive ? "active" : ""}}">{{ item.label }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
