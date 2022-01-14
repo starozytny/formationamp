@@ -1,0 +1,97 @@
+@import "../vars/vars";
+
+.nav-header-logo{
+  padding: 12px;
+
+  img{
+    width: 82px;
+  }
+}
+
+.nav-mobile{
+  position: absolute;
+  top: 0; right: 0;
+  padding: 14px 14px 12px 12px;
+  cursor: pointer;
+}
+
+.nav-body{
+  min-height: 92vh;
+  display: none;
+  background: var(--fondMenu);
+  padding-top: 24px;
+
+  a{
+    @include flex(row, center, flex-start);
+    padding: 12px;
+    width: calc(100% - 24px);
+    color: var(--grey3);
+    opacity: 0.7;
+
+    [class^="icon-"]{
+      display: inline-block;
+      margin-right: 8px;
+      transform: translateY(-1px);
+    }
+
+    &:hover{
+      transform: translateX(5px);
+    }
+
+    &.active{
+      color: var(--txt);
+      opacity: 1;
+    }
+  }
+
+  &.true{
+    display: block;
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  nav{
+    position: relative;
+    @include flex(row, center, flex-start);
+    background: transparent;
+    border: none;
+    width: calc(100% - 300px - 24px);
+    margin-right: 24px;
+  }
+
+  .nav-header{
+    width: 82px; // like > img
+  }
+  .nav-header-logo{
+    padding: 0;
+  }
+
+  #menu{
+    width: calc(100% - 82px - 12px);
+    margin-left: 12px;
+  }
+
+  .nav-mobile{ display: none; }
+  .nav-body{
+    @include flex(row, flex-start, space-between);
+    padding-top: 0;
+    background-color: transparent;
+    min-height: 40px;
+
+    .items{
+      @include flex(row, center, flex-start);
+    }
+
+    a{
+      [class^="icon-"]{
+        display: none;
+      }
+    }
+  }
+}

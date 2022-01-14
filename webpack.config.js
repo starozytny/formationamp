@@ -69,6 +69,7 @@ Encore
     .addEntry('dashboard_paiements', './assets/dashboard/js/pages/paiements.js')
     .addEntry('dashboard_formations', './assets/dashboard/js/pages/formations.js')
 
+    .addEntry('user', './assets/user/js/app.js')
     .addEntry('user_profil', './assets/user/js/pages/profil.js')
     .addEntry('user_formations', './assets/user/js/pages/formations.js')
 

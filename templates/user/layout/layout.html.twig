@@ -1,4 +1,4 @@
-{% extends 'dashboard/layout/layout.html.twig' %}
+{% extends 'dashboard/layout/layout_user.html.twig' %}
 
 {% set page_prefix = "Espace membre" %}
 {% set menu = [
@@ -28,20 +28,7 @@
     }
 ] %}
 
-{% set menuBottom = [
-    {
-        'path': path('app_homepage'),
-        'icon': 'earth',
-        'label': 'Page accueil',
-        'name': 'accueil'
-    },
-    {
-        'path': path('app_logout'),
-        'icon': 'eject',
-        'label': 'Se déconnecter',
-        'name': 'logout'
-    }
-] %}
+{% set menuBottom = [] %}
 
 {% if is_granted("ROLE_ADMIN") %}
     {% set menuAdd = [
