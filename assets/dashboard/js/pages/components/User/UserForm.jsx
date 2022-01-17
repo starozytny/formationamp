@@ -271,7 +271,7 @@ export class Form extends Component {
                         <Input valeur={numCompta} identifiant="numCompta" errors={errors} onChange={this.handleChange} >Numéro comptabilité</Input>
                     </div>
 
-                    {context !== "profil" && <div className="line line-3">
+                    {(context !== "profil" && !isRegistration) && <div className="line line-3">
                         <Checkbox isSwitcher={true} items={switcherItems} identifiant="type" valeur={type} errors={errors} onChange={this.handleChange}>Succursale ?</Checkbox>
                         <Input valeur={nbFreeAca} identifiant="nbFreeAca" errors={errors} onChange={this.handleChange} type="number">Gratuité académie</Input>
                         <div className="form-group" />
