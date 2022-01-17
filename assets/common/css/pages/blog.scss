@@ -1,0 +1,84 @@
+.list-articles{
+  .card{
+    background-color: var(--alpha);
+    box-shadow: 0 4px 12px var(--greyShadow);
+    margin-bottom: 12px;
+
+    .card-header,
+    .card-body,
+    .card-footer{
+      padding: 12px;
+    }
+
+    .card-header{
+      padding-bottom: 0 !important;
+    }
+
+    .title{
+      font-size: 17px;
+      @include fontSemibold();
+      text-transform: uppercase;
+    }
+
+    .sub{
+      font-size: 15px;
+      color: var(--grey2);
+    }
+
+    .title + .sub{
+      margin-top: 4px;
+    }
+
+    .card-footer{
+      border-top: 1px solid var(--grey);
+
+      a{
+        color: var(--primary);
+      }
+    }
+  }
+}
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .list-articles{
+    @include flex(row, flex-start, flex-start);
+    flex-wrap: wrap;
+    width: calc(100% + 12px);
+
+    & > *{
+      width: calc(50% - 12px);
+      margin-right: 12px;
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .list-articles{
+    width: calc(100% + 24px);
+
+    .card{
+      .card-header,
+      .card-body,
+      .card-footer{
+        padding: 24px;
+      }
+    }
+
+    & > *{
+      width: calc(33% - 24px);
+      margin-right: 24px;
+    }
+  }
+}

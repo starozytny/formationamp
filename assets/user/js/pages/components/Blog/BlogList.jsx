@@ -10,7 +10,7 @@ export class BlogList extends Component {
         const { data } = this.props;
 
         return <>
-            <div>
+            <div className="list-articles">
                 {data && data.length !== 0 ? data.map(elem => {
                     return <BlogItem {...this.props} elem={elem} key={elem.id}/>
                 }) : <Alert>Aucun résultat</Alert>}
