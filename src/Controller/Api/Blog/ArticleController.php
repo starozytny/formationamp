@@ -80,13 +80,34 @@ class ArticleController extends AbstractController
         $obj = $dataEntity->setDataArticle($obj, $data);
 
         $file = $request->files->get('file');
+        $file1 = $request->files->get('file1');
+        $file2 = $request->files->get('file2');
+        $file3 = $request->files->get('file3');
         if($type === "create"){
             $fileName = ($file) ? $fileUploader->upload($file, BoArticle::FOLDER_ARTICLES, true) : null;
+            $fileName1 = ($file1) ? $fileUploader->upload($file1, BoArticle::FOLDER_ARTICLES, true) : null;
+            $fileName2 = ($file2) ? $fileUploader->upload($file2, BoArticle::FOLDER_ARTICLES, true) : null;
+            $fileName3 = ($file3) ? $fileUploader->upload($file3, BoArticle::FOLDER_ARTICLES, true) : null;
             $obj->setFile($fileName);
+            $obj->setFile1($fileName1);
+            $obj->setFile2($fileName2);
+            $obj->setFile3($fileName3);
         }else{
             if($file){
                 $fileName = $fileUploader->replaceFile($file, $obj->getFile(),BoArticle::FOLDER_ARTICLES);
                 $obj->setFile($fileName);
+            }
+            if($file1){
+                $fileName = $fileUploader->replaceFile($file1, $obj->getFile1(),BoArticle::FOLDER_ARTICLES);
+                $obj->setFile1($fileName);
+            }
+            if($file2){
+                $fileName = $fileUploader->replaceFile($file2, $obj->getFile2(),BoArticle::FOLDER_ARTICLES);
+                $obj->setFile2($fileName);
+            }
+            if($file3){
+                $fileName = $fileUploader->replaceFile($file3, $obj->getFile3(),BoArticle::FOLDER_ARTICLES);
+                $obj->setFile3($fileName);
             }
 
             $obj->setUpdatedAt(new DateTime());
@@ -229,13 +250,23 @@ class ArticleController extends AbstractController
      * @OA\Tag(name="Blog")
      *
      * @param BoArticle $obj
-     * @param DataService $dataService
+     * @param ApiResponse $apiResponse
      * @param FileUploader $fileUploader
      * @return JsonResponse
      */
-    public function delete(BoArticle $obj, DataService $dataService, FileUploader $fileUploader): JsonResponse
+    public function delete(BoArticle $obj, ApiResponse $apiResponse, FileUploader $fileUploader): JsonResponse
     {
-        return $dataService->deleteWithImg($obj, $obj->getFile(), $fileUploader, BoArticle::FOLDER_ARTICLES);
+        $em = $this->doctrine->getManager();
+
+        $em->remove($obj);
+        $em->flush();
+
+        $fileUploader->deleteFile($obj->getFile(), BoArticle::FOLDER_ARTICLES);
+        $fileUploader->deleteFile($obj->getFile1(), BoArticle::FOLDER_ARTICLES);
+        $fileUploader->deleteFile($obj->getFile2(), BoArticle::FOLDER_ARTICLES);
+        $fileUploader->deleteFile($obj->getFile3(), BoArticle::FOLDER_ARTICLES);
+
+        return $apiResponse->apiJsonResponseSuccessful("Supression réussie !");
     }
 
     /**
@@ -272,6 +303,9 @@ class ArticleController extends AbstractController
         if ($objs) {
             foreach ($objs as $obj) {
                 $files[] = $obj->getFile();
+                $files[] = $obj->getFile1();
+                $files[] = $obj->getFile2();
+                $files[] = $obj->getFile3();
                 $em->remove($obj);
             }
         }

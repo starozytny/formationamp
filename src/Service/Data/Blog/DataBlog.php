@@ -33,6 +33,7 @@ class DataBlog extends DataConstructor
             ->setIntroduction($this->sanitizeData->trimData($data->introduction->html))
             ->setContent($this->sanitizeData->trimData($data->content->html))
             ->setCategory($category)
+            ->setVisibleBy((int) $data->visibleBy)
         ;
     }
 }

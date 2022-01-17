@@ -18,6 +18,8 @@ class BoArticle extends DataEntity
 {
     const FOLDER_ARTICLES = "articles";
 
+    const VISIBILITY_ALL = 0;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -80,6 +82,30 @@ class BoArticle extends DataEntity
      * @Groups({"visitor:write"})
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"visitor:read"})
+     */
+    private $visibleBy = self::VISIBILITY_ALL;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"visitor:read"})
+     */
+    private $file1;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"visitor:read"})
+     */
+    private $file2;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"visitor:read"})
+     */
+    private $file3;
 
     public function __construct()
     {
@@ -234,6 +260,66 @@ class BoArticle extends DataEntity
         return $this;
     }
 
+    public function getVisibleBy(): ?int
+    {
+        return $this->visibleBy;
+    }
+
+    public function setVisibleBy(int $visibleBy): self
+    {
+        $this->visibleBy = $visibleBy;
+
+        return $this;
+    }
+
+    public function getFile1(): ?string
+    {
+        return $this->file1;
+    }
+
+    public function setFile1(?string $file1): self
+    {
+        $this->file1 = $file1;
+
+        return $this;
+    }
+
+    public function getFile2(): ?string
+    {
+        return $this->file2;
+    }
+
+    public function setFile2(?string $file2): self
+    {
+        $this->file2 = $file2;
+
+        return $this;
+    }
+
+    public function getFile3(): ?string
+    {
+        return $this->file3;
+    }
+
+    public function setFile3(?string $file3): self
+    {
+        $this->file3 = $file3;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     * @Groups({"visitor:read"})
+     */
+    public function getVisibleByString(): string
+    {
+        $values = ["Tout le monde", "Membres"];
+
+        return $values[$this->visibleBy];
+    }
+
+
     /**
      * @return string
      * @Groups({"visitor:read"})
@@ -243,4 +329,30 @@ class BoArticle extends DataEntity
         return $this->file ? "/" . self::FOLDER_ARTICLES ."/" . $this->file : "https://robohash.org/" . $this->id . "?size=64x64";
     }
 
+    /**
+     * @return string
+     * @Groups({"visitor:read"})
+     */
+    public function getFile1File(): ?string
+    {
+        return $this->file1 ? "/" . self::FOLDER_ARTICLES ."/" . $this->file1 : null;
+    }
+
+    /**
+     * @return string
+     * @Groups({"visitor:read"})
+     */
+    public function getFile2File(): ?string
+    {
+        return $this->file2 ? "/" . self::FOLDER_ARTICLES ."/" . $this->file2 : null;
+    }
+
+    /**
+     * @return string
+     * @Groups({"visitor:read"})
+     */
+    public function getFile3File(): ?string
+    {
+        return $this->file3 ? "/" . self::FOLDER_ARTICLES ."/" . $this->file3 : null;
+    }
 }

@@ -60,6 +60,7 @@ class FakeArticlesCreateCommand extends Command
                 "title" => $fake->streetName,
                 "introduction" => ["html" => $fake->sentence],
                 "content" => ["html" => $fake->text],
+                "visibleBy" => $fake->numberBetween(0, 1),
             ];
 
             $data = json_decode(json_encode($data));

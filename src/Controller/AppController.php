@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Blog\BoArticle;
+use App\Entity\User;
+use App\Repository\Blog\BoArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class AppController extends AbstractController
 {
@@ -62,5 +66,18 @@ class AppController extends AbstractController
     public function userRegistration(): Response
     {
         return $this->render('app/pages/security/registration.html.twig');
+    }
+
+    /**
+     * @Route("/actualites", name="app_blog")
+     */
+    public function blog(BoArticleRepository $repository, SerializerInterface $serializer): Response
+    {
+        $objs = $repository->findBy(['isPublished' => true, "visibleBy" => BoArticle::VISIBILITY_ALL], ["createdAt" => "ASC", "updatedAt" => "ASC"]);
+        $objs = $serializer->serialize($objs, 'json', ['groups' => User::VISITOR_READ]);
+
+        return $this->render('app/pages/blog/index.html.twig',  [
+            'donnees' => $objs
+        ]);
     }
 }

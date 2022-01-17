@@ -4,7 +4,7 @@ import axios                   from "axios";
 import toastr                  from "toastr";
 import Routing                 from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, Select }       from "@dashboardComponents/Tools/Fields";
+import { Input, Radiobox, Select } from "@dashboardComponents/Tools/Fields";
 import { Button }              from "@dashboardComponents/Tools/Button";
 import { Trumb }               from "@dashboardComponents/Tools/Trumb";
 import { Drop }                from "@dashboardComponents/Tools/Drop";
@@ -38,6 +38,7 @@ export function ArticleFormulaire ({ type, onChangeContext, onUpdateList, catego
         introduction={element ? element.introduction : ""}
         content={element ? element.content : ""}
         category={element ? element.category : ""}
+        visibleBy={element ? element.visibleBy : 0}
         categories={categories}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
@@ -56,10 +57,14 @@ export class ArticleForm extends Component {
             introduction: { value: props.introduction ? props.introduction : "", html: props.introduction ? props.introduction : "" },
             content: { value: props.content ? props.content : "", html: props.content ? props.content : "" },
             category: props.category.id ? props.category.id : "",
+            visibleBy: props.visibleBy,
             errors: []
         }
 
         this.inputFile = React.createRef();
+        this.inputFile1 = React.createRef();
+        this.inputFile2 = React.createRef();
+        this.inputFile3 = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeTrumb = this.handleChangeTrumb.bind(this);
@@ -84,11 +89,14 @@ export class ArticleForm extends Component {
         e.preventDefault();
 
         const { url, messageSuccess } = this.props;
-        const { title, category, introduction, content } = this.state;
+        const { title, category } = this.state;
 
         this.setState({ errors: [], success: false })
 
         let file = this.inputFile.current.drop.current.files;
+        let file1 = this.inputFile1.current.drop.current.files;
+        let file2 = this.inputFile2.current.drop.current.files;
+        let file3 = this.inputFile3.current.drop.current.files;
 
         let paramsToValidate = [
             {type: "text", id: 'title',     value: title},
@@ -105,9 +113,10 @@ export class ArticleForm extends Component {
             let formData = new FormData();
             formData.append("data", JSON.stringify(this.state));
 
-            if(file[0]){
-                formData.append('file', file[0].file);
-            }
+            if(file[0]){ formData.append('file', file[0].file);}
+            if(file1[0]){ formData.append('file1', file1[0].file);}
+            if(file2[0]){ formData.append('file2', file2[0].file);}
+            if(file3[0]){ formData.append('file3', file3[0].file);}
 
             Formulaire.loader(true);
             let self = this;
@@ -134,21 +143,31 @@ export class ArticleForm extends Component {
 
     render () {
         const { context, categories } = this.props;
-        const { errors, title, introduction, content, category } = this.state;
+        const { errors, title, introduction, content, category, visibleBy } = this.state;
 
         let selectItems = [];
         categories.forEach(el => {
             selectItems.push({ value: el.id, label: el.name, identifiant: el.slug })
         })
 
+        let visibleItems = [
+            { value: 0, label: "Tout le monde", identifiant: "tlm" },
+            { value: 1, label: "Membres",       identifiant: "members" },
+        ]
+
         return <>
             <form onSubmit={this.handleSubmit}>
-                <div className="line">
+                <div className="line line-2">
                     <Input valeur={title} identifiant="title" errors={errors} onChange={this.handleChange} >Titre de l'article</Input>
+                    <Select items={selectItems} identifiant="category" valeur={category} errors={errors} onChange={this.handleChange}>A quelle catégorie appartient cet article ?</Select>
                 </div>
 
-                <div className="line">
-                    <Select items={selectItems} identifiant="category" valeur={category} errors={errors} onChange={this.handleChange}>A quelle catégorie appartient cet article ?</Select>
+
+                <div className="line line-2">
+                    <Radiobox items={visibleItems} identifiant="visibleBy" valeur={visibleBy} errors={errors} onChange={this.handleChange}>
+                        Visible par
+                    </Radiobox>
+                    <div className="form-group" />
                 </div>
 
                 <div className="line">
@@ -162,6 +181,15 @@ export class ArticleForm extends Component {
 
                 <div className="line">
                     <Trumb valeur={content.value} identifiant="content" errors={errors} onChange={this.handleChangeTrumb} >Contenu de l'article</Trumb>
+                </div>
+
+                <div className="line line-3">
+                    <Drop ref={this.inputFile1} identifiant="file1" errors={errors} accept={"*"} maxFiles={1}
+                          label="Téléverser un document" labelError="Erreur.">Document 1</Drop>
+                    <Drop ref={this.inputFile2} identifiant="file2" errors={errors} accept={"*"} maxFiles={1}
+                          label="Téléverser un document" labelError="Erreur.">Document 2</Drop>
+                    <Drop ref={this.inputFile3} identifiant="file3" errors={errors} accept={"*"} maxFiles={1}
+                          label="Téléverser un document" labelError="Erreur.">Document 3</Drop>
                 </div>
 
                 <div className="line">

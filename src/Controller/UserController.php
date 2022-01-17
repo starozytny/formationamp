@@ -8,6 +8,8 @@ use App\Entity\Formation\FoWorker;
 use App\Entity\Paiement\PaBank;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use App\Repository\Blog\BoArticleRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -176,6 +178,19 @@ class UserController extends AbstractController
 
         return $this->render('user/pages/sessions/own.html.twig',  [
             'donnees' => $sessions,
+        ]);
+    }
+
+    /**
+     * @Route("/actualites", name="blog")
+     */
+    public function blog(BoArticleRepository $repository, SerializerInterface $serializer): Response
+    {
+        $objs = $repository->findBy(['isPublished' => true], ["createdAt" => "ASC", "updatedAt" => "ASC"]);
+        $objs = $serializer->serialize($objs, 'json', ['groups' => User::VISITOR_READ]);
+
+        return $this->render('user/pages/blog/index.html.twig',  [
+            'donnees' => $objs
         ]);
     }
 }
