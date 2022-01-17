@@ -9,7 +9,6 @@ use App\Entity\Paiement\PaBank;
 use App\Entity\User;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Repository\Blog\BoArticleRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
