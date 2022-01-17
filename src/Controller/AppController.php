@@ -55,4 +55,12 @@ class AppController extends AbstractController
     {
         return $this->render('app/pages/contact/index.html.twig');
     }
+
+    /**
+     * @Route("/creation-compte", name="app_user_registration")
+     */
+    public function userRegistration(): Response
+    {
+        return $this->render('app/pages/security/registration.html.twig');
+    }
 }

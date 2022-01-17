@@ -18,11 +18,12 @@ const URL_UPDATE_GROUP       = "api_users_update";
 const TXT_CREATE_BUTTON_FORM = "Enregistrer";
 const TXT_UPDATE_BUTTON_FORM = "Enregistrer les modifications";
 
-export function UserFormulaire ({ type, onChangeContext, onUpdateList, element })
+export function UserFormulaire ({ type, onChangeContext, onUpdateList, element, isRegistration=false, roles=[] })
 {
     let title = "Ajouter un utilisateur";
-    let url = Routing.generate(URL_CREATE_ELEMENT);
-    let msg = "Félicitations ! Vous avez ajouté un nouveau utilisateur !"
+    let url = !isRegistration ? Routing.generate(URL_CREATE_ELEMENT) : Routing.generate(URL_CREATE_ELEMENT, {"n" : 1});
+    let msg = !isRegistration ? "Félicitations ! Vous avez ajouté un nouveau utilisateur !"
+        : "Félicitations, votre compte a été créé. Vous pouvez vous connecter à votre espace."
 
     if(type === "update" || type === "profil"){
         title = "Modifier " + element.username;
@@ -38,7 +39,7 @@ export function UserFormulaire ({ type, onChangeContext, onUpdateList, element }
         lastname={element ? element.lastname : ""}
         email={element ? element.email : ""}
         avatar={element ? element.avatar : null}
-        roles={element ? element.roles : []}
+        roles={element ? element.roles : roles}
 
         name={element ? element.agency.name : ""}
         phone={element ? element.agency.phone : ""}
@@ -58,9 +59,10 @@ export function UserFormulaire ({ type, onChangeContext, onUpdateList, element }
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
+        isRegistration={isRegistration}
     />
 
-    return <FormLayout onChangeContext={onChangeContext} form={form}>{title}</FormLayout>
+    return !isRegistration ? <FormLayout onChangeContext={onChangeContext} form={form}>{title}</FormLayout> : form;
 }
 
 export class Form extends Component {
@@ -126,7 +128,7 @@ export class Form extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        const { context, url, messageSuccess } = this.props;
+        const { context, url, messageSuccess, isRegistration } = this.props;
         const { username, firstname, lastname, password, passwordConfirm, email, roles } = this.state;
 
         this.setState({ success: false})
@@ -139,7 +141,7 @@ export class Form extends Component {
             {type: "array", id: 'roles',    value: roles}
         ];
         if(context === "create" || context === "profil"){
-            if(password !== ""){
+            if(password !== "" || isRegistration){
                 paramsToValidate = [...paramsToValidate,
                     ...[{type: "password", id: 'password', value: password, idCheck: 'passwordConfirm', valueCheck: passwordConfirm}]
                 ];
@@ -195,7 +197,7 @@ export class Form extends Component {
     }
 
     render () {
-        const { context } = this.props;
+        const { context, isRegistration } = this.props;
         const { errors, success, username, firstname, lastname, email, password, passwordConfirm, roles, avatar,
                 name, phone, firstname2, lastname2, firstname3, lastname3, siren, garantie, numCompta, nbFreeAca,
             address, zipcode, city, type } = this.state;
@@ -208,12 +210,17 @@ export class Form extends Component {
         let switcherItems = [ { value: 0, label: 'Non', identifiant: 'non' } ]
 
         return <>
-            <p className="form-infos">
-                Le nom d'utilisateur est automatiquement formaté, les espaces et les accents sont supprimés ou remplacés.
-            </p>
+            {!isRegistration && <p className="form-infos">
+                Le nom d'utilisateur est automatiquement formaté, les espaces et les accents sont supprimés ou
+                remplacés.
+            </p>}
             <form onSubmit={this.handleSubmit}>
 
-                {success !== false && <Alert type="info">{success}</Alert>}
+                {success !== false && <div className="line">
+                    <div className="form-group">
+                        <Alert type="info">{success}</Alert>
+                    </div>
+                </div>}
 
                 <div className="line line-2">
                     <Input valeur={name} identifiant="name" errors={errors} onChange={this.handleChange} >Raison sociale</Input>
@@ -255,23 +262,24 @@ export class Form extends Component {
                     <Input valeur={city} identifiant="city" errors={errors} onChange={this.handleChange}>Ville</Input>
                 </div>
 
-                {context !== "profil" && <div className="line line-2">
+                {(context !== "profil" && !isRegistration) && <div className="line line-2">
                     <Checkbox items={rolesItems} identifiant="roles" valeur={roles} errors={errors} onChange={this.handleChange}>Roles</Checkbox>
+                        : <div className="form-group" />
 
                     <Drop ref={this.inputAvatar} identifiant="avatar" file={avatar} folder="avatars" errors={errors} accept={"image/*"} maxFiles={1}
                           label="Téléverser un avatar" labelError="Seules les images sont acceptées.">Avatar (facultatif)</Drop>
                 </div>}
 
                 {(context === "create" || context === "profil") ? <>
-                    <Alert type="reverse">
+                    {!isRegistration && <Alert type="reverse">
                         Laisser le champs vide génére un mot de passe aléatoire. L'utilisateur pourra utilise la
                         fonction <u>Mot de passe oublié ?</u> pour créer son mot de passe.
-                    </Alert>
+                    </Alert>}
                     <div className="line">
                         <PasswordRules />
                     </div>
                     <div className="line line-2">
-                        <Input type="password" valeur={password} identifiant="password" errors={errors} onChange={this.handleChange} >Mot de passe (facultatif)</Input>
+                        <Input type="password" valeur={password} identifiant="password" errors={errors} onChange={this.handleChange} >Mot de passe {!isRegistration && "(facultatif)"}</Input>
                         <Input type="password" valeur={passwordConfirm} identifiant="passwordConfirm" errors={errors} onChange={this.handleChange} >Confirmer le mot de passe</Input>
                     </div>
                 </> : <Alert type="warning">Le mot de passe est modifiable exclusivement par l'utilisateur lui même grâce à la fonction <u>Mot de passe oublié ?</u></Alert>}
