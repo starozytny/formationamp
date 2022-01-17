@@ -1,0 +1,16 @@
+@import "../vars/vars";
+
+#blog-categories{
+  @include toolbarCreateSearch(201);
+}
+
+#blog{
+  @include toolbarCreateSearch(171);
+}
+
+.link{
+  [class^="icon-"]{
+    display: inline-block;
+    margin-left: 4px;
+  }
+}
