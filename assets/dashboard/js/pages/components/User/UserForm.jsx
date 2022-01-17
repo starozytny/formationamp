@@ -281,14 +281,13 @@ export class Form extends Component {
 
                 {(context !== "profil" && !isRegistration) && <div className="line line-2">
                     <Checkbox items={rolesItems} identifiant="roles" valeur={roles} errors={errors} onChange={this.handleChange}>Roles</Checkbox>
-                        : <div className="form-group" />
 
                     <Drop ref={this.inputAvatar} identifiant="avatar" file={avatar} folder="avatars" errors={errors} accept={"image/*"} maxFiles={1}
                           label="Téléverser un avatar" labelError="Seules les images sont acceptées.">Avatar (facultatif)</Drop>
                 </div>}
 
                 {(context === "create" || context === "profil") ? <>
-                    {!isRegistration && <Alert type="reverse">
+                    {(!isRegistration && context !== "profil") && <Alert type="reverse">
                         Laisser le champs vide génére un mot de passe aléatoire. L'utilisateur pourra utilise la
                         fonction <u>Mot de passe oublié ?</u> pour créer son mot de passe.
                     </Alert>}
