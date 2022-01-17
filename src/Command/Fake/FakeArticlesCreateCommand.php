@@ -58,8 +58,8 @@ class FakeArticlesCreateCommand extends Command
             $data = [
                 "category" => $category,
                 "title" => $fake->streetName,
-                "introduction" => $fake->sentence,
-                "content" => $fake->text,
+                "introduction" => ["html" => $fake->sentence],
+                "content" => ["html" => $fake->text],
             ];
 
             $data = json_decode(json_encode($data));
