@@ -233,33 +233,50 @@ export class Form extends Component {
                 </div>
 
                 <div className="line line-3">
-                    <Input valeur={firstname} identifiant="firstname" errors={errors} onChange={this.handleChange} >Prénom</Input>
-                    <Input valeur={firstname2} identifiant="firstname2" errors={errors} onChange={this.handleChange} >Prénom 2</Input>
-                    <Input valeur={firstname3} identifiant="firstname3" errors={errors} onChange={this.handleChange} >Prénom 3</Input>
-                </div>
-
-                <div className="line line-3">
-                    <Input valeur={lastname} identifiant="lastname" errors={errors} onChange={this.handleChange} >Nom</Input>
-                    <Input valeur={lastname2} identifiant="lastname2" errors={errors} onChange={this.handleChange} >Nom 2</Input>
-                    <Input valeur={lastname3} identifiant="lastname3" errors={errors} onChange={this.handleChange} >Nom 3</Input>
-                </div>
-
-                <div className="line line-3">
-                    <Input valeur={siren} identifiant="siren" errors={errors} onChange={this.handleChange} >SIREN</Input>
-                    <Input valeur={garantie} identifiant="garantie" errors={errors} onChange={this.handleChange} >Caisse garantie</Input>
-                    <Input valeur={numCompta} identifiant="numCompta" errors={errors} onChange={this.handleChange} >Numéro comptabilité</Input>
-                </div>
-
-                {context !== "profil" && <div className="line line-3">
-                    <Checkbox isSwitcher={true} items={switcherItems} identifiant="type" valeur={type} errors={errors} onChange={this.handleChange}>Succursale ?</Checkbox>
-                    <Input valeur={nbFreeAca} identifiant="nbFreeAca" errors={errors} onChange={this.handleChange} type="number">Gratuité académie</Input>
-                    <div className="form-group" />
-                </div>}
-
-                <div className="line line-3">
                     <Input valeur={address} identifiant="address" errors={errors} onChange={this.handleChange}>Adresse</Input>
                     <Input valeur={zipcode} identifiant="zipcode" errors={errors} onChange={this.handleChange}>Code postal</Input>
                     <Input valeur={city} identifiant="city" errors={errors} onChange={this.handleChange}>Ville</Input>
+                </div>
+
+                <div className="line">
+                    <div className="form-group">
+                        <div className="line-separator">
+                            <div className="title">Responsable(s)</div>
+                        </div>
+                    </div>
+
+                    <div className="line line-3">
+                        <Input valeur={firstname} identifiant="firstname" errors={errors} onChange={this.handleChange} >Prénom</Input>
+                        <Input valeur={firstname2} identifiant="firstname2" errors={errors} onChange={this.handleChange} >Prénom 2</Input>
+                        <Input valeur={firstname3} identifiant="firstname3" errors={errors} onChange={this.handleChange} >Prénom 3</Input>
+                    </div>
+
+                    <div className="line line-3">
+                        <Input valeur={lastname} identifiant="lastname" errors={errors} onChange={this.handleChange} >Nom</Input>
+                        <Input valeur={lastname2} identifiant="lastname2" errors={errors} onChange={this.handleChange} >Nom 2</Input>
+                        <Input valeur={lastname3} identifiant="lastname3" errors={errors} onChange={this.handleChange} >Nom 3</Input>
+                    </div>
+                </div>
+
+                <div className="line">
+                    <div className="form-group">
+                        <div className="line-separator">
+                            <div className="title">Informations complémentaire</div>
+                        </div>
+                    </div>
+
+                    <div className="line line-3">
+                        <Input valeur={siren} identifiant="siren" errors={errors} onChange={this.handleChange} >SIREN</Input>
+                        <Input valeur={garantie} identifiant="garantie" errors={errors} onChange={this.handleChange} >Caisse garantie</Input>
+                        <Input valeur={numCompta} identifiant="numCompta" errors={errors} onChange={this.handleChange} >Numéro comptabilité</Input>
+                    </div>
+
+                    {context !== "profil" && <div className="line line-3">
+                        <Checkbox isSwitcher={true} items={switcherItems} identifiant="type" valeur={type} errors={errors} onChange={this.handleChange}>Succursale ?</Checkbox>
+                        <Input valeur={nbFreeAca} identifiant="nbFreeAca" errors={errors} onChange={this.handleChange} type="number">Gratuité académie</Input>
+                        <div className="form-group" />
+                    </div>}
+
                 </div>
 
                 {(context !== "profil" && !isRegistration) && <div className="line line-2">
