@@ -15,8 +15,8 @@ import Formulaire              from "@dashboardComponents/functions/Formulaire";
 
 const URL_CREATE_ELEMENT     = "api_users_create";
 const URL_UPDATE_GROUP       = "api_users_update";
-const TXT_CREATE_BUTTON_FORM = "Ajouter l'utilisateur";
-const TXT_UPDATE_BUTTON_FORM = "Modifier l'utilisateur";
+const TXT_CREATE_BUTTON_FORM = "Enregistrer";
+const TXT_UPDATE_BUTTON_FORM = "Enregistrer les modifications";
 
 export function UserFormulaire ({ type, onChangeContext, onUpdateList, element })
 {
@@ -259,7 +259,7 @@ export class Form extends Component {
                     <Checkbox items={rolesItems} identifiant="roles" valeur={roles} errors={errors} onChange={this.handleChange}>Roles</Checkbox>
 
                     <Drop ref={this.inputAvatar} identifiant="avatar" file={avatar} folder="avatars" errors={errors} accept={"image/*"} maxFiles={1}
-                          label="Téléverser un avatar" labelError="Seules les images sont acceptées.">Fichier (facultatif)</Drop>
+                          label="Téléverser un avatar" labelError="Seules les images sont acceptées.">Avatar (facultatif)</Drop>
                 </div>}
 
                 {(context === "create" || context === "profil") ? <>
@@ -268,16 +268,7 @@ export class Form extends Component {
                         fonction <u>Mot de passe oublié ?</u> pour créer son mot de passe.
                     </Alert>
                     <div className="line">
-                        <div className="password-rules">
-                            <p>Règles de création de mot de passe :</p>
-                            <ul>
-                                <li>Au moins 12 caractères</li>
-                                <li>Au moins 1 minuscule</li>
-                                <li>Au moins 1 majuscule</li>
-                                <li>Au moins 1 chiffre</li>
-                                <li>Au moins 1 caractère spécial</li>
-                            </ul>
-                        </div>
+                        <PasswordRules />
                     </div>
                     <div className="line line-2">
                         <Input type="password" valeur={password} identifiant="password" errors={errors} onChange={this.handleChange} >Mot de passe (facultatif)</Input>
@@ -293,4 +284,17 @@ export class Form extends Component {
             </form>
         </>
     }
+}
+
+export function PasswordRules() {
+    return <div className="password-rules">
+        <p>Règles de création de mot de passe :</p>
+        <ul>
+            <li>Au moins 12 caractères</li>
+            <li>Au moins 1 minuscule</li>
+            <li>Au moins 1 majuscule</li>
+            <li>Au moins 1 chiffre</li>
+            <li>Au moins 1 caractère spécial</li>
+        </ul>
+    </div>
 }

@@ -29,7 +29,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class UserController extends AbstractController
 {
-    const FOLDER_AVATARS = User::FOLDER_AVATARS;
     const ICON = "user";
 
     private $doctrine;
@@ -59,6 +58,65 @@ class UserController extends AbstractController
     public function index(ApiResponse $apiResponse, UserRepository $repository): JsonResponse
     {
         return $apiResponse->apiJsonResponse($repository->findAll(), User::ADMIN_READ);
+    }
+
+    public function submitForm($type, User $obj, Request $request, ApiResponse $apiResponse,
+                               ValidatorService $validator, DataUser $dataEntity,
+                               UserPasswordHasherInterface $passwordHasher, FileUploader $fileUploader,
+                               NotificationService $notificationService): JsonResponse
+    {
+        $em = $this->doctrine->getManager();
+        $data = json_decode($request->get('data'));
+
+        if ($data === null) {
+            return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
+        }
+
+        if (!isset($data->username) || !isset($data->email) || !isset($data->firstname) || !isset($data->lastname)) {
+            return $apiResponse->apiJsonResponseBadRequest('Il manque des données.');
+        }
+
+        $obj = $dataEntity->setData($obj, $data);
+
+        $file = $request->files->get('avatar');
+        $groups = User::ADMIN_READ;
+        if($type === "create"){
+            $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
+
+            if ($file) {
+                $fileName = $fileUploader->upload($file, User::FOLDER_AVATARS);
+                $obj->setAvatar($fileName);
+            }
+        }else{
+            if($data->password != ""){
+                $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
+            }
+
+            if ($file) {
+                $fileName = $fileUploader->replaceFile($file, $obj->getAvatar(),User::FOLDER_AVATARS);
+                $obj->setAvatar($fileName);
+            }
+
+            $groups = $this->isGranted("ROLE_ADMIN") ?  User::ADMIN_READ : User::USER_READ;
+        }
+
+        $noErrors = $validator->validate($obj);
+        if ($noErrors !== true) {
+            return $apiResponse->apiJsonResponseValidationFailed($noErrors);
+        }
+
+        $em->persist($obj);
+        $em->flush();
+
+        if($type === "create"){
+            $notificationService->createNotification("Création d'un utilisateur", self::ICON, $this->getUser());
+        }else{
+            $notificationService->createNotification("Mise à jour d'un utilisateur", self::ICON, $this->getUser(),
+                $this->generateUrl('admin_users_index', ['search' => $obj->getUsername()])
+            );
+        }
+
+        return $apiResponse->apiJsonResponse($obj, $groups);
     }
 
     /**
@@ -92,37 +150,7 @@ class UserController extends AbstractController
     public function create(Request $request, ValidatorService $validator, ApiResponse $apiResponse, UserPasswordHasherInterface $passwordHasher,
                            FileUploader $fileUploader, NotificationService $notificationService, DataUser $dataEntity): JsonResponse
     {
-        $em = $this->doctrine->getManager();
-        $data = json_decode($request->get('data'));
-
-        if ($data === null) {
-            return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
-        }
-
-        if (!isset($data->username) || !isset($data->email) || !isset($data->firstname) || !isset($data->lastname)) {
-            return $apiResponse->apiJsonResponseBadRequest('Il manque des données.');
-        }
-
-        $obj = $dataEntity->setData(new User(), $data);
-        $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
-
-        $file = $request->files->get('avatar');
-        if ($file) {
-            $fileName = $fileUploader->upload($file, self::FOLDER_AVATARS);
-            $obj->setAvatar($fileName);
-        }
-
-        $noErrors = $validator->validate($obj);
-        if ($noErrors !== true) {
-            return $apiResponse->apiJsonResponseValidationFailed($noErrors);
-        }
-
-        $em->persist($obj);
-        $em->flush();
-
-        $notificationService->createNotification("Création d'un utilisateur", self::ICON, $this->getUser());
-
-        return $apiResponse->apiJsonResponse($obj, User::ADMIN_READ);
+        return $this->submitForm("create", new User(), $request, $apiResponse, $validator, $dataEntity, $passwordHasher, $fileUploader, $notificationService);
     }
 
     /**
@@ -163,43 +191,7 @@ class UserController extends AbstractController
             return $apiResponse->apiJsonResponseForbidden();
         }
 
-        $em = $this->doctrine->getManager();
-        $data = json_decode($request->get('data'));
-
-        if($data === null){
-            return $apiResponse->apiJsonResponseBadRequest('Les données sont vides.');
-        }
-
-        $obj = $dataEntity->setData($obj, $data);
-
-        if($data->password != ""){
-            $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
-        }
-
-        $file = $request->files->get('avatar');
-        if ($file) {
-            $fileName = $fileUploader->replaceFile($file, $obj->getAvatar(),self::FOLDER_AVATARS);
-            $obj->setAvatar($fileName);
-        }
-
-        $groups = $this->isGranted("ROLE_ADMIN") ?  User::ADMIN_READ : User::USER_READ;
-
-        $noErrors = $validator->validate($obj);
-        if ($noErrors !== true) {
-            return $apiResponse->apiJsonResponseValidationFailed($noErrors);
-        }
-
-        $em->persist($obj);
-        $em->flush();
-
-        $notificationService->createNotification(
-            "Mise à jour d'un utilisateur",
-            self::ICON,
-            $this->getUser(),
-            $this->generateUrl('admin_users_index', ['search' => $obj->getUsername()])
-        );
-
-        return $apiResponse->apiJsonResponse($obj, $groups);
+        return $this->submitForm("create", $obj, $request, $apiResponse, $validator, $dataEntity, $passwordHasher, $fileUploader, $notificationService);
     }
 
     /**
@@ -245,7 +237,7 @@ class UserController extends AbstractController
         $em->remove($obj);
         $em->flush();
 
-        $fileUploader->deleteFile($obj->getAvatar(), self::FOLDER_AVATARS);
+        $fileUploader->deleteFile($obj->getAvatar(), User::FOLDER_AVATARS);
         return $apiResponse->apiJsonResponseSuccessful("Supression réussie !");
     }
 
@@ -304,7 +296,7 @@ class UserController extends AbstractController
         $em->flush();
 
         foreach($avatars as $avatar){
-            $fileUploader->deleteFile($avatar, self::FOLDER_AVATARS);
+            $fileUploader->deleteFile($avatar, User::FOLDER_AVATARS);
         }
 
         return $apiResponse->apiJsonResponseSuccessful("Supression de la sélection réussie !");
