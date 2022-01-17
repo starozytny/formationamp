@@ -186,7 +186,7 @@ class FoSession extends DataEntity
     private $formation;
 
     /**
-     * @ORM\OneToMany(targetEntity=FoRegistration::class, fetch="EAGER", mappedBy="session")
+     * @ORM\OneToMany(targetEntity=FoRegistration::class, mappedBy="session")
      * @Groups({"admin:read"})
      */
     private $registrations;

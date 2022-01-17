@@ -7,6 +7,7 @@ use App\Entity\Formation\FoSession;
 use App\Entity\Formation\FoWorker;
 use App\Entity\Paiement\PaBank;
 use App\Entity\User;
+use App\Repository\Formation\FoSessionRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Repository\Blog\BoArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,9 +39,15 @@ class UserController extends AbstractController
     /**
      * @Route("/", options={"expose"=true}, name="homepage")
      */
-    public function index(): Response
+    public function index(FoSessionRepository $sessionRepository, BoArticleRepository $articleRepository): Response
     {
-        return $this->render('user/pages/index.html.twig');
+        $sessions = $sessionRepository->findBy(['isPublished' => true], ['start' => "ASC"], 10);
+        $articles = $articleRepository->findBy(['isPublished' => true], ['createdAt' => "ASC", "updatedAt" => "ASC"], 5);
+
+        return $this->render('user/pages/index.html.twig', [
+            'sessions' => $sessions,
+            'articles' => $articles,
+        ]);
     }
 
     /**

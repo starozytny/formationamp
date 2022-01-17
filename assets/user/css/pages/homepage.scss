@@ -1,0 +1,113 @@
+@import "../vars/vars";
+
+.app-blog,
+.app-formations{
+  padding: 12px;
+  background-color: var(--alpha);
+  box-shadow: 0 4px 12px var(--greyShadow);
+
+  .title{
+    position: relative;
+    display: inline-block;
+
+    &:before{
+      content: "";
+      background-color: var(--color0);
+      width: 80%; height: 60%;
+      display: block;
+      position: absolute;
+      bottom: 0; left: 0;
+      z-index: 0;
+    }
+  }
+
+  h2{
+    position: relative;
+    z-index: 1;
+  }
+
+  .items {
+    margin-top: 24px;
+  }
+}
+
+.app-formations{
+  margin-bottom: 24px;
+
+  .items{
+    position: relative;
+    padding-left: 18px;
+
+    &:before{
+      content: "";
+      background-color: var(--grey);
+      width: 4px;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+    }
+
+    .item{
+      position: relative;
+      @include flex(column, flex-start, flex-start);
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:hover{
+        transform: translateX(2px);
+      }
+
+      &:before{
+        content: "";
+        display: block;
+        width: 12px; height: 12px;
+        background-color: var(--color0);
+        border: 2px solid var(--alpha);
+        margin-right: 12px;
+        position: absolute;
+        top: 0; left: -24px;
+      }
+
+      &:not(:last-child){
+        margin-bottom: 24px;
+      }
+
+      .title{
+        font-size: 17px;
+      }
+
+      .sub{
+        display: block;
+        margin-top: 4px;
+        color: var(--grey2);
+      }
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .dash-line-2{
+    @include flex(row, flex-start, flex-start);
+  }
+
+  .app-blog,
+  .app-formations{
+    padding: 24px;
+  }
+
+  .app-formations{
+    margin-bottom: 0;
+    width: 40%;
+  }
+
+  .app-blog{
+    width: calc(60% - 48px);
+    margin-left: 48px;
+  }
+}

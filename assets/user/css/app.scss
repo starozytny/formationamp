@@ -5,7 +5,7 @@
 @import "../../common/css/color";
 
 :root{
-    --color0: #a9aac9;
+    --color0: #fadc00;
     --txtBlue: #334D6E;
 }
 
@@ -43,6 +43,8 @@
 @import "components/button-dropdown";
 @import "components/helpBubble";
 @import "components/theme";
+
+@import "pages/homepage";
 
 html, body{
     scroll-behavior: smooth;
