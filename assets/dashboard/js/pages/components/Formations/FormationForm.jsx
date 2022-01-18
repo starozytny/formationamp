@@ -4,15 +4,16 @@ import axios                   from "axios";
 import toastr                  from "toastr";
 import Routing                 from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import {Checkbox, Input, Select} from "@dashboardComponents/Tools/Fields";
+import { Checkbox, Input, Select } from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
 import { Trumb }               from "@dashboardComponents/Tools/Trumb";
+import { Drop }                from "@dashboardComponents/Tools/Drop";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 import Validateur              from "@commonComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
-import {Drop} from "@dashboardComponents/Tools/Drop";
+import helper                  from "./helper";
 
 const URL_CREATE_ELEMENT     = "api_formations_create";
 const URL_UPDATE_GROUP       = "api_formations_update";
@@ -173,16 +174,7 @@ export class FormationForm extends Component {
             { value: 1, label: 'Bâtiment conforme', identifiant: 'bat-conforme' },
         ]
 
-        let categoriesItems = [
-            { value: 0, label: "Syndic",                    identifiant: "f-syndic" },
-            { value: 1, label: "Gestion",                   identifiant: "f-gestion" },
-            { value: 2, label: "Transaction",               identifiant: "f-transac" },
-            { value: 3, label: "Immobilier d'entreprise",   identifiant: "f-immo" },
-            { value: 4, label: "Dirigeants",                identifiant: "f-dirigeant" },
-            { value: 5, label: "Management",                identifiant: "f-management" },
-            { value: 6, label: "International",             identifiant: "f-internat" },
-            { value: 7, label: "Working lunch",             identifiant: "f-working" },
-        ]
+        let categoriesItems = helper.getCategories();
 
         return <>
             <form onSubmit={this.handleSubmit}>

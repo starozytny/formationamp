@@ -418,18 +418,6 @@ class FoFormation extends DataEntity
      * @return string
      * @Groups({"admin:read"})
      */
-    public function getCategoryString(): string
-    {
-        $values = ["Syndic", "Gestion", "Transaction", "Immobilier d'entreprise",
-            "Dirigeants", "Management", "International", "Working lunch"];
-
-        return "";
-    }
-
-    /**
-     * @return string
-     * @Groups({"admin:read"})
-     */
     public function getProgrammeFile(): string
     {
         return $this->programme ? "/". self::FOLDER_FORMATION ."/" . $this->programme : "";
