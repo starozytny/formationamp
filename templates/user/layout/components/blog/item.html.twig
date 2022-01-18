@@ -1,4 +1,9 @@
 <div class="article">
+    {% if item.file %}
+        <div class="image">
+            <img src="{{ asset('articles/' ~ item.file) }}" alt="illustration article">
+        </div>
+    {% endif %}
     <div class="sub">Publié le {{ item.createAtStringLong }}</div>
     <div class="documents">
         {% if item.file1 %}
