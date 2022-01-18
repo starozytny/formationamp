@@ -114,7 +114,7 @@ export class FormationForm extends Component {
         this.setState({ success: false })
 
         let programme = this.inputProg.current.drop.current.files;
-        let support = this.inputProg.current.drop.current.files;
+        let support = this.inputSupp.current.drop.current.files;
 
         let paramsToValidate = [
             {type: "text", id: 'name',  value: name}
