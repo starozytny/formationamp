@@ -110,12 +110,19 @@ nav.fixed{
   .nav-header-logo{
     padding: 0;
   }
+
+  #menu{
+    width: calc(100% - 82px - 12px);
+    margin-left: 12px;
+  }
+
   .nav-mobile{ display: none; }
   .nav-body{
     @include flex(row, flex-start, space-between);
     min-height: auto;
     background: transparent;
     padding-top: 0;
+    width: 100%;
 
     .items{
       @include flex(row, center, flex-start);

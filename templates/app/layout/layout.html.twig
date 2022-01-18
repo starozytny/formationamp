@@ -36,6 +36,8 @@
         },
     ] %}
 
+    {% set menuBottom = [] %}
+
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         {% set menuLogged = [
             {
@@ -49,16 +51,21 @@
                 'name': 'logout'
             }
         ] %}
-        {% set menu = menu | merge(menuLogged) %}
+        {% set menuBottom = menuBottom | merge(menuLogged) %}
     {% else %}
         {% set menuLogged = [
             {
+                'path': path('app_user_registration'),
+                'label': 'S\'inscrire',
+                'name': 'creation-compte'
+            },
+            {
                 'path': path('app_login'),
-                'label': 'Mon espace',
+                'label': 'Espace client',
                 'name': 'login'
             }
         ] %}
-        {% set menu = menu | merge(menuLogged) %}
+        {% set menuBottom = menuBottom | merge(menuLogged) %}
     {% endif %}
 
     <div class="body">
@@ -71,7 +78,7 @@
                         </a>
                     </div>
                 </div>
-                <div id="menu" data-menu="{{ menu | json_encode }}"></div>
+                <div id="menu" data-menu="{{ menu | json_encode }}" data-menu-bottom="{{ menuBottom | json_encode }}"></div>
             </div>
         </nav>
 
