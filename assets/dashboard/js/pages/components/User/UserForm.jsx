@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import axios                   from "axios";
+import { uid }                 from "uid";
 import Routing                 from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import { Input, Checkbox }     from "@dashboardComponents/Tools/Fields";
@@ -12,6 +13,7 @@ import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 import Validateur              from "@commonComponents/functions/validateur";
 import Helper                  from "@commonComponents/functions/helper";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
+import {RgpdInfo} from "@appComponents/Tools/Rgpd";
 
 const URL_CREATE_ELEMENT     = "api_users_create";
 const URL_UPDATE_GROUP       = "api_users_update";
@@ -34,7 +36,7 @@ export function UserFormulaire ({ type, onChangeContext, onUpdateList, element, 
     let form = <Form
         context={type}
         url={url}
-        username={element ? Formulaire.setValueEmptyIfNull(element.username) : ""}
+        username={element ? Formulaire.setValueEmptyIfNull(element.username) : "A-NOUVEAU-" + uid()}
         firstname={element ? Formulaire.setValueEmptyIfNull(element.firstname) : ""}
         lastname={element ? Formulaire.setValueEmptyIfNull(element.lastname) : ""}
         email={element ? Formulaire.setValueEmptyIfNull(element.email) : ""}
@@ -176,13 +178,27 @@ export class Form extends Component {
                     self.setState({ success: messageSuccess, errors: [] });
                     if(context === "create"){
                         self.setState( {
-                            username: '',
+                            username: "A-NOUVEAU-" + uid(),
                             firstname: '',
                             lastname: '',
                             email: '',
                             roles: !isRegistration ? [] : ["ROLE_USER"],
                             password: '',
                             passwordConfirm: '',
+                            name: "",
+                            phone: "",
+                            siren: "",
+                            garantie: "",
+                            numCompta: "",
+                            nbFreeAca: "",
+                            type: [],
+                            address: "",
+                            zipcode: "",
+                            city: "",
+                            firstname2: "",
+                            lastname2: "",
+                            firstname3: "",
+                            lastname3: "",
                         })
                     }
                 })
@@ -227,8 +243,8 @@ export class Form extends Component {
                     <Input valeur={phone} identifiant="phone" errors={errors} onChange={this.handleChange} >Téléphone</Input>
                 </div>
 
-                <div className={"line" + (context !== "profil" ? " line-2" : "")}>
-                    {context !== "profil" && <Input valeur={username} identifiant="username" errors={errors} onChange={this.handleChange}>Nom utilisateur</Input>}
+                <div className={"line" + ((context !== "profil" && !isRegistration) ? " line-2" : "")}>
+                    {(context !== "profil" && !isRegistration) && <Input valeur={username} identifiant="username" errors={errors} onChange={this.handleChange}>Nom utilisateur</Input>}
                     <Input valeur={email} identifiant="email" errors={errors} onChange={this.handleChange} type="email" >Adresse e-mail</Input>
                 </div>
 
@@ -286,8 +302,8 @@ export class Form extends Component {
                           label="Téléverser un avatar" labelError="Seules les images sont acceptées.">Avatar (facultatif)</Drop>
                 </div>}
 
-                {(context === "create" || context === "profil") ? <>
-                    {(!isRegistration && context !== "profil") && <Alert type="reverse">
+                {((context === "create" || context === "profil") && !isRegistration ) ? <>
+                    {(context !== "profil") && <Alert type="reverse">
                         Laisser le champs vide génére un mot de passe aléatoire. L'utilisateur pourra utilise la
                         fonction <u>Mot de passe oublié ?</u> pour créer son mot de passe.
                     </Alert>}
@@ -298,7 +314,11 @@ export class Form extends Component {
                         <Input type="password" valeur={password} identifiant="password" errors={errors} onChange={this.handleChange} >Mot de passe {!isRegistration && "(facultatif)"}</Input>
                         <Input type="password" valeur={passwordConfirm} identifiant="passwordConfirm" errors={errors} onChange={this.handleChange} >Confirmer le mot de passe</Input>
                     </div>
-                </> : <Alert type="warning">Le mot de passe est modifiable exclusivement par l'utilisateur lui même grâce à la fonction <u>Mot de passe oublié ?</u></Alert>}
+                </> : isRegistration ? null : <Alert type="warning">Le mot de passe est modifiable exclusivement par l'utilisateur lui même grâce à la fonction <u>Mot de passe oublié ?</u></Alert>}
+
+                <div className="line">
+                    <RgpdInfo utility="la gestion des demandes de création de compte"/>
+                </div>
 
                 <div className="line">
                     <div className="form-button">

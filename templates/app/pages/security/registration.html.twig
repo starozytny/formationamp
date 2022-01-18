@@ -1,9 +1,34 @@
 {% extends 'app/pages/security/template.html.twig' %}
 
-{% block title %}Création de compte{% endblock %}
+{% block meta_description %}
+    Faites votre demande d'inscription pour devenir adhérent à la formation amp afin de pouvoir
+    vous inscrire à nos formations pluri-disciplinaire. Au niveau départemental,
+    la Fnaim Formation AMP regroupe plus de 400 adhérents spécialisés dans plus de 14 métiers de l'immobilier.
+{% endblock %}
+{% block meta_keywords %}fnaim formation amp, devenir adherent, adherent fnaim formation, adherent formation amp{% endblock %}
+
+{% block title %}Demande de création de compte {{ parent() }}{% endblock %}
 
 {% block main_content %}
-    <div class="main-content" id="user-registration">
-        {% include "dashboard/layout/components/spinner.html.twig" %}
+    <div class="main-content">
+        <div class="page-col-2">
+            <div class="col-1">
+                <div class="alert alert-primary">
+                    <span class="icon-information"></span>
+                    <p>
+                        <span class="title">Informations</span>
+                        Lorsque votre demande de création de compte sera acceptée, un mail contenant vos identifiants de connexion vous sera envoyé.
+                    </p>
+                </div>
+                <div class="image">
+                    <img src="{{ asset('build/app/images/register.jpg') }}" alt="illustration inscription fnaim">
+                </div>
+            </div>
+            <div class="col-2">
+                <div id="user-registration">
+                    {% include "dashboard/layout/components/spinner.html.twig" %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
