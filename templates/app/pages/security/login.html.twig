@@ -1,44 +1,60 @@
 {% extends 'app/pages/security/template.html.twig' %}
 
-{% block title %}Connexion à son espace{% endblock %}
+{% block meta_description %}
+    La Fnaim formation amp offre des formations pluri-disciplinaire à différents formats et tarifs.
+    Grâce à votre espace client formation amp, il ne vous reste plus qu'à inscrire vos collaborateurs et vous-même.
+{% endblock %}
+{% block meta_keywords %}espace client formation amp, compte formation amp, inscription formation amp{% endblock %}
+
+{% block title %}Connexion espace client {{ parent() }}{% endblock %}
 
 {% block main_content %}
     <div class="main-content">
-        <h1>Se connecter</h1>
+        <div class="title-page">
+            <h1>Espace client</h1>
+        </div>
 
-        <form method="post" class="form-login">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+        <div class="login-illustration"></div>
 
-           <div class="line">
-               <label for="inputUsername">Nom utilisateur</label>
-               <input type="text" value="{{ last_username }}" name="username" id="inputUsername" required autofocus>
-           </div>
-            <div class="line">
-                <label for="inputPassword">Mot de passe</label>
-                <div class="see-password">
-                    <input type="password" name="password" id="inputPassword" required>
-                    <span class="icon-vision btn-see-password"></span>
+        <div class="page-login page-col-2">
+            <div class="col-1">
+                <a href="{{ path('app_user_registration') }}" class="btn btn-warning">S'inscrire</a>
+            </div>
+            <div class="col-2">
+                <div class="form">
+                    <form method="post" class="form-login">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <div class="line">
+                            <label for="inputUsername">Nom utilisateur</label>
+                            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" required autofocus>
+                        </div>
+                        <div class="line">
+                            <label for="inputPassword">Mot de passe</label>
+                            <div class="see-password">
+                                <input type="password" name="password" id="inputPassword" required>
+                                <span class="icon-vision btn-see-password"></span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+
+                        <div class="form-button">
+                            <button class="btn btn-primary" type="submit">
+                                Se connecter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="line">
+                    <div id="forget"></div>
                 </div>
             </div>
-
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
-
-            <div class="line">
-                <div id="forget"></div>
-                <div>
-                    <a class="btn-registration" href="{{ path('app_user_registration') }}">Créer son compte</a>
-                </div>
-            </div>
-
-            <div class="form-button">
-                <button class="btn btn-primary" type="submit">
-                    Se connecter
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
 {% endblock %}
