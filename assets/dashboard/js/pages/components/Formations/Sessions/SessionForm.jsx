@@ -37,28 +37,28 @@ export function SessionsFormulaire ({ type, onChangeContext, onUpdateList, eleme
     let form = <Form
         context={type}
         url={url}
-        animator={element ? element.animator : ""}
-        start={element ? new Date(element.startJavascript) : ""}
-        end={element ? new Date(element.endJavascript) : ""}
-        time={element ? element.time : ""}
-        time2={element ? element.time2 : ""}
-        duration={element ? element.duration : ""}
-        duration2={element ? element.duration2 : ""}
-        durationTotal={element ? element.durationTotal : ""}
-        durationByDay={element ? element.durationByDay : ""}
-        priceHt={element ? element.priceHT : ""}
-        priceTtc={element ? element.priceTTC : ""}
-        tva={element ? element.tva : 20}
-        min={element ? element.min : ""}
-        max={element ? element.max : ""}
-        address={element ? element.address : ""}
-        zipcode={element ? (element.zipcode ? element.zipcode : "") : ""}
-        city={element ? element.city : ""}
-        type={element ? element.type : 0}
-        modTrav={element ? element.modTrav : ""}
-        modEval={element ? element.modEval : ""}
-        modPeda={element ? element.modPeda : ""}
-        modAssi={element ? element.modAssi : ""}
+        animator={element ? Formulaire.setValueEmptyIfNull(element.animator) : ""}
+        start={element ? (element.startJavascript ? new Date(element.startJavascript) : "") : ""}
+        end={element ? (element.endJavascript ? new Date(element.endJavascript) : "") : ""}
+        time={element ? Formulaire.setValueEmptyIfNull(element.time) : ""}
+        time2={element ? Formulaire.setValueEmptyIfNull(element.time2) : ""}
+        duration={element ? Formulaire.setValueEmptyIfNull(element.duration) : ""}
+        duration2={element ? Formulaire.setValueEmptyIfNull(element.duration2) : ""}
+        durationTotal={element ? Formulaire.setValueEmptyIfNull(element.durationTotal) : ""}
+        durationByDay={element ? Formulaire.setValueEmptyIfNull(element.durationByDay) : ""}
+        priceHt={element ? Formulaire.setValueEmptyIfNull(element.priceHT) : ""}
+        priceTtc={element ? Formulaire.setValueEmptyIfNull(element.priceTTC) : ""}
+        tva={element ? Formulaire.setValueEmptyIfNull(element.tva, 20) : 20}
+        min={element ? Formulaire.setValueEmptyIfNull(element.min) : ""}
+        max={element ? Formulaire.setValueEmptyIfNull(element.max) : ""}
+        address={element ? Formulaire.setValueEmptyIfNull(element.address) : ""}
+        zipcode={element ? Formulaire.setValueEmptyIfNull(element.zipcode) : ""}
+        city={element ? Formulaire.setValueEmptyIfNull(element.city) : ""}
+        type={element ? Formulaire.setValueEmptyIfNull(element.type, 0) : 0}
+        modTrav={element ? Formulaire.setValueEmptyIfNull(element.modTrav) : ""}
+        modEval={element ? Formulaire.setValueEmptyIfNull(element.modEval) : ""}
+        modPeda={element ? Formulaire.setValueEmptyIfNull(element.modPeda) : ""}
+        modAssi={element ? Formulaire.setValueEmptyIfNull(element.modAssi) : ""}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
@@ -282,10 +282,11 @@ export class Form extends Component {
             axios({ method: method, url: url, data: this.state })
                 .then(function (response) {
                     let data = response.data;
-                    self.props.onUpdateList(data);
+                    Helper.toTop();
+                    if(self.props.onUpdateList){
+                        self.props.onUpdateList(data);
+                    }
                     self.setState({ success: messageSuccess, errors: [] });
-                    document.body.scrollTop = 0;
-                    document.documentElement.scrollTop = 0;
                     if(context === "create"){
                         self.setState( {
                             start: "",
