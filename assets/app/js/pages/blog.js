@@ -11,5 +11,5 @@ Routing.setRoutingData(routes);
 
 let el = document.getElementById("blog");
 if(el){
-    render(<Blog {...el.dataset} />, el)
+    render(<Blog {...el.dataset} isFromApp={true} />, el)
 }

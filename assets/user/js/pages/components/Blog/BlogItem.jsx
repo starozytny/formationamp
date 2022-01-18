@@ -5,7 +5,9 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 export class BlogItem extends Component {
     render () {
-        const { elem } = this.props
+        const { isFromApp=false, elem } = this.props
+
+        let url = isFromApp ? "app_blog_read" : "user_blog_read";
 
         return <div className="card">
             <div className="card-header">
@@ -16,7 +18,7 @@ export class BlogItem extends Component {
                 <div>{parse(elem.introduction)}</div>
             </div>
             <div className="card-footer">
-                <a href="">En savoir plus</a>
+                <a href={Routing.generate(url, {"slug": elem.slug})}>En savoir plus</a>
             </div>
         </div>
     }

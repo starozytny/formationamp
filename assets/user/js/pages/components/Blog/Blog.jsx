@@ -12,7 +12,8 @@ export class Blog extends Component {
         this.state = {
             perPage: 10,
             currentPage: 0,
-            sessionName: "us.blog.art.pagination"
+            sessionName: "us.blog.art.pagination",
+            isFromApp: props.isFromApp ? props.isFromApp : false
         }
 
         this.layout = React.createRef();
@@ -28,7 +29,7 @@ export class Blog extends Component {
     handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext); }
 
     handleContentList = (currentData, changeContext) => {
-        return <BlogList onChangeContext={changeContext} data={currentData} />
+        return <BlogList onChangeContext={changeContext} data={currentData} isFromApp={this.state.isFromApp} />
     }
 
     render () {

@@ -80,4 +80,14 @@ class AppController extends AbstractController
             'donnees' => $objs
         ]);
     }
+
+    /**
+     * @Route("/actualites/{slug}", options={"expose"=true}, name="app_blog_read")
+     */
+    public function readBlog(BoArticle $obj): Response
+    {
+        return $this->render('app/pages/blog/read.html.twig',  [
+            'elem' => $obj
+        ]);
+    }
 }
