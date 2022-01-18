@@ -104,22 +104,13 @@
     width: 100%;
   }
 
-  .role{
-    display: inline-block;
-    padding: 4px 8px;
-    background: var(--primaryShadow);
-    border-radius: 4px;
-    font-size: 12px;
-    opacity: 0.5;
-    margin-top: 4px;
-  }
-
   img{
     object-fit: cover;
   }
 
   .role-time{
     background-color: var(--fondContent);
+    color: var(--txt);
   }
 
   .actions{
