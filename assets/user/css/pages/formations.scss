@@ -1,1 +1,13 @@
 @import "../vars/vars";
+
+.items-default{
+  .infos{
+    align-items: flex-start;
+  }
+}
+
+.item{
+  .date{
+    margin-bottom: 8px;
+  }
+}
