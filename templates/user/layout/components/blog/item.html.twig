@@ -1,0 +1,16 @@
+<div class="article">
+    <div class="sub">Publié le {{ item.createAtStringLong }}</div>
+    <div class="documents">
+        {% if item.file1 %}
+            <a target="_blank" href="{{ asset('articles/' ~ item.file1) }}"><span class="icon-link-2"></span> Document 1</a>
+        {% endif %}
+        {% if item.file2 %}
+            <a target="_blank" href="{{ asset('articles/' ~ item.file2) }}"><span class="icon-link-2"></span> Document 2</a>
+        {% endif %}
+        {% if item.file3 %}
+            <a target="_blank" href="{{ asset('articles/' ~ item.file3) }}"><span class="icon-link-2"></span> Document 3</a>
+        {% endif %}
+    </div>
+    <div class="intro">{{ item.introduction | raw }}</div>
+    <div class="content">{{ item.content | raw }}</div>
+</div>

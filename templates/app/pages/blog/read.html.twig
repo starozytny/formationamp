@@ -4,10 +4,8 @@
 
 {% block main_content %}
     <div class="main-content">
-        <div class="article">
-            <h1 class="title">
-                {{ elem.title }}
-            </h1>
-        </div>
+        {% include "user/layout/components/blog/item.html.twig" with {
+            item: elem
+        } %}
     </div>
 {% endblock %}

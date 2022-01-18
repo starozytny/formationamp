@@ -1,3 +1,11 @@
+.list-articles .card,
+.article {
+  .sub {
+    font-size: 15px;
+    color: var(--grey2);
+  }
+}
+
 .list-articles{
   .card{
     background-color: var(--alpha);
@@ -20,11 +28,6 @@
       text-transform: uppercase;
     }
 
-    .sub{
-      font-size: 15px;
-      color: var(--grey2);
-    }
-
     .title + .sub{
       margin-top: 4px;
     }
@@ -32,6 +35,24 @@
     .card-footer{
       border-top: 1px solid var(--grey);
     }
+  }
+}
+
+.article{
+  background-color: var(--alpha);
+  padding: 12px;
+  box-shadow: 0 4px 12px var(--greyShadow);
+
+  .sub:first-child{
+    margin-bottom: 8px;
+  }
+
+  .documents{
+    margin-bottom: 12px;
+  }
+
+  .content{
+    margin-top: 24px;
   }
 }
 
@@ -76,5 +97,9 @@
       width: calc(33% - 24px);
       margin-right: 24px;
     }
+  }
+
+  .article{
+    padding: 24px;
   }
 }

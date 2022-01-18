@@ -43,7 +43,7 @@
                 <div class="items">
                     {% for item in articles %}
                         <div class="item">
-                            <a href="/" class="name">{{ item.title }}</a>
+                            <a href="{{ path('user_blog_read', {'slug': item.slug}) }}" class="name">{{ item.title }}</a>
                             <div class="documents">
                                 {% if item.file1 %}
                                     <a target="_blank" href="{{ asset('articles/' ~ item.file1) }}"><span class="icon-link-2"></span> Document 1</a>
@@ -55,9 +55,9 @@
                                     <a target="_blank" href="{{ asset('articles/' ~ item.file3) }}"><span class="icon-link-2"></span> Document 3</a>
                                 {% endif %}
                             </div>
-                            <div class="intro">{{ item.introduction }}</div>
+                            <div class="intro">{{ item.introduction | raw }}</div>
                             <div class="sub">Publié le {{ item.createAtStringLong }}</div>
-                            <a href="/" class="link">En savoir plus</a>
+                            <a href="{{ path('user_blog_read', {'slug': item.slug}) }}" class="link">En savoir plus</a>
                         </div>
                     {% endfor %}
                 </div>
