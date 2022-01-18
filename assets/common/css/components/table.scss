@@ -86,7 +86,8 @@
   .badges{
     & > .badge:not(:last-child),
     & > .role:not(:last-child){
-      margin-right: 12px;
+      margin-right: 8px;
+      border-bottom: 8px;
     }
   }
 
@@ -288,7 +289,6 @@
 
     .infos{
       flex-direction: row;
-      align-items: center;
     }
 
     .infos-2{
