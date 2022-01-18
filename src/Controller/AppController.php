@@ -115,7 +115,7 @@ class AppController extends AbstractController
             return $this->redirectToRoute("app_homepage");
         }
 
-        $values = ["Syndic", "Gestion", "Transaction", "Immobilier d'entreprise", "Dirigeants", "Management", "International", "Working lunch"];
+        $values = ["syndic", "gestion", "transaction", "immobilier-entreprise", "dirigeants", "management", "international", "working-lunch"];
 
         $objs = $em->getRepository(FoFormation::class)->findBy(['isPublished' => true]);
 
@@ -124,7 +124,7 @@ class AppController extends AbstractController
             if($obj->getCategories()){
                 foreach($obj->getCategories() as $cat){
                     foreach($values as $key => $value){
-                        if($cat == $key){
+                        if($cat == $key && $value == $category){
                             $data[] = $obj->getId();
                         }
                     }

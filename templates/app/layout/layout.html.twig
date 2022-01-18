@@ -14,31 +14,35 @@
             'name': 'accueil'
         },
         {
-            'dropdown': true,
-            'label': 'Dropdown',
-            'items': [
-                {
-                    'path': path('app_homepage'),
-                    'label': 'Item 1',
-                    'name': 'item-2'
-                },
-                {
-                    'path': path('app_homepage'),
-                    'label': 'Item 2',
-                    'name': 'item-2'
-                }
-            ]
+            'path': path('app_formation_category', {'cat': "transaction"}),
+            'label': 'Transaction',
+            'name': 'transaction'
+        },
+        {
+            'path': path('app_formation_category', {'cat': "gestion"}),
+            'label': 'Gestion',
+            'name': 'gestion'
+        },
+        {
+            'path': path('app_formation_category', {'cat': "syndic"}),
+            'label': 'Syndic',
+            'name': 'syndic'
+        },
+        {
+            'path': path('app_formation_category', {'cat': "management"}),
+            'label': 'Management',
+            'name': 'management'
+        },
+        {
+            'path': path('app_formation_category', {'cat': "working-lunch"}),
+            'label': 'Ateliers',
+            'name': 'working-lunch'
         },
         {
             'path': path('app_blog'),
             'label': 'Actualités',
             'name': 'actualites'
-        },
-        {
-            'path': path('app_formation_category', {'cat': "transaction"}),
-            'label': 'Transaction',
-            'name': 'transaction'
-        },
+        }
     ] %}
 
     {% set menuBottom = [] %}
