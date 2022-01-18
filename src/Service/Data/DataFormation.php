@@ -27,6 +27,7 @@ class DataFormation extends DataConstructor
             ->setTarget(trim($data->target->html))
             ->setCat(trim($data->cat->html))
             ->setAccessibility((int) $data->accessibility)
+            ->setCategories($data->categories)
         ;
     }
 

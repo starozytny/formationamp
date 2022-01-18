@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class FoFormation extends DataEntity
 {
+    const FOLDER_FORMATION = "formations";
     const ACCESSIBILITY_NO_HANDI = 0;
     const ACCESSIBILITY_HANDI = 1;
 
@@ -118,6 +119,24 @@ class FoFormation extends DataEntity
      * @ORM\OneToMany(targetEntity=FoRegistration::class, mappedBy="formation")
      */
     private $registrations;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"admin:read"})
+     */
+    private $programme;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"admin:read"})
+     */
+    private $support;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     * @Groups({"admin:read"})
+     */
+    private $categories = [];
 
     public function __construct()
     {
@@ -367,6 +386,72 @@ class FoFormation extends DataEntity
                 $registration->setFormation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProgramme(): ?string
+    {
+        return $this->programme;
+    }
+
+    public function setProgramme(?string $programme): self
+    {
+        $this->programme = $programme;
+
+        return $this;
+    }
+
+    public function getSupport(): ?string
+    {
+        return $this->support;
+    }
+
+    public function setSupport(?string $support): self
+    {
+        $this->support = $support;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     * @Groups({"admin:read"})
+     */
+    public function getCategoryString(): string
+    {
+        $values = ["Syndic", "Gestion", "Transaction", "Immobilier d'entreprise",
+            "Dirigeants", "Management", "International", "Working lunch"];
+
+        return "";
+    }
+
+    /**
+     * @return string
+     * @Groups({"admin:read"})
+     */
+    public function getProgrammeFile(): string
+    {
+        return $this->programme ? "/". self::FOLDER_FORMATION ."/" . $this->programme : "";
+    }
+
+    /**
+     * @return string
+     * @Groups({"admin:read"})
+     */
+    public function getSupportFile(): string
+    {
+        return $this->support ? "/". self::FOLDER_FORMATION ."/" . $this->support : "";
+    }
+
+    public function getCategories(): ?array
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(?array $categories): self
+    {
+        $this->categories = $categories;
 
         return $this;
     }

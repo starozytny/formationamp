@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Service\ApiResponse;
 use App\Service\Data\DataFormation;
 use App\Service\Data\DataService;
+use App\Service\FileUploader;
 use App\Service\ValidatorService;
 use DateTime;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -30,7 +31,7 @@ class FormationController extends AbstractController
     }
 
     public function submitForm($type, FoFormation $obj, Request $request, ApiResponse $apiResponse,
-                               ValidatorService $validator, DataFormation $dataEntity): JsonResponse
+                               ValidatorService $validator, DataFormation $dataEntity, FileUploader $fileUploader): JsonResponse
     {
         $em = $this->doctrine->getManager();
         $data = json_decode($request->get('data'));
@@ -41,8 +42,25 @@ class FormationController extends AbstractController
 
         $obj = $dataEntity->setData($obj, $data);
 
+        $programme = $request->files->get('programme');
+        $support = $request->files->get('support');
+
         if($type == "update"){
+            if($programme){
+                $fileName = $fileUploader->replaceFile($programme, $obj->getProgramme(),FoFormation::FOLDER_FORMATION);
+                $obj->setProgramme($fileName);
+            }
+            if($support){
+                $fileName = $fileUploader->replaceFile($support, $obj->getSupport(),FoFormation::FOLDER_FORMATION);
+                $obj->setSupport($fileName);
+            }
+
             $obj->setUpdatedAt(new DateTime());
+        }else{
+            $fileName = ($programme) ? $fileUploader->upload($programme, FoFormation::FOLDER_FORMATION, true) : null;
+            $fileName1 = ($support) ? $fileUploader->upload($support, FoFormation::FOLDER_FORMATION, true) : null;
+            $obj->setProgramme($fileName);
+            $obj->setSupport($fileName1);
         }
 
         $noErrors = $validator->validate($obj);
@@ -55,7 +73,7 @@ class FormationController extends AbstractController
 
         return $apiResponse->apiJsonResponse($obj, User::ADMIN_READ);
     }
-    
+
     /**
      * Create a formation
      *
@@ -74,12 +92,13 @@ class FormationController extends AbstractController
      * @param ValidatorService $validator
      * @param ApiResponse $apiResponse
      * @param DataFormation $dataEntity
+     * @param FileUploader $fileUploader
      * @return JsonResponse
      */
     public function create(Request $request, ValidatorService $validator, ApiResponse $apiResponse,
-                           DataFormation $dataEntity): JsonResponse
+                           DataFormation $dataEntity, FileUploader $fileUploader): JsonResponse
     {
-        return $this->submitForm("create", new FoFormation(), $request, $apiResponse, $validator, $dataEntity);
+        return $this->submitForm("create", new FoFormation(), $request, $apiResponse, $validator, $dataEntity, $fileUploader);
     }
 
     /**
@@ -106,12 +125,13 @@ class FormationController extends AbstractController
      * @param ValidatorService $validator
      * @param ApiResponse $apiResponse
      * @param DataFormation $dataEntity
+     * @param FileUploader $fileUploader
      * @return JsonResponse
      */
     public function update(Request $request, FoFormation $obj, ValidatorService $validator,
-                           ApiResponse $apiResponse, DataFormation $dataEntity): JsonResponse
+                           ApiResponse $apiResponse, DataFormation $dataEntity, FileUploader $fileUploader): JsonResponse
     {
-        return $this->submitForm("update", $obj, $request, $apiResponse, $validator, $dataEntity);
+        return $this->submitForm("update", $obj, $request, $apiResponse, $validator, $dataEntity, $fileUploader);
     }
 
     /**
@@ -152,12 +172,21 @@ class FormationController extends AbstractController
      * @OA\Tag(name="Formations")
      *
      * @param FoFormation $obj
-     * @param DataService $dataService
+     * @param ApiResponse $apiResponse
+     * @param FileUploader $fileUploader
      * @return JsonResponse
      */
-    public function delete(FoFormation $obj, DataService $dataService): JsonResponse
+    public function delete(FoFormation $obj, ApiResponse $apiResponse, FileUploader $fileUploader): JsonResponse
     {
-        return $dataService->delete($obj);
+        $em = $this->doctrine->getManager();
+
+        $em->remove($obj);
+        $em->flush();
+
+        $fileUploader->deleteFile($obj->getProgramme(), FoFormation::FOLDER_FORMATION);
+        $fileUploader->deleteFile($obj->getSupport(), FoFormation::FOLDER_FORMATION);
+
+        return $apiResponse->apiJsonResponseSuccessful("Supression réussie !");
     }
 
     /**
@@ -175,11 +204,32 @@ class FormationController extends AbstractController
      * @OA\Tag(name="Formations")
      *
      * @param Request $request
-     * @param DataService $dataService
+     * @param ApiResponse $apiResponse
+     * @param FileUploader $fileUploader
      * @return JsonResponse
      */
-    public function deleteSelected(Request $request, DataService $dataService): JsonResponse
+    public function deleteSelected(Request $request, ApiResponse $apiResponse, FileUploader $fileUploader): JsonResponse
     {
-        return $dataService->deleteSelected(FoFormation::class, json_decode($request->getContent()));
+        $em = $this->doctrine->getManager();
+        $data = json_decode($request->getContent());
+
+        $objs = $em->getRepository(FoFormation::class)->findBy(['id' => $data]);
+
+        $files = [];
+        if ($objs) {
+            foreach ($objs as $obj) {
+                $files[] = $obj->getProgramme();
+                $files[] = $obj->getSupport();
+                $em->remove($obj);
+            }
+        }
+
+        $em->flush();
+
+        foreach($files as $file){
+            $fileUploader->deleteFile($file, FoFormation::FOLDER_FORMATION);
+        }
+
+        return $apiResponse->apiJsonResponseSuccessful("Supression de la sélection réussie !");
     }
 }

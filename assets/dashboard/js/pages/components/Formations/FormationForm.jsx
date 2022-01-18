@@ -4,7 +4,7 @@ import axios                   from "axios";
 import toastr                  from "toastr";
 import Routing                 from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, Select }       from "@dashboardComponents/Tools/Fields";
+import {Checkbox, Input, Select} from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
 import { Trumb }               from "@dashboardComponents/Tools/Trumb";
@@ -12,6 +12,7 @@ import { FormLayout }          from "@dashboardComponents/Layout/Elements";
 
 import Validateur              from "@commonComponents/functions/validateur";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
+import {Drop} from "@dashboardComponents/Tools/Drop";
 
 const URL_CREATE_ELEMENT     = "api_formations_create";
 const URL_UPDATE_GROUP       = "api_formations_update";
@@ -42,6 +43,7 @@ export function FormationsFormulaire ({ type, onChangeContext, onUpdateList, ele
         target={element ? element.target : ""}
         cat={element ? element.cat : ""}
         accessibility={element ? element.accessibility : 0}
+        categories={element ? Formulaire.setValueEmptyIfNull(element.categories, []) : []}
         onUpdateList={onUpdateList}
         onChangeContext={onChangeContext}
         messageSuccess={msg}
@@ -64,15 +66,20 @@ export class FormationForm extends Component {
             skills: { value: props.skills ? props.skills : "", html: props.skills ? props.skills : "" },
             target: { value: props.target ? props.target : "", html: props.target ? props.target : "" },
             cat: { value: props.cat ? props.cat : "", html: props.cat ? props.cat : "" },
+            categories: props.categories,
             accessibility: props.accessibility,
             errors: [],
             success: false
         }
 
+        this.inputProg = React.createRef();
+        this.inputSupp = React.createRef();
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChangeTrumb = this.handleChangeTrumb.bind(this);
     }
+
 
     componentDidMount() {
         document.body.scrollTop = 0; // For Safari
@@ -83,6 +90,10 @@ export class FormationForm extends Component {
     handleChange = (e) => {
         let name = e.currentTarget.name;
         let value = e.currentTarget.value;
+
+        if(name === "categories"){
+            value = Formulaire.updateValueCheckbox(e, this.state.categories, parseInt(value));
+        }
 
         this.setState({[name]: value})
     }
@@ -102,6 +113,9 @@ export class FormationForm extends Component {
 
         this.setState({ success: false })
 
+        let programme = this.inputProg.current.drop.current.files;
+        let support = this.inputProg.current.drop.current.files;
+
         let paramsToValidate = [
             {type: "text", id: 'name',  value: name}
         ];
@@ -117,6 +131,13 @@ export class FormationForm extends Component {
 
             let formData = new FormData();
             formData.append("data", JSON.stringify(this.state));
+
+            if(programme[0]){
+                formData.append('programme', programme[0].file);
+            }
+            if(support[0]){
+                formData.append('support', support[0].file);
+            }
 
             axios({ method: "POST", url: url, data: formData, headers: {'Content-Type': 'multipart/form-data'} })
                 .then(function (response) {
@@ -145,11 +166,22 @@ export class FormationForm extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, success, name, content, prerequis, goals, aptitudes, skills, target, cat, accessibility } = this.state;
+        const { errors, success, name, content, prerequis, goals, aptitudes, skills, target, cat, accessibility, categories } = this.state;
 
         let selectItems = [
             { value: 0, label: 'Bâtiment non conforme', identifiant: 'bat-not-conforme' },
             { value: 1, label: 'Bâtiment conforme', identifiant: 'bat-conforme' },
+        ]
+
+        let categoriesItems = [
+            { value: 0, label: "Syndic",                    identifiant: "f-syndic" },
+            { value: 1, label: "Gestion",                   identifiant: "f-gestion" },
+            { value: 2, label: "Transaction",               identifiant: "f-transac" },
+            { value: 3, label: "Immobilier d'entreprise",   identifiant: "f-immo" },
+            { value: 4, label: "Dirigeants",                identifiant: "f-dirigeant" },
+            { value: 5, label: "Management",                identifiant: "f-management" },
+            { value: 6, label: "International",             identifiant: "f-internat" },
+            { value: 7, label: "Working lunch",             identifiant: "f-working" },
         ]
 
         return <>
@@ -162,7 +194,7 @@ export class FormationForm extends Component {
                 </div>
                 <div className="line line-2">
                     <Select items={selectItems} identifiant="accessibility" valeur={accessibility} errors={errors} onChange={this.handleChange} noEmpty={true}>Accessibilité handicapé ?</Select>
-                    <div className="form-group" />
+                    <Checkbox items={categoriesItems} identifiant="categories" valeur={categories} errors={errors} onChange={this.handleChange}>Catégories</Checkbox>
                 </div>
 
                 <div className="line">
@@ -182,6 +214,13 @@ export class FormationForm extends Component {
                 <div className="line line-2">
                     <Trumb identifiant="target" valeur={target.value} errors={errors} onChange={this.handleChangeTrumb}>Public cible</Trumb>
                     <Trumb identifiant="cat" valeur={cat.value} errors={errors} onChange={this.handleChangeTrumb}>Catégorie de formation</Trumb>
+                </div>
+
+                <div className="line line-2">
+                    <Drop ref={this.inputProg} identifiant="programme" errors={errors} accept={"*"} maxFiles={1}
+                          label="Téléverser un programme" labelError="Erreur.">Fichier programme</Drop>
+                    <Drop ref={this.inputSupp} identifiant="support" errors={errors} accept={"*"} maxFiles={1}
+                          label="Téléverser un support" labelError="Erreur.">Fichier support</Drop>
                 </div>
 
                 <div className="line">
