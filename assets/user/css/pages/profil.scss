@@ -3,7 +3,7 @@
 .alert + #profil-teams{
   margin-top: 24px;
 }
-.profil-card{
+.profil-card, .profil-section{
   padding: 12px;
   background-color: var(--alpha);
   border: 1px solid var(--grey);
@@ -11,6 +11,21 @@
 
   & + .profil-card{
     margin-top: 24px;
+  }
+}
+
+.profil-section{
+  margin-bottom: 24px;
+
+  .title{
+    @include fontSemibold();
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-size: 18px;
+  }
+
+  .items-table{
+    margin-bottom: 0;
   }
 }
 
@@ -101,38 +116,6 @@
   .items-default .infos{
     align-items: flex-start;
   }
-
-  .profil-page{
-    @include flex(row, flex-start, flex-start);
-    width: calc(100% + 12px);
-
-    & > *{
-      width: calc(50% - 12px);
-      margin-right: 12px;
-    }
-  }
-
-  #profil-users{
-    margin-top: 0;
-  }
-
-  #profil-teams, #profil-banks{
-    margin-top: 0;
-  }
-
-  #profil-teams {
-    .toolbar {
-      flex-wrap: nowrap;
-    }
-  }
-
-  #profil-banks{
-    .items-default{
-      .infos{
-        align-items: flex-start;
-      }
-    }
-  }
 }
 
 //                      __   _ ____  ___   ___    __
@@ -143,6 +126,7 @@
 //                     |__|                      |__|
 @media (min-width:1280px) {
   .profil-page{
+    @include flex(row, flex-start, flex-start);
     width: 100%;
 
     & > .col-1{
@@ -163,10 +147,33 @@
     margin-top: 24px;
   }
 
-  #profil-teams{
-    .toolbar{
+  .profil-section-title{
+    @include flex(row, flex-start, space-between);
+  }
+
+  #profil-users{
+    margin-top: 0;
+  }
+
+  #profil-teams, #profil-banks{
+    margin-top: 0;
+  }
+
+  #profil-teams {
+    .toolbar {
       .filter-search{
-        width: calc(100% - 200px);
+        width: calc(100% - 207px);
+      }
+    }
+  }
+
+  #profil-banks{
+    .title{
+      width: 220px;
+    }
+    .items-default{
+      .infos{
+        align-items: flex-start;
       }
     }
   }

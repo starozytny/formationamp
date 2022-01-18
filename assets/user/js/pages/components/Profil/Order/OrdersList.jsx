@@ -8,7 +8,8 @@ export class OrdersList extends Component {
     render () {
         const { data } = this.props;
 
-        return <>
+        return <div className="profil-section">
+            <div className="title">Mes paiements</div>
             <div>
                 <div className="items-table">
                     <div className="items items-default">
@@ -30,6 +31,6 @@ export class OrdersList extends Component {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     }
 }

@@ -67,7 +67,8 @@ export class TeamList extends Component {
             </div>
         </>
 
-        return <>
+        return <div className="profil-section">
+            <div className="title">Mon équipe</div>
             <div className="toolbar">
                 <div className="item create">
                     <Button element="a" onClick={Routing.generate('user_team_create')}>Ajouter un membre</Button>
@@ -107,6 +108,6 @@ export class TeamList extends Component {
             </div>
 
             <Aside ref={this.aside} content={contentAside}>Liste des archivés</Aside>
-        </>
+        </div>
     }
 }
