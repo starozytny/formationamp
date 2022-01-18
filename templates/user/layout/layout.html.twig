@@ -9,20 +9,41 @@
         'name': 'espace-membre'
     },
     {
-        'path': path('user_profil'),
-        'icon': 'user',
-        'label': 'Mon profil',
-        'name': 'profil'
+        'dropdown': true,
+        'label': 'Profil',
+        'items': [
+            {
+                'path': path('user_profil'),
+                'label': 'Mon profil',
+                'name': 'profil'
+            },
+            {
+                'path': path('user_profil', {"_fragment": "profil-teams"}),
+                'label': 'Mon équipe',
+                'name': 'profil'
+            },
+            {
+                'path': path('user_profil', {"_fragment": "profil-banks"}),
+                'label': 'Mes comptes bancaires',
+                'name': 'profil'
+            },
+            {
+                'path': path('user_profil', {"_fragment": "profil-orders"}),
+                'label': 'Mes paiements',
+                'name': 'profil'
+            },
+            {
+                'path': path('user_my_formations'),
+                'label': 'Mes formations',
+                'name': 'mes-formations'
+            },
+            {
+                'path': path('user_my_formations'),
+                'label': 'Mes académies',
+                'name': 'mes-academies'
+            },
+        ]
     },
-    {
-        'path': path('user_blog'),
-        'icon': 'book',
-        'label': 'Actualités',
-        'name': 'actualites'
-    }
-] %}
-
-{% set menuBottom = [
     {
         'path': path('user_sessions'),
         'icon': 'book',
@@ -34,7 +55,17 @@
         'icon': 'book',
         'label': 'Mes formations',
         'name': 'mes-formations'
+    },
+    {
+        'path': path('user_blog'),
+        'icon': 'book',
+        'label': 'Actualités',
+        'name': 'actualites'
     }
+] %}
+
+{% set menuBottom = [
+
 ] %}
 
 {% set menuBottom = [] %}
