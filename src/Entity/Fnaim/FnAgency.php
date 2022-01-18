@@ -2,6 +2,7 @@
 
 namespace App\Entity\Fnaim;
 
+use App\Entity\DataEntity;
 use App\Repository\Fnaim\FnAgencyRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -9,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=FnAgencyRepository::class)
  */
-class FnAgency
+class FnAgency extends DataEntity
 {
     const TYPE_PRINCIPAL = 0;
     const TYPE_SUCCU = 1;
@@ -313,5 +314,17 @@ class FnAgency
         $this->city = $city;
 
         return $this;
+    }
+
+    public function getFullAddress(): string
+    {
+        return $this->getFullAddressString($this->address, $this->zipcode, $this->city);
+    }
+
+    public function getTypeString(): string
+    {
+        $values = ["Principal", "Succursale"];
+
+        return $values[$this->getType()];
     }
 }

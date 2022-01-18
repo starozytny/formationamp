@@ -3,17 +3,32 @@
 {% set page_title %}Mon profil{% endset %}
 
 {% block main_content %}
+    {% set agency = obj.agency %}
     <div class="main-content">
         <div class="profil-page">
             <div class="col-1">
                 <div class="profil-card">
                     <div class="profil-card-header">
-                        <div class="title">{{ obj.firstname }} {{ obj.lastname }}</div>
+                        <div class="title">{{ app.user.firstname }} {{ app.user.lastname }}</div>
                     </div>
                     <div class="profil-card-body">
                         <div class="items">
-                            <div class="item">{{ obj.username }}</div>
+                            <div class="item username">#{{ obj.username }}</div>
+                            <div class="item title">Informations de contact</div>
                             <div class="item">{{ obj.email }}</div>
+                            <div class="item">{{ agency.phone }}</div>
+                            <div class="item title">Mot de passe</div>
+                            <div class="item">
+                                <a href="{{ path('user_profil_update') }}">Modifier son mot de passe</a>
+                            </div>
+                            <div class="item title">Adresse</div>
+                            <div class="item">{{ agency.fullAddress }}</div>
+                            <div class="item title">SIREN</div>
+                            <div class="item">{{ agency.siren ? agency.siren : "Non communiqué" }}</div>
+                            <div class="item title">Garantie</div>
+                            <div class="item">{{ agency.garantie ? agency.garantie : "Non communiqué" }}</div>
+                            <div class="item title">Type de structure</div>
+                            <div class="item">{{ agency.typeString ? agency.typeString : "Non communiqué" }}</div>
                         </div>
                     </div>
                     <div class="profil-card-footer">
@@ -23,6 +38,7 @@
 
                 <div class="profil-card">
                     <a href="{{ path('user_my_formations') }}" class="btn btn-primary">Mes formations</a>
+{#                    <a href="{{ path('user_my_formations') }}" class="btn btn-primary">Mes académies</a>#}
                 </div>
             </div>
 

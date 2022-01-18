@@ -41,7 +41,7 @@
   margin: 12px 0;
 
   .item{
-    @include flex(row, center, flex-start);
+    @include flex(row, center, center);
 
     &:not(:last-child){
       margin-bottom: 4px;
@@ -52,6 +52,16 @@
       transform: translateY(-2px);
       margin-right: 4px;
       color: var(--grey2);
+    }
+
+    &.title{
+      color: var(--grey2);
+      text-transform: uppercase;
+      margin: 12px 0 4px 0;
+    }
+
+    &.username{
+      @include fontSemibold();
     }
   }
 }
