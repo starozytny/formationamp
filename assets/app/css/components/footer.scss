@@ -1,3 +1,15 @@
 @import "../vars/vars";
 
 @import "../../../common/css/components/footer";
+
+footer{
+  background-color: var(--fondContent);
+}
+
+.copyright{
+  img{
+    width: 64px;
+    margin-left: 12px;
+    transform: translateY(-2px);
+  }
+}
