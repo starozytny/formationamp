@@ -6,6 +6,7 @@ import { Button }       from "@dashboardComponents/Tools/Button";
 
 import { Form }         from "@dashboardPages/components/User/UserForm";
 import {FormLayout} from "@dashboardComponents/Layout/Elements";
+import Formulaire from "@dashboardComponents/functions/Formulaire";
 
 const URL_UPDATE_GROUP  = "api_users_update";
 
@@ -18,12 +19,27 @@ export function UserFormulaire ({ type, element })
     let form = <Form
         context={type}
         url={url}
-        username={element ? element.username : ""}
-        firstname={element ? element.firstname : ""}
-        lastname={element ? element.lastname : ""}
-        email={element ? element.email : ""}
-        avatar={element ? element.avatar : null}
-        roles={element ? element.roles : []}
+        username={element ? Formulaire.setValueEmptyIfNull(element.username) : ""}
+        firstname={element ? Formulaire.setValueEmptyIfNull(element.firstname) : ""}
+        lastname={element ? Formulaire.setValueEmptyIfNull(element.lastname) : ""}
+        email={element ? Formulaire.setValueEmptyIfNull(element.email) : ""}
+        avatar={element ? Formulaire.setValueEmptyIfNull(element.avatar, null) : null}
+        roles={element ? Formulaire.setValueEmptyIfNull(element.roles, ["ROLE_USER"]) : ["ROLE_USER"]}
+
+        name={element ? Formulaire.setValueEmptyIfNull(element.agency.name) : ""}
+        phone={element ? Formulaire.setValueEmptyIfNull(element.agency.phone) : ""}
+        siren={element ? Formulaire.setValueEmptyIfNull(element.agency.siren) : ""}
+        garantie={element ? Formulaire.setValueEmptyIfNull(element.agency.garantie) : ""}
+        numCompta={element ? Formulaire.setValueEmptyIfNull(element.agency.numCompta) : ""}
+        nbFreeAca={element ? Formulaire.setValueEmptyIfNull(element.agency.nbFreeAca) : ""}
+        type={element ? Formulaire.setValueEmptyIfNull(element.agency.type, []) : []}
+        address={element ? Formulaire.setValueEmptyIfNull(element.agency.address) : ""}
+        zipcode={element ? Formulaire.setValueEmptyIfNull(element.agency.zipcode) : ""}
+        city={element ? Formulaire.setValueEmptyIfNull(element.agency.city) : ""}
+        firstname2={element ? Formulaire.setValueEmptyIfNull(element.agency.firstname2) : ""}
+        lastname2={element ? Formulaire.setValueEmptyIfNull(element.agency.lastname2) : ""}
+        firstname3={element ? Formulaire.setValueEmptyIfNull(element.agency.firstname3) : ""}
+        lastname3={element ? Formulaire.setValueEmptyIfNull(element.agency.lastname3) : ""}
         messageSuccess={msg}
     />
 
