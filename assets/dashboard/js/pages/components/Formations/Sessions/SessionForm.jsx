@@ -163,7 +163,10 @@ export class Form extends Component {
             }else if(address === "En ligne" && parseInt(value) === 0){
                 nAddress = "";
             }
+        }
 
+        if(name === "address"){
+            nAddress = value;
         }
 
         this.setState({[name]: value, priceTtc: nPriceTtc, priceHt: nPriceHt, address: nAddress});
