@@ -2,7 +2,7 @@
 
 @import "../../../common/css/components/aside";
 
-.aside {
+.aside.true{
   top: 54px;
 }
 
@@ -13,5 +13,7 @@
 //                     | |  |_|_____\___/ \___/   | |
 //                     |__|                      |__|
 @media (min-width:1280px) {
-  top: 64px;
+  .aside.true{
+    top: 64px;
+  }
 }

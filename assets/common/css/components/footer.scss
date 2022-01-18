@@ -54,6 +54,15 @@ footer{
     }
   }
 }
+
+.copyright{
+  img{
+    width: 64px;
+    margin-left: 12px;
+    transform: translateY(-2px);
+  }
+}
+
 @media all and (-ms-high-contrast:none)
 {
   *::-ms-backdrop, .footer-contact .content { max-width: 630px; } /* IE11 */

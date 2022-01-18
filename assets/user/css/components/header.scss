@@ -1,8 +1,11 @@
 @import "../vars/vars";
 
 header{
+  position: relative;
+  z-index: 10;
   padding: 12px;
-  background-color: var(--fond);
+  background-color: var(--alpha);
+  box-shadow: 0 4px 12px var(--greyShadow);
 
   .header-container{
     position: relative;

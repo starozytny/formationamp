@@ -7,6 +7,12 @@
 :root{
     --color0: #fadc00;
     --color0Shadow: rgba(169, 170, 201, 0.4);
+
+    --fondLight: #fcfcfc;
+}
+
+.dark-mode{
+    --fondLight: #484848;
 }
 
 @import "vars/fonts";
@@ -69,7 +75,7 @@ main{
 
     &:before{
         content: "";
-        background-color: #fcfcfc;
+        background-color:  var(--fondLight);
         display: block;
         width: 100%;
         height: 64vh;
