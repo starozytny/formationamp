@@ -5,12 +5,15 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import { ButtonIcon } from "@dashboardComponents/Tools/Button";
 
 import Sanitaze from "@commonComponents/functions/sanitaze";
+import helper   from "@dashboardPages/components/Formations/helper";
 
 export class SessionsItem extends Component {
     render () {
         const { elem } = this.props;
 
         let participants = elem.registrations.length + " / " + elem.max + " pers.";
+
+        let categories = helper.getCategoriesString(elem.formation.categories);
 
         return <div className="item">
             <div className="item-content">
@@ -30,6 +33,11 @@ export class SessionsItem extends Component {
                             <div className="sub">{participants}</div>
                         </div>
                         <div className="col-3">
+                            <div className="badges">
+                                {categories.map((cat, index) => {
+                                    return <div className="badge" key={index}>{cat}</div>
+                                })}
+                            </div>
                         </div>
                         <div className="col-4 actions">
                             <ButtonIcon element="a" onClick={Routing.generate('user_registration', {'slug': elem.slug})} icon="download">S'inscrire</ButtonIcon>
