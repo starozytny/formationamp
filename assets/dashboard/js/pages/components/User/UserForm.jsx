@@ -9,11 +9,11 @@ import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
 import { Drop }                from "@dashboardComponents/Tools/Drop";
 import { FormLayout }          from "@dashboardComponents/Layout/Elements";
+import { RgpdInfo }            from "@appComponents/Tools/Rgpd";
 
 import Validateur              from "@commonComponents/functions/validateur";
 import Helper                  from "@commonComponents/functions/helper";
 import Formulaire              from "@dashboardComponents/functions/Formulaire";
-import {RgpdInfo} from "@appComponents/Tools/Rgpd";
 
 const URL_CREATE_ELEMENT     = "api_users_create";
 const URL_UPDATE_GROUP       = "api_users_update";

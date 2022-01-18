@@ -3,7 +3,13 @@
 {% set page_title %}Actualités{% endset %}
 
 {% block main_content %}
-    <div id="blog" data-donnees="{{ donnees }}">
-        {% include "dashboard/layout/components/spinner.html.twig" %}
+    <div class="main-content">
+        <div class="title-page">
+            <h1>Actualités</h1>
+        </div>
+
+        <div id="blog" data-donnees="{{ donnees }}">
+            {% include "dashboard/layout/components/spinner.html.twig" %}
+        </div>
     </div>
 {% endblock %}

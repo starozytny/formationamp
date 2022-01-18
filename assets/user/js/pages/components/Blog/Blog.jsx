@@ -13,7 +13,8 @@ export class Blog extends Component {
             perPage: 10,
             currentPage: 0,
             sessionName: "us.blog.art.pagination",
-            isFromApp: props.isFromApp ? props.isFromApp : false
+            isFromApp: props.isFromApp ? props.isFromApp : false,
+            classes: props.isFromApp ? "" : "main-content"
         }
 
         this.layout = React.createRef();
