@@ -42,7 +42,7 @@ class UserController extends AbstractController
     public function index(FoSessionRepository $sessionRepository, BoArticleRepository $articleRepository): Response
     {
         $sessions = $sessionRepository->findBy(['isPublished' => true], ['start' => "ASC"], 10);
-        $articles = $articleRepository->findBy(['isPublished' => true], ['createdAt' => "ASC", "updatedAt" => "ASC"], 5);
+        $articles = $articleRepository->findBy(['isPublished' => true], ['createdAt' => "DESC", "updatedAt" => "DESC"], 5);
 
         return $this->render('user/pages/index.html.twig', [
             'sessions' => $sessions,

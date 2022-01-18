@@ -37,7 +37,29 @@
             </div>
             <div class="app-blog">
                 <div class="title">
-                    <h2>Actualités</h2>
+                    <h2>Data</h2>
+                </div>
+
+                <div class="items">
+                    {% for item in articles %}
+                        <div class="item">
+                            <a href="/" class="name">{{ item.title }}</a>
+                            <div class="documents">
+                                {% if item.file1 %}
+                                    <a target="_blank" href="{{ asset('articles/' ~ item.file1) }}"><span class="icon-link-2"></span> Document 1</a>
+                                {% endif %}
+                                {% if item.file2 %}
+                                    <a target="_blank" href="{{ asset('articles/' ~ item.file2) }}"><span class="icon-link-2"></span> Document 2</a>
+                                {% endif %}
+                                {% if item.file3 %}
+                                    <a target="_blank" href="{{ asset('articles/' ~ item.file3) }}"><span class="icon-link-2"></span> Document 3</a>
+                                {% endif %}
+                            </div>
+                            <div class="intro">{{ item.introduction }}</div>
+                            <div class="sub">Publié le {{ item.createAtStringLong }}</div>
+                            <a href="/" class="link">En savoir plus</a>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
