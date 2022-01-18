@@ -9,7 +9,7 @@ import helper   from "@dashboardPages/components/Formations/helper";
 
 export class SessionsItem extends Component {
     render () {
-        const { elem } = this.props;
+        const { isFromApp, elem } = this.props;
 
         let participants = elem.registrations.length + " / " + elem.max + " pers.";
 
@@ -40,7 +40,11 @@ export class SessionsItem extends Component {
                             </div>
                         </div>
                         <div className="col-4 actions">
-                            <ButtonIcon element="a" onClick={Routing.generate('user_registration', {'slug': elem.slug})} icon="download">S'inscrire</ButtonIcon>
+                            {!isFromApp && <ButtonIcon element="a"
+                                         onClick={Routing.generate('user_formation_registration', {'slug': elem.slug})}
+                                         icon="download">
+                                S'inscrire
+                            </ButtonIcon>}
                         </div>
                     </div>
                 </div>

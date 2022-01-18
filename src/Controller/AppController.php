@@ -3,15 +3,26 @@
 namespace App\Controller;
 
 use App\Entity\Blog\BoArticle;
+use App\Entity\Formation\FoFormation;
+use App\Entity\Formation\FoSession;
 use App\Entity\User;
 use App\Repository\Blog\BoArticleRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class AppController extends AbstractController
 {
+    private $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
+
     /**
      * @Route("/", name="app_homepage")
      */
@@ -88,6 +99,51 @@ class AppController extends AbstractController
     {
         return $this->render('app/pages/blog/read.html.twig',  [
             'elem' => $obj
+        ]);
+    }
+
+
+    /**
+     * @Route("/formations", name="app_formation_category")
+     */
+    public function category(Request $request, SerializerInterface $serializer): Response
+    {
+        $em = $this->doctrine->getManager();
+        $category = $request->query->get('cat');
+
+        if($category === null){
+            return $this->redirectToRoute("app_homepage");
+        }
+
+        $values = ["Syndic", "Gestion", "Transaction", "Immobilier d'entreprise", "Dirigeants", "Management", "International", "Working lunch"];
+
+        $objs = $em->getRepository(FoFormation::class)->findBy(['isPublished' => true]);
+
+        $data = [];
+        foreach($objs as $obj){
+            if($obj->getCategories()){
+                foreach($obj->getCategories() as $cat){
+                    foreach($values as $key => $value){
+                        if($cat == $key){
+                            $data[] = $obj->getId();
+                        }
+                    }
+
+                }
+            }
+        }
+
+        $objs = $em->getRepository(FoSession::class)->findBy(['isPublished' => true, 'formation' => $data], ['start' => "DESC"]);
+
+        if(count($data) === 0){
+            return $this->redirectToRoute("app_homepage");
+        }
+
+        $objs = $serializer->serialize($objs, 'json', ['groups' => User::ADMIN_READ]);
+
+        return $this->render('app/pages/sessions/index.html.twig', [
+            'cat' => $category,
+            'donnees' => $objs
         ]);
     }
 }

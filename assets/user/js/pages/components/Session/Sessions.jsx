@@ -15,7 +15,8 @@ export class Sessions extends Component {
             perPage: 10,
             currentPage: 0,
             sorter: SORTER,
-            sessionName: "user.sessions.pagination"
+            sessionName: "user.sessions.pagination",
+            isFromApp: props.isFromApp ? props.isFromApp : false
         }
 
         this.layout = React.createRef();
@@ -28,7 +29,7 @@ export class Sessions extends Component {
     handleGetData = (self) => { self.handleSetDataPagination(this.props.donnees); }
 
     handleContentList = (currentData) => {
-        return <SessionsList data={currentData} />
+        return <SessionsList data={currentData} isFromApp={this.state.isFromApp} />
     }
 
     render () {
