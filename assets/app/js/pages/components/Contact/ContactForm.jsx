@@ -76,24 +76,26 @@ export class ContactForm extends Component {
     render () {
         const { errors, success, critere, name, email, message } = this.state;
 
-        return <form onSubmit={this.handleSubmit}>
-            {success && <Alert type="info">{success}</Alert>}
-            <div className="line line-2">
-                <Input identifiant="name" valeur={name} errors={errors} onChange={this.handleChange}>Nom / Raison sociale</Input>
-                <Input identifiant="email" valeur={email} errors={errors} onChange={this.handleChange} type="email">Adresse e-mail</Input>
-            </div>
-            <div className="line line-critere">
-                <Input identifiant="critere" valeur={critere} errors={errors} onChange={this.handleChange}>Critère</Input>
-            </div>
-            <div className="line">
-                <TextArea identifiant="message" valeur={message} errors={errors} onChange={this.handleChange}>Message</TextArea>
-            </div>
-            <div className="line">
-                <RgpdInfo utility="la gestion des demandes de contacts"/>
-            </div>
-            <div className="line">
-                <Button isSubmit={true}>Envoyer le message</Button>
-            </div>
-        </form>
+        return <div className="form">
+            <form onSubmit={this.handleSubmit}>
+                {success && <Alert type="info">{success}</Alert>}
+                <div className="line line-2">
+                    <Input identifiant="name" valeur={name} errors={errors} onChange={this.handleChange}>Nom / Raison sociale</Input>
+                    <Input identifiant="email" valeur={email} errors={errors} onChange={this.handleChange} type="email">Adresse e-mail</Input>
+                </div>
+                <div className="line line-critere">
+                    <Input identifiant="critere" valeur={critere} errors={errors} onChange={this.handleChange}>Critère</Input>
+                </div>
+                <div className="line">
+                    <TextArea identifiant="message" valeur={message} errors={errors} onChange={this.handleChange}>Message</TextArea>
+                </div>
+                <div className="line">
+                    <RgpdInfo utility="la gestion des demandes de contacts"/>
+                </div>
+                <div className="line">
+                    <Button isSubmit={true}>Envoyer le message</Button>
+                </div>
+            </form>
+        </div>
     }
 }

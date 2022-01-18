@@ -1,0 +1,51 @@
+.page-contact{
+  .col-1{
+    margin-bottom: 24px;
+  }
+
+  .image{
+    max-width: 600px;
+  }
+}
+
+//                      __   _  ___ ____  _  _     __
+//                     | _| / |/ _ \___ \| || |   |_ |
+//    _____ _____ _____| |  | | | | |__) | || |_   | |_____ _____ _____
+//   |_____|_____|_____| |  | | |_| / __/|__   _|  | |_____|_____|_____|
+//                     | |  |_|\___/_____|  |_|    | |
+//                     |__|                       |__|
+@media (min-width: 1024px) {
+  .page-contact{
+    @include flex(row, flex-start, space-between);
+
+    .col-1{
+      width: 40%;
+    }
+
+    .col-2{
+      width: calc(60% - 48px);
+      margin-left: 48px;
+    }
+
+    .image{
+      position: relative;
+
+      &:before{
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 14px;
+        left: 14px;
+        z-index: 1;
+        border: 5px solid var(--color0);
+      }
+
+      img{
+        position: relative;
+        z-index: 2;
+      }
+    }
+  }
+}
