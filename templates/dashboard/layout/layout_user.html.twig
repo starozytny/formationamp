@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ page_title }} | {{ page_prefix }} {% endblock %}
+{% block title %} {{ page_title }} | {{ page_prefix }} {{ parent() }}{% endblock %}
 
 {% block stylesheets %}
     {{ encore_entry_link_tags('user') }}

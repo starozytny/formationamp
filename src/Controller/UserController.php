@@ -145,6 +145,15 @@ class UserController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/formations/e-learning", name="formation_elearning")
+     */
+    public function elearning(): Response
+    {
+        return $this->render('user/pages/sessions/e-learning.html.twig');
+    }
+
     /**
      * @Route("/formation/sessions/{slug}", options={"expose"=true}, name="formation_registration")
      */

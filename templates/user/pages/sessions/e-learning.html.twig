@@ -1,0 +1,72 @@
+{% extends 'user/pages/sessions/template.html.twig' %}
+
+{% set page_title %}Inscription aux formations d'e-learning par Sumatra Formation Conseil{% endset %}
+
+{% block main_content %}
+    <div class="main-content">
+        <div class="page-session">
+            <div class="line-1">
+                <div class="col-1">
+                    <div class="content">
+                        <a target="_blank" href="{{ asset('elearning/mode_emploi-fc.pdf') }}">Consulter le mode d'emploi</a>
+                        <a target="_blank" href="https://e.sumatraformationconseil.com/course/">Télécharger la convention et la procédure</a>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card-session-register">
+                        <div class="card-body">
+                            <div class="item">
+                                <span class="icon-calendar"></span>
+                                <span>Toute l'année</span>
+                            </div>
+                            <div class="item">
+                                <span class="icon-user"></span>
+                                <span>Sumatra Formation Conseil</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="item">
+                                <span class="icon-cart"></span>
+                                <span>CODE PROMO (-50%) : <b>FNAIMAMP</b></span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div>
+                                <a target="_blank" href="{{ asset('elearning/mode_emploi-fc.pdf') }}">Comment bénéficier de l'offre ?</a>
+                            </div>
+                            <div>
+                                <a href="" class="btn btn-primary">S'inscrire</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="line-2">
+                <div class="content">
+                    <h2>Formations validantes en E-learning</h2>
+                    <p>
+                        L'achat se fait directement sur le site en payant par CB. la création du compte
+                        est automatique, vous pourrez télécharger votre facture dans votre cours espace
+                        client et immédiatement commencer votre formation.
+                        <br><br>
+                        Pour obtenir le tarif spécialement négocié pour vous par la FNAIM AMP, merci de
+                        saisir le code promotion suivant : <b>FNAIMAMP</b> au cours de votre processus d'achat.
+                        <br><br>
+                        Vous avez accès à la formation pendant un an. Après avoir suivi toutes les étapes de
+                        votre cours vous pourrez télécharger directement votre attestation de formation.
+                        Si vous souhaitez une prise en charge du coût de votre formation par votre OPCO
+                        (AGEFICE ou autre) veuillez vous référez à la procédure suivante :
+                        <br> <br>
+                        <a target="_blank" href="{{ asset('elearning/mode_emploi-fc.pdf') }}">
+                            Consulter le mode d'emploi pour bénéficier de cette offre
+                        </a>
+                        <br>
+                        <a target="_blank" href="https://e.sumatraformationconseil.com/course">
+                            Télécharger la convention et la procédure
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
