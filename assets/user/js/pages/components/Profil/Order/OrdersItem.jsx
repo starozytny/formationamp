@@ -25,7 +25,7 @@ export class OrdersItem extends Component {
                             <div className="sub">{elem.participants} pers.</div>
                         </div>
                         <div className="col-3">
-                            <div className="role">{elem.statusString}</div>
+                            <div className={"badge-order badge badge-" + elem.status}>{elem.statusString}</div>
                         </div>
                         <div className="col-4 actions">
                             {(elem.status === 1 || elem.status === 2) &&

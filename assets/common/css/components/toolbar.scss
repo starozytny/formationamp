@@ -60,7 +60,7 @@
     }
 
     .dropdown-btn{
-      padding: 11px 12px;
+      padding: 10.5px 12px;
       border-radius: 3px 0 0 3px;
       justify-content: space-between;
       border-right: none;
@@ -122,6 +122,10 @@
     .filter-search{
       margin-top: 0;
       margin-left: 24px;
+
+      .dropdown-btn {
+        padding: 11px 12px;
+      }
     }
   }
 

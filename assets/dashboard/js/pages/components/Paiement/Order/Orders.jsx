@@ -102,7 +102,7 @@ export class Orders extends Component {
         axios.post(Routing.generate('api_orders_refresh', {'id': element.id}), {})
             .then(function (response) {
                 self.handleUpdateList(response.data, "update");
-                toastr.info("Order rafraîchi.")
+                toastr.info("Code rafraîchi.")
             })
             .catch(function (error) {
                 Formulaire.displayErrors(self, error, "Une erreur est survenue, veuillez contacter le support.")
@@ -113,19 +113,27 @@ export class Orders extends Component {
         ;
     }
 
-    handleProcess = (id) => { // id or "all"
+    handleProcess = (id, name="") => { // id or "all"
         let self = this;
-        Formulaire.loader(true);
-        axios.post(Routing.generate('api_orders_process'), {'id': id})
-            .then(function (response) {
-                let filename = (new Date().getTime()).toString();
-                filename = "paiement-" + filename.substr(0, filename.length - 3) + ".xml";
-                Helper.downloadBinaryFile(response.data, filename, true);
-                location.reload();
-            })
-            .catch(function (error) {
-                Formulaire.loader(false);
-                Formulaire.displayErrors(self, error, "Une erreur est survenue, veuillez contacter le support.")
+        let title = id === "all" ? "Traiter tous les ordres validés ?" : "Traiter cet ordre ?"
+        let text = id === "all" ? "Action irréversible" : "Ordre : " + name + "<br><br> Action irréversible";
+        Swal.fire(SwalOptions.options(title, text))
+            .then((result) => {
+                if (result.isConfirmed) {
+                    Formulaire.loader(true);
+                    axios.post(Routing.generate('api_orders_process'), {'id': id})
+                        .then(function (response) {
+                            let filename = (new Date().getTime()).toString();
+                            filename = "paiement-" + filename.substr(0, filename.length - 3) + ".xml";
+                            Helper.downloadBinaryFile(response.data, filename, true);
+                            location.reload();
+                        })
+                        .catch(function (error) {
+                            Formulaire.loader(false);
+                            Formulaire.displayErrors(self, error, "Une erreur est survenue, veuillez contacter le support.")
+                        })
+                    ;
+                }
             })
         ;
     }

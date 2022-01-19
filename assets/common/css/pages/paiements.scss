@@ -1,0 +1,16 @@
+.badge-order.badge{
+  $status:
+          "0" var(--grey3),  // wait_validation
+          "1" var(--primary), // validated
+          "2" var(--warning), // finished
+          "3" var(--danger),   // expired
+          "4" var(--grey),   // canceled
+;
+
+  @each $number, $bg in $status {
+    &.badge-#{$number},
+    &.role-#{$number}{
+      background-color: $bg;
+    }
+  }
+}

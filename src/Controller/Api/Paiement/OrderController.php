@@ -2,17 +2,13 @@
 
 namespace App\Controller\Api\Paiement;
 
-use App\Entity\Paiement\PaBank;
 use App\Entity\Paiement\PaLot;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\User;
 use App\Service\ApiResponse;
 use App\Service\Data\DataPaiement;
 use App\Service\Data\DataService;
-use App\Service\Data\Paiement\DataBank;
 use App\Service\FileCreator;
-use App\Service\ValidatorService;
-use DateTime;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
 use Mpdf\MpdfException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\Fake;
 
 use App\Entity\Paiement\PaLot;
 use App\Entity\Paiement\PaOrder;

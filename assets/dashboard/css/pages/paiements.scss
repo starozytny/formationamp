@@ -1,8 +1,6 @@
 @import "../vars/vars";
 
-.role + .sub{
-  margin-top: 4px;
-}
+@import "../../../common/css/pages/paiements";
 
 //                      __   _____ __    ___    __
 //                     | _| |___  / /_  ( _ )  |_ |
@@ -11,10 +9,6 @@
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
-  .items-default .infos{
-    align-items: flex-start;
-  }
-
   .toolbar{
     .create{
       width: 202px;

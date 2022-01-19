@@ -65,6 +65,19 @@
     }
   }
 
+  .items-table{
+    & > .items{
+      & > .item:not(:last-child){
+        border-color: var(--greyShadow);
+      }
+    }
+  }
+
+  .notif-card .notif-body,
+  .notif-cancel{
+    border-color: var(--greyShadow);
+  }
+
   .react-selectize,
   .steps > .item.active .number,
   .react-selectize.dropdown-menu.default .option-wrapper .simple-option,

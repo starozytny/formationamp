@@ -17,12 +17,12 @@ export class OrdersItem extends Component {
                     <div className="infos infos-col-4">
                         <InfosOrder elem={elem} />
                         <div className="col-3">
-                            <div className="role">{elem.statusString}</div>
+                            <div className={"badge-order badge badge-" + elem.status}>{elem.statusString}</div>
                             <div className="sub">{elem.createdAtString}</div>
                         </div>
                         <div className="col-4 actions">
                             {elem.status === 0 && <ButtonIcon icon="refresh" onClick={() => onRefresh(elem)}>Rafraichir</ButtonIcon>}
-                            {elem.status === 1 && <ButtonIcon icon="upload" onClick={() => onProcess(elem.id)}>Traiter</ButtonIcon>}
+                            {elem.status === 1 && <ButtonIcon icon="upload" onClick={() => onProcess(elem.id, elem.name)}>Traiter</ButtonIcon>}
                             {(elem.status === 0 || elem.status === 1) && <ButtonIcon icon="cancel" onClick={() => onCancel(elem)}>Annuler</ButtonIcon>}
                             {(isDeveloper && (elem.status === 3 || elem.status === 4)) && <ButtonIcon icon="trash" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>}
                         </div>
