@@ -403,7 +403,7 @@ class FoSession extends DataEntity
     }
 
     /**
-     * @return int|null
+     * @return string|null
      * @Groups({"admin:read"})
      */
     public function getTypeString(): ?string
@@ -574,5 +574,14 @@ class FoSession extends DataEntity
         }
 
         return $this;
+    }
+
+    public function getFullTime(): string
+    {
+        if($this->time && $this->time2){
+            return "de " . $this->time . " à " . $this->time2;
+        }
+
+        return $this->time ? $this->time : $this->time2;
     }
 }

@@ -15,7 +15,7 @@
 }
 
 .dark-mode{
-    --fondLight: #383838;
+    --fondLight: #484848;
 }
 
 @import "vars/fonts";
@@ -91,7 +91,7 @@ h2{
 }
 
 main{
-    background-color: var(--fondContent);
+    background-color: var(--fond);
     width: 100%;
 
     & > div{

@@ -1,10 +1,6 @@
 @import "../vars/vars";
 
-.items-default{
-  .infos{
-    align-items: flex-start;
-  }
-}
+@import "./split/formation/read";
 
 .item{
   .date{

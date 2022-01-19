@@ -40,11 +40,14 @@ export class SessionsItem extends Component {
                             </div>
                         </div>
                         <div className="col-4 actions">
-                            {!isFromApp && <ButtonIcon element="a"
-                                         onClick={Routing.generate('user_formation_registration', {'slug': elem.slug})}
-                                         icon="download">
-                                S'inscrire
-                            </ButtonIcon>}
+                            {!isFromApp && <>
+                                <ButtonIcon element="a" icon="download" onClick={Routing.generate('user_formation_registration', {'slug': elem.slug})}>
+                                    S'inscrire
+                                </ButtonIcon>
+                                <ButtonIcon element="a" icon="vision" onClick={Routing.generate('user_formation_read', {'slug': elem.slug})}>
+                                    Détails
+                                </ButtonIcon>
+                            </>}
                         </div>
                     </div>
                 </div>

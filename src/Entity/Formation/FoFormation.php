@@ -443,4 +443,11 @@ class FoFormation extends DataEntity
 
         return $this;
     }
+
+    public function getAccessibilityString(): string
+    {
+        $values = ["Bâtiment non conforme", "Bâtiment conforme"];
+
+        return $values[$this->accessibility];
+    }
 }

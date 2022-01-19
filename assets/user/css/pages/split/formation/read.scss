@@ -1,0 +1,51 @@
+@import "../../../vars/vars";
+
+.page-session{
+  .content, .card-session-register{
+    padding: 12px;
+    background-color: var(--alpha);
+    box-shadow: 0 4px 12px var(--greyShadow);
+    border-radius: 4px;
+  }
+
+  .content{
+    .title{
+      @include fontSemibold();
+      font-size: 17px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+  }
+
+  .card-session-register{
+    padding: 0;
+    max-width: 414px;
+
+    .card-body, .card-footer{
+      padding: 12px;
+    }
+
+    .card-body{
+      border-bottom: 1px solid var(--greyShadow);
+
+      .item:not(:last-child){
+        margin-bottom: 6px;
+      }
+    }
+
+    .item-price{
+      @include fontSemibold();
+      font-size: 18px;
+    }
+  }
+
+  .col-1, .col-2{
+    margin-bottom: 24px;
+  }
+
+  .line-2{
+    .content{
+      margin-bottom: 12px;
+    }
+  }
+}

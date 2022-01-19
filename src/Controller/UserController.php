@@ -11,6 +11,7 @@ use App\Entity\User;
 use App\Repository\Formation\FoSessionRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use App\Repository\Blog\BoArticleRepository;
+use Http\Discovery\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -155,7 +156,21 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/formation/sessions/{slug}", options={"expose"=true}, name="formation_registration")
+     * @Route("/formation/sessions/{slug}", options={"expose"=true}, name="formation_read")
+     */
+    public function read(FoSession $obj): Response
+    {
+        if(!$obj->getIsPublished()){
+            throw new NotFoundException("Formation introuvable.");
+        }
+
+        return $this->render('user/pages/sessions/read.html.twig', [
+            'elem' => $obj,
+        ]);
+    }
+
+    /**
+     * @Route("/formation/sessions/{slug}/inscription", options={"expose"=true}, name="formation_registration")
      */
     public function registration(FoSession $obj, SerializerInterface $serializer): Response
     {
