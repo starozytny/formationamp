@@ -8,69 +8,92 @@
             <div class="line-1">
                 <div class="col-1">
                     <div class="content">
-                        <div class="title">Description</div>
+                        <div class="title"><span>Description</span></div>
                         <div>{{ elem.formation.content | raw }}</div>
+                    </div>
+                    <div class="content">
+                        <div class="title"><span>Prérequis</span></div>
+                        <div>{{ elem.formation.prerequis }}</div>
+                    </div>
+                    <div class="content">
+                        <div class="title"><span>Objectifs</span></div>
+                        <div>{{ elem.formation.goals }}</div>
+                    </div>
+                    <div class="content">
+                        <div class="title"><span>Aptitudes</span></div>
+                        <div>{{ elem.formation.aptitudes }}</div>
+                    </div>
+                    <div class="content">
+                        <div class="title"><span>Compétences</span></div>
+                        <div>{{ elem.formation.skills }}</div>
+                    </div>
+                    <div class="content">
+                        <div class="title"><span>Public ciblé</span></div>
+                        <div>{{ elem.formation.target }}</div>
+                    </div>
+                    <div class="content">
+                        <div class="title"><span>Catégorie de formation</span></div>
+                        <div>{{ elem.formation.cat }}</div>
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="card-session-register">
+                        <div class="card-header">
+                            <div>
+                                <a href="" class="btn btn-primary">S'inscrire</a>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="item">
                                 <span>Accessibilité handicapé : {{ elem.formation.accessibilityString }}</span>
                             </div>
                             <div class="item">
-                                <span>Type de formation : {{ elem.typeString }}</span>
+                                <span>Type de formation : <span class="badge">{{ elem.typeString }}</span></span>
                             </div>
+                        </div>
+                        <div class="card-body">
                             <div class="item">
                                 <span class="icon-calendar"></span>
                                 <span>{{ elem.fullDate }}</span>
                             </div>
-                            <div class="item">
-                                <span class="icon-time"></span>
-                                <span>{{ elem.fullTime }}</span>
-                            </div>
+                            {% if elem.fullTime %}
+                                <div class="item">
+                                    <span class="icon-time"></span>
+                                    <span>{{ elem.fullTime }}</span>
+                                </div>
+                                <div class="item">
+                                    <span class="icon-book"></span>
+                                    <span>{{ elem.durationByDay }} par jour</span>
+                                </div>
+                                <div class="item">
+                                    <span class="icon-book"></span>
+                                    <span>{{ elem.durationTotal }} au total</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
                             <div class="item">
                                 <span class="icon-user"></span>
                                 <span>{{ elem.animator }}</span>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="item item-price">
-                                <span>150€</span>
+                            <div class="item">
+                                <span class="icon-placeholder"></span>
+                                <span>{{ elem.fullAddress }}</span>
+                            </div>
+                            <div class="item">
+                                <span class="icon-group"></span>
+                                <span>{{ elem.max }} participants max.</span>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <div>
-                                <a href="" class="btn btn-primary">S'inscrire</a>
+                        <div class="card-body card-body-price">
+                            <div class="item">
+                                <span>{{ elem.priceHT }} € HT</span>
+                            </div>
+                            <div class="item item-price">
+                                <span>{{ elem.priceTTC }} € TTC</span>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="line-2">
-                <div class="content">
-                    <div class="title">Prérequis</div>
-                    <div>{{ elem.formation.prerequis }}</div>
-                </div>
-                <div class="content">
-                    <div class="title">Objectifs</div>
-                    <div>{{ elem.formation.goals }}</div>
-                </div>
-                <div class="content">
-                    <div class="title">Aptitudes</div>
-                    <div>{{ elem.formation.aptitudes }}</div>
-                </div>
-                <div class="content">
-                    <div class="title">Compétences</div>
-                    <div>{{ elem.formation.skills }}</div>
-                </div>
-                <div class="content">
-                    <div class="title">Public ciblé</div>
-                    <div>{{ elem.formation.target }}</div>
-                </div>
-                <div class="content">
-                    <div class="title">Catégorie de formation</div>
-                    <div>{{ elem.formation.cat }}</div>
                 </div>
             </div>
         </div>

@@ -576,12 +576,21 @@ class FoSession extends DataEntity
         return $this;
     }
 
-    public function getFullTime(): string
+    public function getFullTime(): ?string
     {
         if($this->time && $this->time2){
             return "de " . $this->time . " à " . $this->time2;
         }
 
-        return $this->time ? $this->time : $this->time2;
+        if(!$this->time && !$this->time2){
+            return null;
+        }
+
+        return $this->time ?: $this->time2;
+    }
+
+    public function getFullAddress(): string
+    {
+        return $this->getFullAddressString($this->address, $this->zipcode, $this->city);
     }
 }

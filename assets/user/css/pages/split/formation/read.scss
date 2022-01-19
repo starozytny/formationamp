@@ -8,12 +8,43 @@
     border-radius: 4px;
   }
 
+  .col-1, .col-2{
+    margin-bottom: 24px;
+  }
+
+  .line-1{
+    @include flex(column-reverse, flex-start, flex-start);
+  }
+
+  .line-1, .line-2{
+    .content{
+      margin-bottom: 12px;
+    }
+  }
+
   .content{
     .title{
+      position: relative;
+      display: inline-block;
       @include fontSemibold();
       font-size: 17px;
       margin-bottom: 8px;
       text-transform: uppercase;
+
+      span{
+        position: relative;
+        z-index: 5;
+      }
+
+      &:after{
+        content: "";
+        background-color: var(--color0);
+        width: 80%; height: 60%;
+        display: block;
+        position: absolute;
+        bottom: 0; left: 0;
+        z-index: 0;
+      }
     }
   }
 
@@ -21,15 +52,36 @@
     padding: 0;
     max-width: 414px;
 
-    .card-body, .card-footer{
+    .card-body, .card-header{
       padding: 12px;
+    }
+
+    .card-body-price, .card-header{
+      text-align: center;
+    }
+
+    .card-header{
+      border-bottom: 1px solid var(--grey);
     }
 
     .card-body{
       border-bottom: 1px solid var(--greyShadow);
 
+      .item{
+        @include flex(row, flex-start, flex-start);
+
+        [class^="icon-"]{
+          display: inline-block;
+          margin-right: 6px;
+        }
+
+        .icon-book{
+          opacity: 0;
+        }
+      }
+
       .item:not(:last-child){
-        margin-bottom: 6px;
+        margin-bottom: 8px;
       }
     }
 
@@ -38,14 +90,39 @@
       font-size: 18px;
     }
   }
+}
 
-  .col-1, .col-2{
-    margin-bottom: 24px;
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .page-session{
+    .line-1{
+      flex-direction: row;
+
+      .col-1{
+        width: calc(100% - 414px - 48px);
+        margin-right: 48px;
+      }
+    }
   }
+}
 
-  .line-2{
-    .content{
-      margin-bottom: 12px;
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .page-session{
+    .content,
+    .card-session-register .card-body,
+    .card-session-register .card-header{
+      padding: 24px;
     }
   }
 }

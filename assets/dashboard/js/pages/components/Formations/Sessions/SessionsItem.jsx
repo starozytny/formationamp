@@ -103,7 +103,7 @@ export function InfosSession({ elem, showFormation = true, admin = false }) {
             {admin && <div className="sub">{elem.slug}</div>}
         </div>
         <div className="col-2">
-            <div className="sub">{elem.time} {elem.time && elem.time2 ? " - " : ""} {elem.time2}</div>
+            <div className="sub">{elem.time} {elem.time && elem.time2 ? " à " : ""} {elem.time2}</div>
             <div className="sub">{Sanitaze.toFormatCurrency(elem.priceTTC)} TTC / unité</div>
         </div>
         <div className="col-3">
