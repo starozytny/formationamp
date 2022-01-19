@@ -60,12 +60,11 @@
       text-align: center;
     }
 
-    .card-header{
-      border-bottom: 1px solid var(--grey);
+    .card-header, .card-body{
+      border-bottom: 1px solid var(--greyShadow);;
     }
 
     .card-body{
-      border-bottom: 1px solid var(--greyShadow);
 
       .item{
         @include flex(row, flex-start, flex-start);
