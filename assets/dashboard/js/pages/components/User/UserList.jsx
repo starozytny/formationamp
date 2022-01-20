@@ -67,10 +67,11 @@ export class UserList extends Component {
                             <div className="item-header-selector" />
                             <div className="item-content">
                                 <div className="item-body item-body-image">
-                                    <div className="infos infos-col-3">
-                                        <div className="col-1">Nom/Prénom</div>
-                                        <div className="col-2">Identifiant</div>
-                                        <div className="col-3 actions">Actions</div>
+                                    <div className="infos infos-col-4">
+                                        <div className="col-1">Adhérent</div>
+                                        <div className="col-2">Contact</div>
+                                        <div className="col-3">Comptabilité</div>
+                                        <div className="col-4 actions">Actions</div>
                                     </div>
                                 </div>
                             </div>

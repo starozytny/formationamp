@@ -23,7 +23,7 @@ export class UserRead extends Component {
 
                     <div className="user-read-infos">
                         <div className="actions">
-                            {elem.highRoleCode !== 1 && <ButtonIcon icon="refresh" tooltipWidth={160} onClick={() => onRegenPassword(elem)}>Réinitialiser son mot de passe</ButtonIcon>}
+                            <ButtonIcon icon="refresh" tooltipWidth={160} onClick={() => onRegenPassword(elem)}>Réinitialiser son mot de passe</ButtonIcon>
                             <ButtonIcon icon="pencil" onClick={() => onChangeContext('update', elem)} >Modifier</ButtonIcon>
                         </div>
                         <div className="user-read-infos-container">
