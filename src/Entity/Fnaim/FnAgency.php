@@ -321,6 +321,10 @@ class FnAgency extends DataEntity
         return $this->getFullAddressString($this->address, $this->zipcode, $this->city);
     }
 
+    /**
+     * @return string
+     * @Groups({"admin:read"})
+     */
     public function getTypeString(): string
     {
         $values = ["Principal", "Succursale"];

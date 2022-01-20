@@ -49,7 +49,7 @@ export function UserFormulaire ({ type, onChangeContext, onUpdateList, element, 
         garantie={element ? Formulaire.setValueEmptyIfNull(element.agency.garantie) : ""}
         numCompta={element ? Formulaire.setValueEmptyIfNull(element.agency.numCompta) : ""}
         nbFreeAca={element ? Formulaire.setValueEmptyIfNull(element.agency.nbFreeAca) : ""}
-        type={element ? Formulaire.setValueEmptyIfNull(element.agency.type, []) : []}
+        type={element ? Formulaire.setValueEmptyIfNull([element.agency.type], []) : []}
         address={element ? Formulaire.setValueEmptyIfNull(element.agency.address) : ""}
         zipcode={element ? Formulaire.setValueEmptyIfNull(element.agency.zipcode) : ""}
         city={element ? Formulaire.setValueEmptyIfNull(element.agency.city) : ""}
