@@ -223,7 +223,7 @@ export class Form extends Component {
             { value: 'ROLE_USER',  label: 'Utilisateur',    identifiant: 'utilisateur' },
         ]
 
-        let switcherItems = [ { value: 0, label: 'Non', identifiant: 'non' } ]
+        let switcherItems = [ { value: 1, label: 'Oui', identifiant: 'oui' } ]
 
         return <>
             {!isRegistration && <p className="form-infos">
