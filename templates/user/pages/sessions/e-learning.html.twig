@@ -8,12 +8,35 @@
             <div class="line-1">
                 <div class="col-1">
                     <div class="content">
-                        <a target="_blank" href="{{ asset('elearning/mode_emploi-fc.pdf') }}">Consulter le mode d'emploi</a>
-                        <a target="_blank" href="https://e.sumatraformationconseil.com/course/">Télécharger la convention et la procédure</a>
+                        <div>
+                            <img src="{{ asset('build/app/images/logook.jpg') }}" alt="illustration formation e learning">
+                        </div>
+                        <div class="title"><span>Formations validantes en E-learning</span></div>
+                        <p>
+                            L'achat se fait directement sur le site en payant par CB. la création du compte
+                            est automatique, vous pourrez télécharger votre facture dans votre cours espace
+                            client et immédiatement commencer votre formation.
+                            <br><br>
+                            Pour obtenir le tarif spécialement négocié pour vous par la FNAIM AMP, merci de
+                            saisir le code promotion suivant : <b>FNAIMAMP</b> au cours de votre processus d'achat.
+                            <br><br>
+                            Vous avez accès à la formation pendant un an. Après avoir suivi toutes les étapes de
+                            votre cours vous pourrez télécharger directement votre attestation de formation.
+                            Si vous souhaitez une prise en charge du coût de votre formation par votre OPCO
+                            (AGEFICE ou autre) veuillez vous référez à la procédure suivante :
+                            <br><br>
+                            <div><a target="_blank" href="{{ asset('elearning/mode_emploi-fc.pdf') }}">Consulter le mode d'emploi</a></div>
+                            <div><a target="_blank" href="https://e.sumatraformationconseil.com/course/">Télécharger la convention et la procédure</a></div>
+                        </p>
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="card-session-register">
+                        <div class="card-header">
+                            <div>
+                                <a href="" class="btn btn-primary">S'inscrire</a>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="item">
                                 <span class="icon-calendar"></span>
@@ -29,44 +52,300 @@
                                 <span class="icon-cart"></span>
                                 <span>CODE PROMO (-50%) : <b>FNAIMAMP</b></span>
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <div>
+                            <div class="item">
                                 <a target="_blank" href="{{ asset('elearning/mode_emploi-fc.pdf') }}">Comment bénéficier de l'offre ?</a>
-                            </div>
-                            <div>
-                                <a href="" class="btn btn-primary">S'inscrire</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="line-2">
-                <div class="content">
-                    <h2>Formations validantes en E-learning</h2>
-                    <p>
-                        L'achat se fait directement sur le site en payant par CB. la création du compte
-                        est automatique, vous pourrez télécharger votre facture dans votre cours espace
-                        client et immédiatement commencer votre formation.
+            {% set listeSumatra = [
+                {
+                    'title': 'Démembrement de propriété', 'author': 'Patricia ROUVIER', 'price': '80.00', 'pricePromo': '40.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI- IAS/DDA',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/35/Programme%20DEMEM-2h00-SFC.pdf',
+                    'content': "
+                        Cette formation de 2 Heures vous permettra de mieux comprendre les différentes techniques de démembrement
+                    "
+                },
+                {
+                    'title': 'Crédit Immobilier', 'author': 'Patricia ROUVIER', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/187/CREDITIMMO.pdf',
+                    'content': "
+                        Cette formation de 7 H vous permettra d’approfondir vos connaissances dans le domaine du financement immobilier, depuis les projets du client jusqu’à
+                        la constitution du dossier de financement. Elle vous permet de satisfaire à vos obligations de formation continue DCI-IOBSP 7 heures. Elle vous permet
+                        également de valider 7 heures au titre de vos obligations de formation immobilière Carte T.
+                    "
+                },
+                {
+                    'title': 'Successions et libéralités', 'author': 'Patricia ROUVIER', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI- IAS/DDA',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/153/104%20-%20Successions%20et%20lib%C3%A9ralit%C3%A9s-devis.pdf',
+                    'content': "
+                        Cette formation de 7 H vous permettra d’en apprendre plus sur l’organisation et la transmission du patrimoine privé. <br>
+                        Elle vous permet de satisfaire à vos obligations de formation continue DCI-IOBSP 7 heures. <br>
+                        Elle vous permet également de valider 7 heures au titre de vos obligations de formation immobilière Carte T. <br>
+                        Et 7 heures au titre de la DDA.
+                    "
+                },
+                {
+                    'title': 'Régimes matrimoniaux', 'author': null, 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI- IAS/DDA',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/36/73%20-%20R%C3%A9gimes%20matrimoniaux%20devis.pdf',
+                    'content': "
+                        Cette formation vous permettra d’acquérir les connaissances relatives aux différents régimes matrimoniaux, ainsi qu’au concubinage, PACS et à la filiation.  <br><br>
+                        Elle vous permet de satisfaire à vos obligations de formation continue DCI-IOBSP 7 heures. Elle vous permet également de valider 7 heures au titre de vos obligations de formation immobilière Carte T.
+                    "
+                },
+                {
+                    'title': 'IRPP Impôt sur le Revenu des Personnes Physiques', 'author': 'F.Guilguet et P.Rouvier', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO- IAS/DDA',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/186/V1_FiscaIMMO%207%20HEURES.pdf',
+                    'content': "
+                        Cette formation  a pour objectif de vous permettre de maîtriser les principes de l’IRPP en vue de conseiller les clients dans les projets Immobilier ou Assurance en prenant en compte la dimension fiscale
                         <br><br>
-                        Pour obtenir le tarif spécialement négocié pour vous par la FNAIM AMP, merci de
-                        saisir le code promotion suivant : <b>FNAIMAMP</b> au cours de votre processus d'achat.
+                        Elle vous permet également de valider 8 heures au titre de vos obligations de formation immobilière Carte T. et  8 heures au titre de la DDA
+                    "
+                },
+                {
+                    'title': 'Garanties Crédit Immobilier', 'author': null, 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/179/Programme%20GAR%207%20heures.pdf',
+                    'content': "
+                        Cette formation vous permettra d’acquérir les connaissances relatives aux différentes garanties applicables aux crédits immobiliers
                         <br><br>
-                        Vous avez accès à la formation pendant un an. Après avoir suivi toutes les étapes de
-                        votre cours vous pourrez télécharger directement votre attestation de formation.
-                        Si vous souhaitez une prise en charge du coût de votre formation par votre OPCO
-                        (AGEFICE ou autre) veuillez vous référez à la procédure suivante :
-                        <br> <br>
-                        <a target="_blank" href="{{ asset('elearning/mode_emploi-fc.pdf') }}">
-                            Consulter le mode d'emploi pour bénéficier de cette offre
-                        </a>
+                        Elle vous permet de valider 7 heures au titre de vos obligations de formation immobilière Carte T.
+                    "
+                },
+                {
+                    'title': 'Les Baux commerciaux', 'author': null, 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/ IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/181/baux%20commerciaux.pdf',
+                    'content': "
+                        Cette formation vous permettra de mieux cerner et maîtriser les baux commerciaux. Cette formation est éligible obligation de formation Carte T Loi Alur
+                    "
+                },
+                {
+                    'title': 'Garanties Crédit Immobilier', 'author': null, 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/191/Programme%20GAR%207%20heures.pdf',
+                    'content': "
+                        Cette formation vous permettra d’acquérir les connaissances relatives aux différentes garanties applicables aux crédits immobiliers
+                        <br><br>
+                        Elle vous permet de satisfaire à vos obligations de formation continue DCI-IOBSP 4 heures. Elle vous permet également de valider 4 heures au titre de vos obligations de formation immobilière Carte T.
+                    "
+                },
+                {
+                    'title': 'DCI: La Directive Crédit Immobilier et le TAEG', 'author': null, 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/188/DCI.pdf',
+                    'content': "
+                        Cette formation de 7 H vous permettra d’approfondir vos connaissances dans le domaine du financement immobilier, en mettant l'accent sur la jurisprudence et les méthodes de vérification du TAEG. Les principaux apports de la Directive tels que la FISE sont également présentés de manière détaillée.
+                        <br><br>
+                        Elle vous permet de satisfaire à vos obligations de formation continue DCI-IOBSP 7 heures. Elle vous permet également de valider 7 heures au titre de vos obligations de formation immobilière Carte T. . Votre accès est valable 6 mois.
+                        <br><br>
+                        En collaboration avec Gilles DUTEIL, expert auprès des tribunaux, professeur d'université.
+                    "
+                },
+                {
+                    'title': 'Investissement immobilier Locatif : Malraux', 'author': null, 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/83/138-Malraux-MH.pdf',
+                    'content': "
+                        Cette formation vous permettra de mieux cerner et maîtriser les régimes fiscaux Malraux, et Monuments historiques. Vous pourrez valider 7 heures de formation au titre de vos obligations de formation continue Loi ALUR-
+                    "
+                },
+                {
+                    'title': 'Déontologie,RCP en Immobilier et RGPD', 'author': 'Patricia ROUVIER et Emilie MAZZEI', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/80/Programme%20DEONRCP%207h00.pdf',
+                    'content': "
+                        Cette formation  vous permet de maitriser les principes du Code de Déontologie en Immobilier et de valider 7 Heures de formation obligatoire au titre de la loi Alur.
                         <br>
-                        <a target="_blank" href="https://e.sumatraformationconseil.com/course">
-                            Télécharger la convention et la procédure
-                        </a>
-                    </p>
+                        Il est obligatoire de réaliser au moins 2 heures de formation sur le sujet de la Déontologie tous les 3 ans.
+                        <br>
+                        Elle présente également les principes de la responsabilité civile professionnelle contractuelle et délictuelle, ainsi que le lien avec le devoir de conseil.
+                        <br>
+                        Enfin vous prendrez connaissance des principes du RGPD et pourrez ainsi mettre en place les mesures qui s'imposent dans votre activité
+                        <br>
+                        Concerne les négociateurs , les salariés, et les détenteurs de carte T
+                    "
+                },
+                {
+                    'title': 'Lutte contre le blanchiment - Déontologie', 'author': 'P.Rouvier', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/79/112%20-%20Lab%20immo%20FT-d%C3%A9ologie%207h%20ok.pdf',
+                    'content': "
+                        Cette formation de 7 Heures est une formation centrée sur la lutte contre le blanchiment et le financement du terrorisme ainsi que sur la déontologie, dans le domaine de l'immobilier. La formation permet de comprendre le concept de cartographie des risques dans le domaine de l'immobilier et de cerner vos obligations en la matière. Eligible Obligation de formation Carte T Loi Alur
+                    "
+                },
+                {
+                    'title': 'Fiscalité Immobilière', 'author': 'Frédéric GUILGUET', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/108/183-Programme%20FiscaImmo-7h00-devis.pdf',
+                    'content': "
+                        Cette formation vous permettra de mieux les changements intervenus dans la fiscalité immobilière: Revenus fonciers, IFI, SCi, Démembrement, Investissement immobilier et Levier fiscal du crédit n'auront plus de secrets pour vous. Vous pourrez valider 7 heures de formation au titre de vos obligations de formation continue Loi ALUR- Formation à jour LDF 2020
+                        <br> <br>
+                        Formation sonorisée
+                    "
+                },
+                {
+                    'title': 'Sociétés civiles immobilières', 'author': 'En collaboration avec Frédéric Guilguet, avocat fiscaliste.', 'price': '400.00', 'pricePromo': '200.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/87/161-SCI14.pdf',
+                    'content': "
+                        Cette formation  de 14 H vous permettra d’acquérir les connaissances utiles à la gestion d’une SCI, depuis la rédaction des statuts jusqu’à sa transmission. Vous découvrirez les principales applications patrimoniales, ainsi que deux cas pratiques vous permettant de transposer vos connaissances au service de vos clients.
+                        <br><br>
+                        Elle vous permet de satisfaire à vos obligations de formation continue DCI-IOBSP 7 heures. Elle vous permet également de valider 14 heures au titre de vos obligations de formation immobilière Carte T.
+                    "
+                },
+                {
+                    'title': 'SCPI-OPCI', 'author': 'P.Rouvier', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/46/Formation%20SCPI%20OPCI.pdf',
+                    'content': "
+                        Cette formation de 7 H vous permettra de mieux comprendre et appliquer les règles relatives aux SCPI et OPCI, depuis leur constitution jusqu’à leur dissolution, et de cerner leurs nombreuses applications patrimoniales. Eligible Obligation de formation Carte T Loi Alur
+                        <br><br>
+                        Formation sonorisée
+                    "
+                },
+                {
+                    'title': 'Actifs fonciers et immobilier', 'author': 'P.Dufour et P.Rouvier', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/53/58%20-%20Actifs%20fonciers%20et%20immobiliers.pdf',
+                    'content': "
+                    Cette formation vous permettra de mieux cerner et maîtriser les différentes composantes de l’investissement immobilier pour le particulier. Vous pourrez valider 7 heures de formation au titre de vos obligations de formation continue Loi ALUR
+                    "
+                },
+                {
+                    'title': 'Loi Hoguet - Déontologie', 'author': null, 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/81/Programme%20formation%20loi%20Hoguet%20-%207h00.pdf',
+                    'content': "
+                        Cette formation vous permettra de mieux cerner et maîtriser la Loi Hoguet, qui régit les activités de transaction immobilière. Vous pourrez valider 7 heures de formation au titre de vos obligations de formation continue Loi ALUR, dont deux heures sur la Déontologie.
+                        <br><br>
+                        Vous avez tout le temps nécessaire pour réaliser votre formation quelle que soit la date d'échéance de votre carte T
+                    "
+                },
+                {
+                    'title': 'Cession entreprise et Bail', 'author': 'Maître David Sitri', 'price': '150.00', 'pricePromo': '75.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/106/Programme%20Cess-Bail-4h00-SFC.pdf',
+                    'content': "
+                        En suivant cette formation, l’apprenant a pour objectif de connaitre  l’impact juridique et fiscal des différentes catégories de bail lors de la cession du fonds de commerce ou de la société commerciale.
+                        <br><br>
+                        Compétences visées:
+                        <br><br>
+                        Maîtriser les différentes formes de bail , élément d'actif incorporel stratégique de l'entreprise.
+                        <br>
+                        Comprendre l'importance des différentes clauses de la convention de garantie d'actif et de passif.
+                        <br>
+                        Eligible Obligation de formation Carte T Loi Alur.
+                    "
+                },
+                {
+                    'title': 'Cession Transmission d\'entreprise et Immobilier', 'author': null, 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/47/65-%20CessionTrans-Immo-7h.pdf',
+                    'content': "
+                        Cette formation de 7 H vous permettra d’en apprendre plus sur les différents modes de transmissions ainsi que les différents impacts que cela implique, particulièrement d’un point de vue juridique et fiscal
+                    "
+                },
+                {
+                    'title': 'Négociation Immobilière', 'author': null, 'price': '400.00', 'pricePromo': '200.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/125/negociateur%20immo.pdf',
+                    'content': "
+                        Cette formation centrée sur la négociation de la  transaction  immobiliere recouvre des aspects commerciaux, juridiques, fiscaux et techniques relatifs à l’immobilier. Elle s'adresse  à tous ceux qui exercent l'activité de Transaction immobilière, mandataire ou détenteur de la carte T, désireux de valider leur obligation de formation continue.
+                    "
+                },
+                {
+                    'title': 'Le Bail commercial et les phases de mutation de l\'entreprise', 'author': 'David Sitri, avocat fiscaliste.', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/90/170-2018-BailMut.pdf',
+                    'content': "
+                    En suivant cette formation, l’apprenant a pour objectif de connaitre  l’impact juridique et fiscal des différentes phases que peut connaitre l’entreprise sur la détention de son patrimoine immobilier. Eligible Obligation de formation Carte T Loi AluR
+                    "
+                },
+                {
+                    'title': 'Sociétés civiles immobilières', 'author': 'P.Rouvier', 'price': '250.00', 'pricePromo': '125.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/37/FORMATION%20SCI%20.pdf',
+                    'content': "
+                    Cette formation  de 7 H vous permettra d’acquérir les connaissances utiles à la gestion d’une SCI, depuis la rédaction des statuts jusqu’à sa transmission. Eligible Obligation de formation Carte T Loi Alur
+                    "
+                },
+                {
+                    'title': 'Démarchage Bancaire Financier Immobilier', 'author': 'P.Rouvier', 'price': '50.00', 'pricePromo': '25.00',
+                    'subtitle': 'Carte T/IMMO- IOBSP/DCI',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/91/Programme%20DEM-2h00.pdf',
+                    'content': "
+                        Cette formation vous permettra de mieux cerner et maîtriser les règles relatives au démarchage . Elle est adaptée pour les personnes souhaitant démarcher pour le compte d'un CIF.
+                        <br><br>
+                        Elle vous permet de satisfaire à vos obligations de formation continue DCI-IOBSP pour 2 heures. Elle vous permet également de valider 2 heures au titre de vos obligations de formation immobilière Carte T.
+                    "
+                },
+                {
+                    'title': 'Plues values immobilières des particuliers', 'author': null, 'price': '70.00', 'pricePromo': '35.00',
+                    'subtitle': 'Carte T/IMMO',
+                    'link': 'https://e.sumatraformationconseil.com/pluginfile.php/1/local_shop/catalogitemleaflet/189/PVImmo.pdf',
+                    'content': "
+                    Cette formation  a pour objectif de vous permettre de maîtriser les principes de l’imposition des plus values immobilières en vue de conseiller les clients dans les projets Immobilier , en prenant en compte la dimension fiscale
+                    <br><br>
+                    Elle vous permet également de valider 2 heures au titre de vos obligations de formation immobilière Carte T.
+                    "
+                }
+            ] %}
+            {% for item in listeSumatra %}
+                <div class="line-1">
+                    <div class="col-1">
+                        <div class="content">
+                            <div>
+                                <div class="title"><span>{{ item.title }}</span></div>
+                                <div class="subtitle">{{ item.subtitle }}</div> <br>
+                                <p>{{ item.content | raw }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="card-session-register">
+                            <div class="card-header">
+                                <div>
+                                    <a  target="_blank" class="btn btn-primary"
+                                        href="https://e.sumatraformationconseil.com/local/shop/front/view.php?view=shop&category=8&shopid=1&blockid=1357">
+                                        S'inscrire
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body card-body-price">
+                                <div class="item">
+                                    <span style="text-decoration: line-through;">{{ item.price }} € TTC</span>
+                                </div>
+                                <div class="item">
+                                    <span>CODE PROMO : <b>FNAIMAMP</b></span>
+                                </div>
+                                <div class="item item-price">
+                                    <span>{{ item.pricePromo }} € TTC</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {% if item.author != null %}
+                                    <div class="item">
+                                        <span class="icon-user"></span>
+                                        <span>{{ item.author }}</span>
+                                    </div>
+                                {% endif %}
+                                <div class="item">
+                                    <div>
+                                        <a href="{{ item.link }}" target="_blank">Télécharger la brochure</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

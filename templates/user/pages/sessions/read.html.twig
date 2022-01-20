@@ -43,6 +43,14 @@
                                 <a href="" class="btn btn-primary">S'inscrire</a>
                             </div>
                         </div>
+                        <div class="card-body card-body-price">
+                            <div class="item">
+                                <span>{{ elem.priceHT }} € HT</span>
+                            </div>
+                            <div class="item item-price">
+                                <span>{{ elem.priceTTC }} € TTC</span>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="item">
                                 <span>Accessibilité handicapé : {{ elem.formation.accessibilityString }}</span>
@@ -83,14 +91,6 @@
                             <div class="item">
                                 <span class="icon-group"></span>
                                 <span>{{ elem.max }} participants max.</span>
-                            </div>
-                        </div>
-                        <div class="card-body card-body-price">
-                            <div class="item">
-                                <span>{{ elem.priceHT }} € HT</span>
-                            </div>
-                            <div class="item item-price">
-                                <span>{{ elem.priceTTC }} € TTC</span>
                             </div>
                         </div>
                     </div>

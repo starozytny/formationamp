@@ -6,10 +6,15 @@
     background-color: var(--alpha);
     box-shadow: 0 4px 12px var(--greyShadow);
     border-radius: 4px;
+
+    img{
+      width: 82px;
+    }
   }
 
   .col-1, .col-2{
     margin-bottom: 24px;
+    width: 100%;
   }
 
   .line-1{
@@ -48,6 +53,10 @@
     }
   }
 
+  .col-2{
+    max-width: 414px;
+  }
+
   .card-session-register{
     padding: 0;
     max-width: 414px;
@@ -58,6 +67,10 @@
 
     .card-body-price, .card-header{
       text-align: center;
+    }
+
+    .card-body-price{
+      @include flex(column, center, center);
     }
 
     .card-header, .card-body{
@@ -86,7 +99,8 @@
 
     .item-price{
       @include fontSemibold();
-      font-size: 18px;
+      font-size: 20px;
+      color: var(--color1);
     }
   }
 }
@@ -105,6 +119,10 @@
       .col-1{
         width: calc(100% - 414px - 48px);
         margin-right: 48px;
+      }
+
+      .col-2, .card-session-register{
+        min-width: 414px;
       }
     }
   }
