@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Fnaim\FnAgency;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\ApiResponse;
@@ -78,7 +79,8 @@ class UserController extends AbstractController
             return $apiResponse->apiJsonResponseBadRequest('Il manque des données.');
         }
 
-        $obj = $dataEntity->setData($obj, $data);
+        $agency = $dataEntity->setDataAgency($type === "create" ? new FnAgency() : $obj->getAgency(), $data);
+        $obj = $dataEntity->setData($obj, $data, $agency);
 
         $file = $request->files->get('avatar');
         $groups = User::ADMIN_READ;
@@ -107,6 +109,7 @@ class UserController extends AbstractController
             return $apiResponse->apiJsonResponseValidationFailed($noErrors);
         }
 
+        $em->persist($agency);
         $em->persist($obj);
         $em->flush();
 
@@ -210,7 +213,7 @@ class UserController extends AbstractController
                            FileUploader $fileUploader, DataUser $dataEntity,
                            MailerService $mailerService, SettingsService $settingsService): JsonResponse
     {
-        if ($this->getUser() !== $obj) {
+        if ($this->getUser() !== $obj && !$this->isGranted("ROLE_ADMIN")) {
             return $apiResponse->apiJsonResponseForbidden();
         }
 

@@ -40,7 +40,11 @@ export class UserItem extends Component {
                             {elem.email !== "undefined@undefined.fr" ? <div className="sub">{elem.email}</div> : <div className="sub txt-danger"><span className="icon-warning" /> {elem.email}</div>}
                         </div>
                         <div className="col-3">
-                            <div>{elem.agency.numCompta}</div>
+                            <div>
+                                {elem.agency.numCompta ? elem.agency.numCompta : <div className="badge badge-danger">
+                                    <span className="icon-exclamation" /> Manquant !
+                                </div>}
+                            </div>
                         </div>
                         <div className="col-4 actions">
                             {elem.highRoleCode !== 1 &&
