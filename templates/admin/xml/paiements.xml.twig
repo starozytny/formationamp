@@ -64,7 +64,7 @@
                 <InstdAmt Ccy="EUR">{{ order.price }}</InstdAmt>
                 <DrctDbtTx>
                     <MndtRltdInf>
-                        <MndtId>{{ order.rum }}</MndtId>
+                        <MndtId>{{ order.user.numCompta ? order.user.numCompta : order.rum }}</MndtId>
                         <DtOfSgntr>{{ order.createdAt | date('Y-m-d') }}</DtOfSgntr>
                     </MndtRltdInf>
                 </DrctDbtTx>
