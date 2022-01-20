@@ -11,13 +11,7 @@
     display: inline-block;
 
     &:before{
-      content: "";
-      background-color: var(--color0);
-      width: 80%; height: 60%;
-      display: block;
-      position: absolute;
-      bottom: 0; left: 0;
-      z-index: 0;
+      @include titleStyle();
     }
   }
 
