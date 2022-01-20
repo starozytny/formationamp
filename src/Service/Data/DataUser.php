@@ -37,12 +37,16 @@ class DataUser
 
     public function setDataAgency(FnAgency $obj, $data): FnAgency
     {
+        $name = $this->sanitizeData->trimData($data->name);
+        $numCompta = $this->sanitizeData->trimData($data->numCompta);
+        $numCompta = $numCompta ?: "411" . ($name ? mb_strtoupper(substr($name, 0, 5)) : "");
+
         return ($obj)
-            ->setName($this->sanitizeData->trimData($data->name))
+            ->setName($name)
             ->setPhone($this->sanitizeData->trimData($data->phone))
             ->setSiren($this->sanitizeData->trimData($data->siren))
             ->setGarantie($this->sanitizeData->trimData($data->garantie))
-            ->setNumCompta($this->sanitizeData->trimData($data->numCompta))
+            ->setNumCompta($numCompta)
             ->setNbFreeAca($this->sanitizeData->setToInteger($data->nbFreeAca, 0))
             ->setType($this->sanitizeData->setToInteger($data->type, FnAgency::TYPE_PRINCIPAL))
             ->setAddress($this->sanitizeData->trimData($data->address))
