@@ -68,7 +68,7 @@ export class TeamList extends Component {
         </>
 
         return <div className="profil-section">
-            <div className="title">Mon équipe</div>
+            <div className="title"><span>Mon équipe</span></div>
             <div className="toolbar">
                 <div className="item create">
                     <Button element="a" onClick={Routing.generate('user_team_create')}>Ajouter un membre</Button>

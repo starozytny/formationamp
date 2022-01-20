@@ -13,7 +13,7 @@ export class BanksList extends Component {
 
         return <div className="profil-section">
             <div className="profil-section-title">
-                <div className="title">Mes comptes bancaires</div>
+                <div className="title"><span>Mes comptes bancaires</span></div>
                 <div className="toolbar">
                     <div className="item create">
                         <Button element="a" onClick={Routing.generate('user_bank_create')}>Ajouter un RIB</Button>

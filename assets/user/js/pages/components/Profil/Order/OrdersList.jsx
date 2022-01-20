@@ -9,7 +9,7 @@ export class OrdersList extends Component {
         const { data } = this.props;
 
         return <div className="profil-section">
-            <div className="title">Mes paiements</div>
+            <div className="title"><span>Mes paiements</span></div>
             <div>
                 <div className="items-table">
                     <div className="items items-default">

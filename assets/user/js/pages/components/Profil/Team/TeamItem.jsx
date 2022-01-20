@@ -18,7 +18,7 @@ export class TeamItem extends Component {
                             </div>
                         </div>
                         <div className="col-2">
-                            <div className="sub"><div className="role">{elem.typeString}</div></div>
+                            <div className="sub"><div className={"badge badge-" + elem.type}>{elem.typeString}</div></div>
                         </div>
                         <div className="col-3 actions">
                             <ButtonIcon icon={elem.isArchived ? "like" : "briefcase"} onClick={() => onSwitchArchived(elem)}>{elem.isArchived ? "Réaffecter" : "Archiver"}</ButtonIcon>

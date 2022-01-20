@@ -19,10 +19,21 @@
   margin-bottom: 24px;
 
   .title{
+    position: relative;
+    display: inline-block;
     @include fontSemibold();
     text-transform: uppercase;
     margin-bottom: 24px;
     font-size: 18px;
+
+    span{
+      position: relative;
+      z-index: 5;
+    }
+
+    &:after{
+      @include titleStyle();
+    }
   }
 
   .items-table{
