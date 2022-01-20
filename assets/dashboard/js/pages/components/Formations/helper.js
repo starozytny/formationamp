@@ -20,7 +20,7 @@ function getCategoriesString(categories){
         categories.forEach(cat => {
             cats.forEach(c => {
                 if(c.value === cat){
-                    strings.push(c.label);
+                    strings.push(c);
                 }
             })
         })

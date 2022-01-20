@@ -1,0 +1,31 @@
+$setColor1Shadow: rgba(250,220,0,0.4);
+$setColor2Shadow: rgba(245,130,32,0.4);
+$setColor3Shadow: rgba(245,107,109,0.4);
+$setColor4Shadow: rgba(236,195,11,0.4);
+$setColor5Shadow: rgba(186,163,52,0.4);
+$setColor6Shadow: rgba(186,89,47,0.4);
+$setColor7Shadow: rgba(255,234,0,0.4);
+$setColor8Shadow: rgba(161,147,150,0.4);
+
+.badge-formation.badge{
+  border: 1px solid var(--grey);
+  border-radius: 40px;
+  color:var(--txt);
+
+  $items:
+      "0" $setColor1Shadow,
+      "1" $setColor2Shadow,
+      "2" $setColor3Shadow,
+      "3" $setColor4Shadow,
+      "4" $setColor5Shadow,
+      "5" $setColor6Shadow,
+      "6" $setColor7Shadow,
+      "7" $setColor8Shadow,
+  ;
+
+  @each $event, $color in $items {
+    &.badge-#{$event}{
+      background-color: $color;
+    }
+  }
+}

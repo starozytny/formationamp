@@ -35,7 +35,7 @@ export class SessionsItem extends Component {
                         <div className="col-3">
                             <div className="badges">
                                 {categories.map((cat, index) => {
-                                    return <div className="badge" key={index}>{cat}</div>
+                                    return <div className={"badge-formation badge badge-" + cat.value} key={index}>{cat.label}</div>
                                 })}
                             </div>
                         </div>
