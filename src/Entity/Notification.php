@@ -36,6 +36,7 @@ class Notification extends DataEntity
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"admin:read"})
      * @Assert\NotBlank()
      */
     private $createdAt;

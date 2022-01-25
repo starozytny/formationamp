@@ -4,6 +4,7 @@ import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
 import Formulaire from "@dashboardComponents/functions/Formulaire";
 import Sort       from "@commonComponents/functions/sort";
+import axios from "axios";
 
 export class Notifications extends Component{
     constructor(props) {
@@ -21,9 +22,10 @@ export class Notifications extends Component{
         this.handleDelete = this.handleDelete.bind(this);
         this.handleUpdateList = this.handleUpdateList.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
+        this.handleIsSeenAll = this.handleIsSeenAll.bind(this);
     }
 
-    componentDidMount = () => { Formulaire.axiosGetData(this, Routing.generate('api_notifications_index'), Sort.compareCreatedAt) }
+    componentDidMount = () => { Formulaire.axiosGetData(this, Routing.generate('api_notifications_index'), Sort.compareCreatedAtInverse) }
 
     componentWillUnmount() {
         const self = this;
@@ -38,7 +40,7 @@ export class Notifications extends Component{
 
     handleUpdateList = (element, newContext = null) => {
         const { data } = this.state
-        Formulaire.updateData(this, Sort.compareCreatedAt, newContext, "update", data, element);
+        Formulaire.updateData(this, Sort.compareCreatedAtInverse, newContext, "update", data, element);
     }
 
     handleOpen = () => {
@@ -56,12 +58,31 @@ export class Notifications extends Component{
         Formulaire.deleteElement(this, element, Routing.generate('api_notifications_delete', {'id': element.id}), false, false);
     }
 
+    handleIsSeenAll = () => {
+        const self = this;
+        Formulaire.loader(true)
+        axios.post(Routing.generate('api_notifications_isSeen_all'), {})
+            .then(function (response) {
+                let data = response.data;
+                data.sort(Sort.compareCreatedAtInverse);
+                self.setState({ data: data, open: false })
+            })
+            .catch(function (error) {
+                Formulaire.displayErrors(this, error)
+            })
+            .then(function () {
+                Formulaire.loader(false)
+            })
+        ;
+    }
+
     render() {
         const { open, data } = this.state;
 
         let items = [];
         let taille = 0;
         if(data){
+            data.sort(Sort.compareCreatedAtInverse)
             data.forEach(el => {
                 if(!el.isSeen){
                     taille++;
@@ -99,6 +120,9 @@ export class Notifications extends Component{
                 </div>
                 <div className="notif-all">
                     <a href={Routing.generate('admin_notifications_index')}>Voir toutes les notifications</a>
+                </div>
+                <div className="notif-all">
+                    <a onClick={this.handleIsSeenAll}>Marquer comme lu</a>
                 </div>
             </div>
         </div>

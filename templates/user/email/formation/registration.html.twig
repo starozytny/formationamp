@@ -1,0 +1,14 @@
+{% extends 'app/email/template/template.html.twig' %}
+
+{% block preheader %}Inscription {{ title }} chez {{ settings.websiteName }}{% endblock %}
+
+{% block title %}Inscription {{ title }}{% endblock %}
+
+{% block body %}
+    <div>
+        <div>Inscription réalisé par </div>
+        <p style="width: 540px;">
+            Message : <br>
+        </p>
+    </div>
+{% endblock %}

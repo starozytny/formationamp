@@ -3,6 +3,7 @@
 namespace App\Entity\Formation;
 
 use App\Entity\DataEntity;
+use App\Entity\Paiement\PaOrder;
 use App\Repository\Formation\FoSessionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,7 +24,7 @@ class FoSession extends DataEntity
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"admin:read"})
+     * @Groups({"admin:read", "count:read"})
      */
     private $id;
 
@@ -191,9 +192,15 @@ class FoSession extends DataEntity
      */
     private $registrations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PaOrder::class, mappedBy="session")
+     */
+    private $paOrders;
+
     public function __construct()
     {
         $this->registrations = new ArrayCollection();
+        $this->paOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,11 +212,26 @@ class FoSession extends DataEntity
      * @return string
      * @Groups({"admin:read"})
      */
+    public function getFullDateHuman(): string
+    {
+        $start = $this->getFullDateString($this->start);
+        $end = "";
+        if($this->start && $this->end && $this->start != $this->end){
+            return "du " . $start . " au " . $this->getFullDateString($this->end);
+        }
+
+        return $start . $end;
+    }
+
+    /**
+     * @return string
+     * @Groups({"admin:read"})
+     */
     public function getFullDate(): string
     {
         $start = $this->getFullDateString($this->start);
         $end = "";
-        if($this->start != $this->end){
+        if($this->end && $this->start != $this->end){
             $end = " - " . $this->getFullDateString($this->end);
         }
 
@@ -589,8 +611,42 @@ class FoSession extends DataEntity
         return $this->time ?: $this->time2;
     }
 
+    /**
+     * @return string
+     * @Groups({"admin:read"})
+     */
     public function getFullAddress(): string
     {
         return $this->getFullAddressString($this->address, $this->zipcode, $this->city);
+    }
+
+    /**
+     * @return Collection|PaOrder[]
+     */
+    public function getPaOrders(): Collection
+    {
+        return $this->paOrders;
+    }
+
+    public function addPaOrder(PaOrder $paOrder): self
+    {
+        if (!$this->paOrders->contains($paOrder)) {
+            $this->paOrders[] = $paOrder;
+            $paOrder->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removePaOrder(PaOrder $paOrder): self
+    {
+        if ($this->paOrders->removeElement($paOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($paOrder->getSession() === $this) {
+                $paOrder->setSession(null);
+            }
+        }
+
+        return $this;
     }
 }

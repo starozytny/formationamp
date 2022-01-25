@@ -11,7 +11,7 @@ function validateDate($value) {
 }
 
 function validateText($value) {
-    if($value === ""){
+    if($value === "" || $value === null){
         return {
             'code': false,
             'message': 'Ce champ doit être renseigné.'

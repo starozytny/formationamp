@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/api/settings", name="api_settings_")
+ * @Security("is_granted('ROLE_ADMIN')")
  */
 class SettingsController extends AbstractController
 {
@@ -31,8 +32,6 @@ class SettingsController extends AbstractController
     
     /**
      * Get settings data
-     *
-     * @Security("is_granted('ROLE_ADMIN')")
      *
      * @Route("/", name="index", options={"expose"=true}, methods={"GET"})
      *
@@ -57,8 +56,6 @@ class SettingsController extends AbstractController
 
     /**
      * Update settings data
-     *
-     * @Security("is_granted('ROLE_ADMIN')")
      *
      * @Route("/update", name="update", options={"expose"=true}, methods={"POST"})
      *
@@ -104,8 +101,6 @@ class SettingsController extends AbstractController
 
     /**
      * Test upload
-     *
-     * @Security("is_granted('ROLE_ADMIN')")
      *
      * @Route("/upload", name="test_upload", options={"expose"=true}, methods={"POST"})
      *

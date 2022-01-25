@@ -6,8 +6,9 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 import React from "react";
 import { render } from "react-dom";
 import { Sessions }     from "@userPages/components/Session/Sessions";
-import { Registration } from "@userPages/components/Session/Registration/Registration";
 import { MySessions }   from "@userPages/components/Session/My/MySessions";
+import { Registration } from "@userPages/components/Registration/Registration";
+import { RegistrationUpdate } from "@userPages/components/Registration/RegistrationUpdate";
 
 Routing.setRoutingData(routes);
 
@@ -20,6 +21,12 @@ el = document.getElementById("session-registration");
 if(el){
     render(<Registration {...el.dataset} />, el)
 }
+
+el = document.getElementById("session-registration-update");
+if(el){
+    render(<RegistrationUpdate {...el.dataset} />, el)
+}
+
 
 el = document.getElementById("my-formations");
 if(el){

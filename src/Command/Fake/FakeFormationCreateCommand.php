@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\Fake;
 
 use App\Entity\Formation\FoFormation;
 use App\Entity\Formation\FoSession;
@@ -15,7 +15,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class FakeFormationCreateCommand extends Command
 {
     protected static $defaultName = 'fake:formation:create';
-    protected $em;
+    protected static $defaultDescription = 'Create fake formations.';
+    private $em;
     private $databaseService;
 
     public function __construct(EntityManagerInterface $entityManager, DatabaseService $databaseService)
@@ -24,13 +25,6 @@ class FakeFormationCreateCommand extends Command
 
         $this->em = $entityManager;
         $this->databaseService = $databaseService;
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setDescription('Create fake formations.')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -97,6 +91,6 @@ class FakeFormationCreateCommand extends Command
 
         $io->newLine();
         $io->comment('--- [FIN DE LA COMMANDE] ---');
-        return 0;
+        return Command::SUCCESS;
     }
 }

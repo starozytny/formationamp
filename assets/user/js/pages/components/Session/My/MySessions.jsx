@@ -15,7 +15,8 @@ export class MySessions extends Component {
             perPage: 10,
             currentPage: 0,
             sorter: SORTER,
-            sessionName: "user.my.sessions.pagination"
+            sessionName: "user.my.sessions.pagination",
+            registrations: props.registrations ? JSON.parse(props.registrations) : []
         }
 
         this.layout = React.createRef();
@@ -28,7 +29,7 @@ export class MySessions extends Component {
     handleGetData = (self) => { self.handleSetDataPagination(this.props.donnees); }
 
     handleContentList = (currentData) => {
-        return <MySessionsList data={currentData} />
+        return <MySessionsList data={currentData} registrations={this.state.registrations} />
     }
 
     render () {

@@ -55,7 +55,7 @@
     }
 
     .actions{
-      a{
+      a, .btn-icon{
         color: var(--grey2);
 
         &:hover{
@@ -126,6 +126,14 @@
 
       .status{
         opacity: 0.9;
+      }
+    }
+  }
+
+  .pagination{
+    & > li{
+      & > a:hover{
+        color: var(--txt);
       }
     }
   }

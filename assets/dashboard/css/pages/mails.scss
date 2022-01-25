@@ -1,0 +1,18 @@
+@import "../vars/vars";
+
+.previsualisation{
+  margin-top: 48px;
+
+  h2{
+    background-color: var(--fondContent);
+    padding: 12px;
+    text-align: center;
+  }
+
+  #preview{
+    background-color: var(--alpha);
+    border: 1px solid var(--grey);
+    padding: 12px;
+    border-radius: 4px;
+  }
+}

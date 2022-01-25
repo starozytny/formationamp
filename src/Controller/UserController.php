@@ -6,6 +6,7 @@ use App\Entity\Formation\FoRegistration;
 use App\Entity\Formation\FoSession;
 use App\Entity\Formation\FoWorker;
 use App\Entity\Paiement\PaBank;
+use App\Entity\Paiement\PaOrder;
 use App\Entity\Blog\BoArticle;
 use App\Entity\User;
 use App\Repository\Formation\FoSessionRepository;
@@ -137,12 +138,15 @@ class UserController extends AbstractController
     public function sessions(SerializerInterface $serializer): Response
     {
         $em = $this->doctrine->getManager();
-        $objs = $em->getRepository(FoSession::class)->findBy(['isPublished' => true], ['start' => 'ASC']);
+        $objs          = $em->getRepository(FoSession::class)->findBy(['isPublished' => true], ['start' => 'ASC']);
+        $registrations = $em->getRepository(FoRegistration::class)->findBy(['status' => FoRegistration::STATUS_ACTIVE]);
 
-        $objs = $serializer->serialize($objs, 'json', ['groups' => User::ADMIN_READ]);
+        $objs          = $serializer->serialize($objs, 'json', ['groups' => User::ADMIN_READ]);
+        $registrations = $serializer->serialize($registrations, 'json', ['groups' => FoRegistration::COUNT_READ]);
 
         return $this->render('user/pages/sessions/index.html.twig', [
-            'donnees' => $objs
+            'donnees' => $objs,
+            'registrations' => $registrations,
         ]);
     }
 
@@ -176,15 +180,75 @@ class UserController extends AbstractController
     {
         $em = $this->doctrine->getManager();
 
-        $workers = $em->getRepository(FoWorker::class)->findBy(['user' => $this->getUser(), 'isArchived' => false]);
+        /** @var User $user */
+        $user = $this->getUser();
+        $workersRegistered = [];
 
-        $session = $serializer->serialize($obj, 'json', ['groups' => User::ADMIN_READ]);
-        $workers = $serializer->serialize($workers, 'json', ['groups' => User::USER_READ]);
+        $orders = $em->getRepository(PaOrder::class)->findBy(['user' => $user, 'session' => $obj]);
+        if(count($orders) > 0){
+            $ordersId = [];
+            foreach($orders as $order){
+                if($order->getStatus() == PaOrder::STATUS_ATTENTE){
+                    return $this->render('user/pages/sessions/registration/index.html.twig', ['elem' => $obj, 'error' => true]);
+                }elseif($order->getStatus() == PaOrder::STATUS_VALIDER || $order->getStatus() == PaOrder::STATUS_TRAITER){
+                    $ordersId[] = $order->getId();
+                }
+            }
+
+            $registrations = $em->getRepository(FoRegistration::class)->findBy(['paOrder' => $ordersId]);
+            foreach($registrations as $registration){
+                $workersRegistered[] = $registration->getWorker();
+            }
+        }
+
+        $workers = $em->getRepository(FoWorker::class)->findBy(['user' => $user, 'isArchived' => false]);
+        $banks   = $em->getRepository(PaBank::class)->findBy(['user' => $user]);
+
+        $session            = $serializer->serialize($obj, 'json', ['groups' => User::ADMIN_READ]);
+        $banks              = $serializer->serialize($banks, 'json', ['groups' => User::USER_READ]);
+        $workers            = $serializer->serialize($workers, 'json', ['groups' => User::USER_READ]);
+        $workersRegistered  = $serializer->serialize($workersRegistered, 'json', ['groups' => User::USER_READ]);
 
         return $this->render('user/pages/sessions/registration/index.html.twig', [
             'elem' => $obj,
             'session' => $session,
-            'workers' => $workers
+            'banks' => $banks,
+            'workers' => $workers,
+            'workersRegistered' => $workersRegistered
+        ]);
+    }
+
+    /**
+     * @Route("/formation/sessions/{slug}/modification", options={"expose"=true}, name="registration_update")
+     */
+    public function registrationUpdate(FoSession $obj, SerializerInterface $serializer): Response
+    {
+        $em = $this->doctrine->getManager();
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $data = [];
+        $registrations = $em->getRepository(FoRegistration::class)->findBy(['user' => $user, 'session' => $obj, "status" => FoRegistration::STATUS_ACTIVE]);
+        if(count($registrations) > 0){
+            foreach($registrations as $registration){
+                if($registration->getPaOrder()->getStatus() == PaOrder::STATUS_ATTENTE){
+                    return $this->render('user/pages/sessions/registration/update.html.twig', ['elem' => $obj, 'error' => true]);
+                }elseif($registration->getPaOrder()->getStatus() == PaOrder::STATUS_VALIDER){
+                    $data[] = $registration;
+                }
+            }
+        }
+
+        $workers = $em->getRepository(FoWorker::class)->findBy(['user' => $user, 'isArchived' => false]);
+
+        $workers       = $serializer->serialize($workers, 'json', ['groups' => User::USER_READ]);
+        $registrations = $serializer->serialize($data, 'json', ['groups' => User::USER_READ]);
+
+        return $this->render('user/pages/sessions/registration/update.html.twig', [
+            'elem' => $obj,
+            'workers' => $workers,
+            'registrations' => $registrations
         ]);
     }
 
@@ -194,7 +258,7 @@ class UserController extends AbstractController
     public function myFormations(SerializerInterface $serializer): Response
     {
         $em = $this->doctrine->getManager();
-        $objs = $em->getRepository(FoRegistration::class)->findBy(['user' => $this->getUser()]);
+        $objs = $em->getRepository(FoRegistration::class)->findBy(['user' => $this->getUser(), 'status' => FoRegistration::STATUS_ACTIVE]);
 
         $sessions = []; $noDuplication = [];
         foreach($objs as $obj){
@@ -206,9 +270,11 @@ class UserController extends AbstractController
         }
 
         $sessions = $serializer->serialize($sessions, 'json', ['groups' => User::ADMIN_READ]);
+        $objs = $serializer->serialize($objs, 'json', ['groups' => FoRegistration::COUNT_READ]);
 
         return $this->render('user/pages/sessions/own.html.twig',  [
             'donnees' => $sessions,
+            'registrations' => $objs
         ]);
     }
 

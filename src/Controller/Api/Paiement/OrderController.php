@@ -6,12 +6,13 @@ use App\Entity\Paiement\PaLot;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\User;
 use App\Service\ApiResponse;
-use App\Service\Data\DataPaiement;
 use App\Service\Data\DataService;
+use App\Service\Data\Paiement\DataPaiement;
 use App\Service\FileCreator;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
 use Mpdf\MpdfException;
+use OpenApi\Annotations as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
@@ -20,7 +21,6 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use OpenApi\Annotations as OA;
 
 /**
  * @Route("/api/orders", name="api_orders_")

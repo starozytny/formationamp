@@ -5,15 +5,15 @@ namespace App\Controller\Api\Formation;
 use App\Entity\Formation\FoWorker;
 use App\Entity\User;
 use App\Service\ApiResponse;
-use App\Service\Data\DataTeam;
+use App\Service\Data\Paiement\DataTeam;
 use App\Service\ValidatorService;
 use DateTime;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use OpenApi\Annotations as OA;
 
 /**
  * @Route("/api/team", name="api_team_")

@@ -1,0 +1,15 @@
+{% extends 'admin/pages/mails/template.html.twig' %}
+
+{% set page_title %}Envoyer un mail{% endset %}
+
+{% block main_content %}
+    <div class="main-content">
+        <div id="mails" data-users="{{ users }}" data-dest="{{ dest | json_encode }}">
+            {% include "dashboard/layout/components/spinner.html.twig" %}
+        </div>
+        <div class="previsualisation">
+            <h2>Prévisualisation du mail</h2>
+            <div id="preview"></div>
+        </div>
+    </div>
+{% endblock %}

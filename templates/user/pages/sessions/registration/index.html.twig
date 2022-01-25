@@ -3,7 +3,22 @@
 {% set page_title %}Inscription à {{ elem.formation.name }} {{ elem.start | date('d/m/Y') }} {% endset %}
 
 {% block main_content %}
-    <div id="session-registration" data-session="{{ session }}" data-workers="{{ workers }}">
-        {% include "dashboard/layout/components/spinner.html.twig" %}
-    </div>
+    {% if error is defined %}
+        <div class="main-content">
+            <div class="alert alert-danger">
+                <span class="icon-information"></span>
+                <p>Veuillez finaliser votre inscription en cours.</p>
+            </div>
+            <div class="line-buttons">
+                <a href="{{ path('user_sessions') }}" class="btn btn-primary">Retourner à la liste des formations</a>
+            </div>
+        </div>
+    {% else %}
+        <div id="session-registration" data-session="{{ session }}"
+             data-workers="{{ workers }}" data-banks="{{ banks }}" data-email="{{ app.user.email }}"
+             data-workers-registered="{{ workersRegistered }}">
+            {% include "dashboard/layout/components/spinner.html.twig" %}
+        </div>
+    {% endif %}
+
 {% endblock %}

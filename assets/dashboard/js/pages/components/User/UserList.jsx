@@ -91,6 +91,9 @@ export class UserList extends Component {
                         <div className="item">
                             <ButtonIconDropdown icon="download" text="Exporter" items={dropdownItems} />
                         </div>
+                        <div className="item">
+                            <ButtonIcon icon="email" text="Mails" element="a" onClick={Routing.generate('admin_mails_send')} />
+                        </div>
                     </div>
                 </div>}
             </div>

@@ -40,4 +40,25 @@ class MailerService
             return 'Le message n\'a pas pu être délivré. Veuillez contacter le support.';
         }
     }
+
+    public function sendMailCCGroup($to, $subject, $text, $html, $params, $from=null)
+    {
+        $from = ($from == null) ? $this->settingsService->getEmailExpediteurGlobal() : $from;
+
+        $email = (new TemplatedEmail())
+            ->from($from)
+            ->bcc(...$to)
+            ->subject($subject)
+            ->text($text)
+            ->htmlTemplate($html)
+            ->context($params)
+        ;
+
+        try {
+            $this->mailer->send($email);
+            return true;
+        } catch (TransportExceptionInterface $e) {
+            return 'Le message n\'a pas pu être délivré. Veuillez contacter le support.';
+        }
+    }
 }

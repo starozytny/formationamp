@@ -1,14 +1,12 @@
 <?php
 
 
-namespace App\Service\Data;
+namespace App\Service\Data\Formation;
 
 
 use App\Entity\Formation\FoFormation;
-use App\Entity\Formation\FoRegistration;
 use App\Entity\Formation\FoSession;
-use App\Entity\User;
-use App\Service\SanitizeData;
+use App\Service\Data\DataConstructor;
 
 class DataFormation extends DataConstructor
 {

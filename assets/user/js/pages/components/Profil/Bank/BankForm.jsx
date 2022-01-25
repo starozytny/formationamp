@@ -19,14 +19,14 @@ const TXT_UPDATE_BUTTON_FORM = "Enregistrer les modifications";
 
 let arrayBicSave = [];
 
-export function BankFormulaire ({ type, element })
+export function BankFormulaire ({ type, element, onUpdateList, isRegistration=false })
 {
     let title = "Ajouter un RIB";
     let url = Routing.generate(URL_CREATE_ELEMENT);
     let msg = "Félicitation ! Vous avez ajouté un nouveau RIB !"
 
     if(type === "update" || type === "profil"){
-        title = "Modifier " + element.id;
+        title = "Modifier " + element.iban;
         url = Routing.generate(URL_UPDATE_GROUP, {'id': element.id});
         msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
     }
@@ -37,15 +37,16 @@ export function BankFormulaire ({ type, element })
         titulaire={element ? element.titulaire : ""}
         iban={element ? element.iban : ""}
         bic={element ? element.bic : ""}
+        onUpdateList={onUpdateList}
         messageSuccess={msg}
     />
 
     return <>
-        <div className="toolbar">
+        {!isRegistration && <div className="toolbar">
             <div className="item">
                 <Button element="a" outline={true} icon="left-arrow" type="primary" onClick={Routing.generate('user_profil')}>Retour à mon profil</Button>
             </div>
-        </div>
+        </div>}
 
         <div className="form">
             <h2>{title}</h2>
@@ -123,6 +124,9 @@ class Form extends Component {
             axios({ method: method, url: url, data: this.state })
                 .then(function (response) {
                     let data = response.data;
+                    if(self.props.onUpdateList){
+                        self.props.onUpdateList(data, context, "bank");
+                    }
                     self.setState({ success: messageSuccess, errors: [] });
                     if(context === "create"){
                         self.setState( {

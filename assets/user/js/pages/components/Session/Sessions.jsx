@@ -16,6 +16,7 @@ export class Sessions extends Component {
             currentPage: 0,
             sorter: SORTER,
             sessionName: "user.sessions.pagination",
+            registrations: props.registrations ? JSON.parse(props.registrations) : [],
             isFromApp: props.isFromApp ? props.isFromApp : false
         }
 
@@ -29,7 +30,7 @@ export class Sessions extends Component {
     handleGetData = (self) => { self.handleSetDataPagination(this.props.donnees); }
 
     handleContentList = (currentData) => {
-        return <SessionsList data={currentData} isFromApp={this.state.isFromApp} />
+        return <SessionsList data={currentData} registrations={this.state.registrations} isFromApp={this.state.isFromApp} />
     }
 
     render () {

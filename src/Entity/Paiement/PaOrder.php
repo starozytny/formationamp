@@ -4,6 +4,7 @@ namespace App\Entity\Paiement;
 
 use App\Entity\DataEntity;
 use App\Entity\Formation\FoRegistration;
+use App\Entity\Formation\FoSession;
 use App\Entity\User;
 use App\Repository\Paiement\PaOrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -145,6 +146,12 @@ class PaOrder extends DataEntity
      * @ORM\OneToMany(targetEntity=FoRegistration::class, mappedBy="paOrder")
      */
     private $registrations;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=FoSession::class, inversedBy="paOrders")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $session;
 
     /**
      * @throws Exception
@@ -457,6 +464,18 @@ class PaOrder extends DataEntity
                 $registration->setPaOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSession(): ?FoSession
+    {
+        return $this->session;
+    }
+
+    public function setSession(?FoSession $session): self
+    {
+        $this->session = $session;
 
         return $this;
     }

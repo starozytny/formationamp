@@ -5,18 +5,18 @@ namespace App\Controller\Api\Formation;
 use App\Entity\Formation\FoFormation;
 use App\Entity\User;
 use App\Service\ApiResponse;
-use App\Service\Data\DataFormation;
 use App\Service\Data\DataService;
+use App\Service\Data\Formation\DataFormation;
 use App\Service\FileUploader;
 use App\Service\ValidatorService;
 use DateTime;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use OpenApi\Annotations as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use OpenApi\Annotations as OA;
 
 /**
  * @Route("/api/formations", name="api_formations_")

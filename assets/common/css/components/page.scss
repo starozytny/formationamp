@@ -41,7 +41,18 @@
   .page-actions{
     @include flex(row, flex-start, space-between);
 
+    & > *{
+      width: 50%;
+    }
+
     .common-actions{
+      @include flex(row, flex-start, flex-end);
+      flex-wrap: wrap;
+
+      & > *:not(:first-child){
+        margin-left: 8px;
+      }
+
       .dropdown{
         .dropdown-btn{
           justify-content: center;

@@ -9,9 +9,18 @@ import helper   from "@dashboardPages/components/Formations/helper";
 
 export class SessionsItem extends Component {
     render () {
-        const { isFromApp, elem } = this.props;
+        const { isFromApp, registrations, elem } = this.props;
 
-        let participants = elem.registrations.length + " / " + elem.max + " pers.";
+        let participants = 0;
+        if(registrations){
+            registrations.forEach(el => {
+                if(el.session.id === elem.id && el.status === 1){
+                    participants ++;
+                }
+            })
+        }
+
+        participants = participants + " / " + elem.max + " pers.";
 
         let categories = helper.getCategoriesString(elem.formation.categories);
 

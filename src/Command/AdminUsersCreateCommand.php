@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class AdminUsersCreateCommand extends Command
 {
     protected static $defaultName = 'admin:users:create';
-    protected $em;
+    private $em;
     private $databaseService;
 
     public function __construct(EntityManagerInterface $entityManager, DatabaseService $databaseService)

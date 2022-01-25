@@ -1,14 +1,12 @@
 <?php
 
 
-namespace App\Service\Data;
+namespace App\Service\Data\Paiement;
 
 
-use App\Entity\Formation\FoFormation;
-use App\Entity\Formation\FoSession;
 use App\Entity\Formation\FoWorker;
 use App\Entity\User;
-use App\Service\SanitizeData;
+use App\Service\Data\DataConstructor;
 
 class DataTeam extends DataConstructor
 {

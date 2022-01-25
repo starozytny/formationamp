@@ -14,37 +14,41 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class FoRegistration extends DataEntity
 {
+    const COUNT_READ = ["count:read"];
+    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"admin:read"})
+     * @Groups({"user:read", "admin:read", "count:read"})
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="foRegistrations")
+     * @ORM\ManyToOne(targetEntity=User::class, fetch="EAGER", inversedBy="foRegistrations")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"admin:read"})
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=FoWorker::class, inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity=FoWorker::class, fetch="EAGER", inversedBy="registrations")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"admin:read"})
+     * @Groups({"user:read", "admin:read"})
      */
     private $worker;
 
     /**
-     * @ORM\ManyToOne(targetEntity=FoFormation::class, inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity=FoFormation::class, fetch="EAGER", inversedBy="registrations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $formation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=FoSession::class, inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity=FoSession::class, fetch="EAGER", inversedBy="registrations")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"count:read"})
      */
     private $session;
 
@@ -69,6 +73,12 @@ class FoRegistration extends DataEntity
      * @ORM\JoinColumn(nullable=false)
      */
     private $paOrder;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Groups({"admin:read", "count:read"})
+     */
+    private $status = self::STATUS_ACTIVE;
 
     public function __construct()
     {
@@ -173,6 +183,18 @@ class FoRegistration extends DataEntity
     public function setPaOrder(?PaOrder $paOrder): self
     {
         $this->paOrder = $paOrder;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -89,7 +89,7 @@ class PaBank extends DataEntity
 
     /**
      * @return string
-     * @Groups({"admin:read"})
+     * @Groups({"admin:read", "user:read"})
      */
     public function getIbanHidden(): string
     {

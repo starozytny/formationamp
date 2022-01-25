@@ -1,0 +1,23 @@
+{% extends 'user/pages/sessions/template.html.twig' %}
+
+{% set page_title %}Modifier l'inscription à {{ elem.formation.name }} {{ elem.start | date('d/m/Y') }} {% endset %}
+
+{% block main_content %}
+    {% if error is defined %}
+        <div class="main-content">
+            <div class="alert alert-danger">
+                <span class="icon-information"></span>
+                <p>Les modifications sont fermées.</p>
+            </div>
+            <div class="line-buttons">
+                <a href="{{ path('user_my_formations') }}" class="btn btn-primary">Retourner à mes formations</a>
+            </div>
+        </div>
+    {% else %}
+        <div id="session-registration-update" data-session-id="{{ elem.id }}"
+             data-workers="{{ workers }}" data-registrations="{{ registrations }}">
+            {% include "dashboard/layout/components/spinner.html.twig" %}
+        </div>
+    {% endif %}
+
+{% endblock %}

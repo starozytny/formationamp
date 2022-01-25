@@ -8,7 +8,7 @@ import { Aside }      from "@dashboardComponents/Tools/Aside";
 import { Button, ButtonIcon }     from "@dashboardComponents/Tools/Button";
 import { Filter, FilterSelected } from "@dashboardComponents/Layout/Filter";
 
-import { TeamItem }   from "./TeamItem";
+import {TeamItem, TeamItemRegistration} from "./TeamItem";
 
 export class TeamList extends Component {
     constructor(props) {
@@ -30,7 +30,7 @@ export class TeamList extends Component {
     }
 
     render () {
-        const { dataArchived, data, onSearch, filters, onGetFilters } = this.props;
+        const { isRegistration=false, workers=[], workersRegistered=[], dataArchived, data, onSearch, filters, onGetFilters } = this.props;
 
         let filtersLabel = ["Salarié", "Non salarié", "Agent commercial", "Responsable"];
         let filtersId    = ["f-salarie", "f-no-salarie", "f-agent-co", "f-resp"];
@@ -61,7 +61,7 @@ export class TeamList extends Component {
                         </div>
                     </div>
                     {dataArchived && dataArchived.length !== 0 ? dataArchived.map(elem => {
-                        return <TeamItem {...this.props} elem={elem} key={elem.id}/>
+                        return <TeamItem {...this.props} workers={workers} workersRegistered={workersRegistered} elem={elem} key={elem.id}/>
                     }) : <Alert>Aucun résultat</Alert>}
                 </div>
             </div>
@@ -69,7 +69,7 @@ export class TeamList extends Component {
 
         return <div className="profil-section">
             <div className="title"><span>Mon équipe</span></div>
-            <div className="toolbar">
+            {!isRegistration && <div className="toolbar">
                 <div className="item create">
                     <Button element="a" onClick={Routing.generate('user_team_create')}>Ajouter un membre</Button>
                 </div>
@@ -78,33 +78,38 @@ export class TeamList extends Component {
                     <Search onSearch={onSearch} placeholder="Recherche par nom ou prénom.."/>
                     <FilterSelected filters={filters} itemsFiltersLabel={filtersLabel} itemsFiltersId={filtersId} onChange={this.handleFilter}/>
                 </div>
-            </div>
+            </div>}
             <div>
                 <div className="items-table">
                     <div className="items items-default">
                         <div className="item item-header">
+                            {isRegistration && <div className="item-header-selector" />}
                             <div className="item-content">
                                 <div className="item-body">
-                                    <div className="infos infos-col-3">
+                                    {!isRegistration ? <div className="infos infos-col-3">
                                         <div className="col-1">Equipe</div>
                                         <div className="col-2">Type</div>
                                         <div className="col-3 actions">Actions</div>
-                                    </div>
+                                    </div> : <div className="infos infos-col-2">
+                                        <div className="col-1">Equipe</div>
+                                        <div className="col-2 actions" />
+                                    </div>}
                                 </div>
                             </div>
                         </div>
                         {data && data.length !== 0 ? data.map(elem => {
-                            return <TeamItem {...this.props} elem={elem} key={elem.id}/>
+                            return !isRegistration ? <TeamItem {...this.props} elem={elem} key={elem.id}/>
+                                : <TeamItemRegistration {...this.props} elem={elem} key={elem.id}/>
                         }) : <Alert>Aucun résultat</Alert>}
                     </div>
                 </div>
-                <div className="page-actions">
+                {!isRegistration && <div className="page-actions">
                     <div className="selectors-actions">
                         <div className="item" onClick={this.handleOpen}>
                             <ButtonIcon icon="briefcase" text="Voir les archivés" />
                         </div>
                     </div>
-                </div>
+                </div>}
             </div>
 
             <Aside ref={this.aside} content={contentAside}>Liste des archivés</Aside>

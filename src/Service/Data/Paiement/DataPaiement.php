@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Service\Data;
+namespace App\Service\Data\Paiement;
 
+use App\Entity\Formation\FoSession;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\User;
 
@@ -23,7 +24,7 @@ class DataPaiement
      * @param $ip
      * @return PaOrder
      */
-    public function setDataOrder(PaOrder $obj, $data, User $user, $rum, $code, $ip): PaOrder
+    public function setDataOrder(PaOrder $obj, $data, User $user, FoSession $session, $rum, $code, $ip): PaOrder
     {
         return ($obj)
             ->setRum($rum)
@@ -40,6 +41,7 @@ class DataPaiement
             ->setZipcode((int) $data->zipcode)
             ->setCity(trim($data->city))
             ->setUser($user)
+            ->setSession($session)
         ;
     }
 
