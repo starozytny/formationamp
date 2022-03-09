@@ -88,14 +88,11 @@ export class TeamList extends Component {
                             {isRegistration && <div className="item-header-selector" />}
                             <div className="item-content">
                                 <div className="item-body">
-                                    {!isRegistration ? <div className="infos infos-col-3">
+                                    <div className="infos infos-col-3">
                                         <div className="col-1">Equipe</div>
                                         <div className="col-2">Type</div>
-                                        <div className="col-3 actions">Actions</div>
-                                    </div> : <div className="infos infos-col-2">
-                                        <div className="col-1">Equipe</div>
-                                        <div className="col-2 actions" />
-                                    </div>}
+                                        <div className="col-3 actions">{!isRegistration ? "Actions": ""}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

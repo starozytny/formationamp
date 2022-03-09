@@ -6,7 +6,7 @@ import { Alert }       from "@dashboardComponents/Tools/Alert";
 
 const CURRENT_STEP = 2;
 
-export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAside, allBanks, bank }) {
+export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAside, allBanks, bank, workers }) {
     let error = null;
     errors.length !== 0 && errors.forEach(err => {
         if(err.name === "bank"){
@@ -14,12 +14,44 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
         }
     })
 
+    let workersRegulars = [], workersSpecials = [];
+    workers.forEach(worker => {
+        if(worker.type !== 2) {
+            workersRegulars.push(worker)
+        }else{
+            workersSpecials.push(worker)
+        }
+    })
+    console.log(workers)
+
     return <div className={"step-section step-workers" + (step === CURRENT_STEP ? " active" : "")}>
 
-        <BanksList isRegistration={true} data={allBanks} bank={bank}
-                   onSelectBank={onSelectBank} onOpenAside={onOpenAside} onDelete={onDelete}/>
+        {workersRegulars.length !== 0 && <section className="registration-bank">
+            <div>
+                <div className="title"><span>Compte bancaire pour : </span></div>
+                <div className="workers-selectionned">
+                    {workersRegulars.map(worker => {
+                        return <span key={worker.id}>{worker.lastname} {worker.firstname}</span>
+                    })}
+                </div>
+            </div>
 
-        {error}
+            <BanksList isRegistration={true} data={allBanks} bank={bank}
+                       onSelectBank={onSelectBank} onOpenAside={onOpenAside} onDelete={onDelete}/>
+        </section>}
+
+        {workersSpecials.map(worker => {
+            return <section className="registration-bank" key={worker.id}>
+                <div>
+                    <div className="title"><span>Compte bancaire pour : </span></div>
+                    <div className="workers-selectionned">
+                        <span>{worker.lastname} {worker.firstname}</span>
+                    </div>
+                </div>
+
+                Bank
+            </section>
+        })}
 
         <FormActions onNext={onNext} currentStep={CURRENT_STEP} />
     </div>

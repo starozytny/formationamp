@@ -177,28 +177,31 @@ export class Registration extends Component {
         let contentBank = contextBank === "create" ? <BankFormulaire type="create" isRegistration={true} onUpdateList={this.handleUpdateList}/>
             : <BankFormulaire type="update" element={bank} isRegistration={true} onUpdateList={this.handleUpdateList} key={bank.id}/>
 
-        return <div className="main-content">
-            <div className="steps">
-                {stepsItems}
+        return <>
+            <div className="main-content">
+                <div className="session-registration">
+                    <div className="steps">
+                        {stepsItems}
+                    </div>
+
+                    <h2>{stepTitle}</h2>
+
+                    <form onSubmit={this.handleSubmit}>
+
+                        <Step1 {...this.state} onNext={this.handleNext} onSelectWorker={this.handleSelectWorker} />
+
+                        <Step2 {...this.state} onNext={this.handleNext} onSelectBank={this.handleSelectBank}
+                               onOpenAside={this.handleOpenAsideBank} onDelete={this.handleDeleteBank}/>
+
+                        {step === 3 && <Step3 {...this.state} onNext={this.handleNext} onSubmit={this.handleSubmit}/>}
+
+                        <Step4 {...this.state} onNext={this.handleNext} onSubmit={this.handleSubmit}/>
+
+                    </form>
+                </div>
             </div>
-
-            <h2>{stepTitle}</h2>
-
-            <form onSubmit={this.handleSubmit}>
-
-                <Step1 {...this.state} onNext={this.handleNext} onSelectWorker={this.handleSelectWorker} />
-
-                <Step2 {...this.state} onNext={this.handleNext} onSelectBank={this.handleSelectBank}
-                       onOpenAside={this.handleOpenAsideBank} onDelete={this.handleDeleteBank}/>
-
-                {step === 3 && <Step3 {...this.state} onNext={this.handleNext} onSubmit={this.handleSubmit}/>}
-
-                <Step4 {...this.state} onNext={this.handleNext} onSubmit={this.handleSubmit}/>
-
-            </form>
-
             <Aside ref={this.asideBank} content={contentBank} />
-        </div>
+        </>
     }
 }
 

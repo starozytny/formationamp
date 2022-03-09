@@ -55,21 +55,24 @@ export class TeamItemRegistration extends Component {
             }
         })
 
-        return <div className={"item item-disabled-" + disabled}>
-            <div className="selector" onClick={disabled ? null : () => onSelectWorker(elem)}>
+        return <div className={"item item-disabled-" + disabled} onClick={disabled ? null : () => onSelectWorker(elem)}>
+            <div className="selector">
                 <label className={"item-selector " + active} />
             </div>
 
             <div className="item-content">
                 <div className="item-body">
-                    <div className="infos infos-col-2">
-                        <div className="col-1" onClick={disabled ? null : () => onSelectWorker(elem)}>
-                            <div className={"badge badge-" + elem.type}>{elem.typeString}</div>
+                    <div className="infos infos-col-3">
+                        <div className="col-1" >
                             <div className="name">
                                 <span>{elem.lastname} {elem.firstname}</span>
                             </div>
                         </div>
-                        <div className="col-2 actions" onClick={disabled ? null : () => onSelectWorker(elem)}>
+                        <div className="col-2">
+                            <div className={"badge badge-" + elem.type}>{elem.typeString}</div>
+                        </div>
+                        <div className="col-3 actions">
+                            <div className="sub">{active ? "Sélectionné(e)" : ""}</div>
                         </div>
                     </div>
                 </div>

@@ -1,133 +1,180 @@
 @import "../../../vars/vars";
 
-.steps{
-  @include flex(column, center, flex-start);
-  padding-bottom: 12px;
-  margin-bottom: 12px;
-
-  .item{
-    @include flex(row, flex-start, flex-start);
-    border-radius: 30px;
-    padding: 4px 12px;
-    @include fontSemibold();
-    color: var(--grey2);
-
-    &.active{
-      background-color: var(--primary);
-      color: var(--alpha);
-    }
-
-    span:first-child{
-      margin-right: 4px;
-    }
-
-    &:not(:last-child){
-      margin-bottom: 4px;
-    }
-  }
-}
-
-h2{
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-.step-workers{
-  .item{
-    cursor: initial;
-  }
-
-  .col-1, .col-2{
-    cursor: pointer;
-  }
-
-  .item-disabled-true{
-    opacity: 0.4;
-    cursor: not-allowed;
-
-    .selector, .col-1, .col-2{
-      cursor: not-allowed;
-    }
-  }
-}
-
-.item-deleted-true{
-  opacity: 0.4;
-  text-decoration: line-through;
-}
-
-.step-section{
-  display: none;
-
-  &.active{
-    display: block;
-  }
-}
-
-.line-buttons{
-  @include flex(row, center, space-between);
-  margin-top: 24px;
-}
-
-.review-infos, .review-participants, .review-total {
-  margin-top: 24px;
-}
-
-.review-infos, .review-total {
-  @include flex(column, center, center);
+.session-registration{
   padding: 12px;
-  background-color: var(--alpha);
-  border-radius: 4px;
-}
+  background-color: var(--fondContent);
+  border: 1px solid var(--greyShadow);
+  border-radius: 8px;
 
-.review-infos{
-  .title{
-    font-size: 18px;
-    @include fontSemibold();
+  .steps{
+    @include flex(column, center, flex-start);
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+
+    .item{
+      @include flex(row, flex-start, flex-start);
+      border-radius: 30px;
+      padding: 4px 12px;
+      @include fontSemibold();
+      color: var(--grey2);
+
+      &.active{
+        background-color: var(--primary);
+        color: var(--alpha);
+      }
+
+      span:first-child{
+        margin-right: 4px;
+      }
+
+      &:not(:last-child){
+        margin-bottom: 4px;
+      }
+    }
   }
-  .content{
+
+  h2{
+    margin-bottom: 24px;
     text-align: center;
   }
 
-  .address{
-    margin-top: 8px;
-  }
+  .step-workers{
+    .item{
+      cursor: initial;
+    }
 
-  .prices{
-    margin-top: 12px;
+    .col-1, .col-2{
+      cursor: pointer;
+    }
 
-    span{
-      @include fontSemibold();
-      color: var(--primary);
-      font-size: 18px;
+    .item-disabled-true{
+      opacity: 0.4;
+      cursor: not-allowed;
+
+      .selector, .col-1, .col-2{
+        cursor: not-allowed;
+      }
     }
   }
-}
 
-.review-participants{
-  .items-default{
-    .infos{
-      .actions{
-        flex-direction: column;
-        align-items: flex-end;
+  .item-deleted-true{
+    opacity: 0.4;
+    text-decoration: line-through;
+  }
 
-        .total{
-          margin-top: 8px;
-          font-size: 17px;
+  .step-section{
+    display: none;
+
+    &.active{
+      display: block;
+    }
+  }
+
+  .line-buttons{
+    @include flex(row, center, space-between);
+    margin-top: 24px;
+  }
+
+  .registration-bank{
+
+    &:not(:last-child){
+      margin-bottom: 24px;
+    }
+
+    .title{
+      position: relative;
+      @include fontSemibold();
+      font-size: 22px;
+
+      span{
+        position: relative;
+        z-index: 1;
+      }
+
+      &:after{
+        @include titleStyle();
+      }
+    }
+
+    .workers-selectionned{
+      margin: 12px 0;
+
+      & > span{
+        display: inline-block;
+        background-color: var(--primary);
+        padding: 4px 12px;
+        border-radius: 8px;
+        color: var(--alpha);
+        @include fontSemibold();
+
+        &:not(:last-child){
+          margin-right: 12px;
         }
       }
     }
   }
-}
 
-.review-total{
-  .alert{
-    align-items: center;
-    justify-content: center;
+
+  .review-infos, .review-participants, .review-total {
+    margin-top: 24px;
   }
 
-  .total{
-    font-size: 18px;
+  .review-infos, .review-total {
+    @include flex(column, center, center);
+    padding: 12px;
+    background-color: var(--alpha);
+    border-radius: 4px;
+  }
+
+  .review-infos{
+    .title{
+      font-size: 18px;
+      @include fontSemibold();
+    }
+    .content{
+      text-align: center;
+    }
+
+    .address{
+      margin-top: 8px;
+    }
+
+    .prices{
+      margin-top: 12px;
+
+      span{
+        @include fontSemibold();
+        color: var(--primary);
+        font-size: 18px;
+      }
+    }
+  }
+
+  .review-participants{
+    .items-default{
+      .infos{
+        .actions{
+          flex-direction: column;
+          align-items: flex-end;
+
+          .total{
+            margin-top: 8px;
+            font-size: 17px;
+          }
+        }
+      }
+    }
+  }
+
+  .review-total{
+    .alert{
+      align-items: center;
+      justify-content: center;
+    }
+
+    .total{
+      font-size: 18px;
+    }
   }
 }
 
@@ -138,14 +185,18 @@ h2{
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
-  .steps{
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+  .session-registration{
+    padding: 24px;
 
-    .item{
-      &:not(:last-child){
-        margin-bottom: 0;
+    .steps{
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      .item{
+        &:not(:last-child){
+          margin-bottom: 0;
+        }
       }
     }
   }
