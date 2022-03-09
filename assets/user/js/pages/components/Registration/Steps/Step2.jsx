@@ -3,10 +3,11 @@ import React from "react";
 import { FormActions } from "@userPages/components/Registration/Registration";
 import { BanksList }   from "@userPages/components/Profil/Bank/BanksList";
 import { Alert }       from "@dashboardComponents/Tools/Alert";
+import {BankFormulaire} from "@userPages/components/Profil/Bank/BankForm";
 
 const CURRENT_STEP = 2;
 
-export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAside, allBanks, bank, workers }) {
+export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAside, allBanks, bank, workers, bankSpecials }) {
     let error = null;
     errors.length !== 0 && errors.forEach(err => {
         if(err.name === "bank"){
@@ -22,13 +23,12 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
             workersSpecials.push(worker)
         }
     })
-    console.log(workers)
 
     return <div className={"step-section step-workers" + (step === CURRENT_STEP ? " active" : "")}>
 
         {workersRegulars.length !== 0 && <section className="registration-bank">
             <div>
-                <div className="title"><span>Compte bancaire pour : </span></div>
+                <div className="title"><span>Compte bancaire pour les non-commerciaux : </span></div>
                 <div className="workers-selectionned">
                     {workersRegulars.map(worker => {
                         return <span key={worker.id}>{worker.lastname} {worker.firstname}</span>
@@ -49,7 +49,7 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
                     </div>
                 </div>
 
-                Bank
+                <BankFormulaire type="commercial" isRegistration={true} />
             </section>
         })}
 

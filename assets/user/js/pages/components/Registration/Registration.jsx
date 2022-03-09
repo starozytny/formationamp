@@ -35,6 +35,7 @@ export class Registration extends Component {
             workersRegistered: JSON.parse(props.workersRegistered),
             bank: null,
             workers: [],
+            bankSpecials: [],
             errors: [],
             step: 1
         }
@@ -42,7 +43,7 @@ export class Registration extends Component {
         this.asideBank = React.createRef();
 
         this.handleNext = this.handleNext.bind(this);
-        this.handleUpdateList = this.handleUpdateList.bind(this);;
+        this.handleUpdateList = this.handleUpdateList.bind(this);
         this.handleSelectWorker = this.handleSelectWorker.bind(this);
         this.handleSelectBank = this.handleSelectBank.bind(this);
         this.handleDeleteBank = this.handleDeleteBank.bind(this)

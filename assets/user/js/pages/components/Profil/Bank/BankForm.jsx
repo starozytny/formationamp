@@ -23,12 +23,16 @@ export function BankFormulaire ({ type, element, onUpdateList, isRegistration=fa
 {
     let title = "Ajouter un RIB";
     let url = Routing.generate(URL_CREATE_ELEMENT);
-    let msg = "Félicitation ! Vous avez ajouté un nouveau RIB !"
+    let msg = "Félicitations ! Vous avez ajouté un nouveau RIB !"
 
     if(type === "update" || type === "profil"){
         title = "Modifier " + element.iban;
         url = Routing.generate(URL_UPDATE_GROUP, {'id': element.id});
         msg = "Félicitation ! La mise à jour s'est réalisée avec succès !";
+    }else if(type === "commercial"){
+        title = null;
+        url = null;
+        msg = "Données mises à jour"
     }
 
     let form = <Form
@@ -49,7 +53,7 @@ export function BankFormulaire ({ type, element, onUpdateList, isRegistration=fa
         </div>}
 
         <div className="form">
-            <h2>{title}</h2>
+            {title ? <h2>{title}</h2> : null}
             {form}
         </div>
     </>
@@ -150,26 +154,40 @@ class Form extends Component {
         const { context } = this.props;
         const { errors, success, titulaire, iban, bic } = this.state;
 
+        let formContent = <>
+            {success !== false && <Alert type="info">{success}</Alert>}
+
+            <div className="line">
+                <Input valeur={iban} identifiant="iban" errors={errors} onChange={this.handleChange}>IBAN</Input>
+            </div>
+
+            <div className="line line-2">
+                <Input valeur={bic} identifiant="bic" errors={errors} onChange={this.handleChange} >BIC</Input>
+                <Input valeur={titulaire} identifiant="titulaire" errors={errors} onChange={this.handleChange} >Titulaire</Input>
+            </div>
+        </>
+
         return <>
-            <form onSubmit={this.handleSubmit}>
-
-                {success !== false && <Alert type="info">{success}</Alert>}
-
-                <div className="line">
-                    <Input valeur={iban} identifiant="iban" errors={errors} onChange={this.handleChange}>IBAN</Input>
-                </div>
-
-                <div className="line line-2">
-                    <Input valeur={bic} identifiant="bic" errors={errors} onChange={this.handleChange} >BIC</Input>
-                    <Input valeur={titulaire} identifiant="titulaire" errors={errors} onChange={this.handleChange} >Titulaire</Input>
-                </div>
+            {context !== "commercial" ?<form onSubmit={this.handleSubmit}>
+                {formContent}
 
                 <div className="line">
                     <div className="form-button">
                         <Button isSubmit={true}>{context === "create" ? TXT_CREATE_BUTTON_FORM : TXT_UPDATE_BUTTON_FORM}</Button>
                     </div>
                 </div>
-            </form>
+            </form> : <div>
+                <div className="registration-choice">
+
+                </div>
+                {formContent}
+                <div className="line">
+                    <div className="form-button">
+                        <Button>Valider les informations</Button>
+                    </div>
+                </div>
+            </div>}
+
         </>
     }
 }

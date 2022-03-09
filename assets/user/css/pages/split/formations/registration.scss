@@ -75,7 +75,29 @@
     margin-top: 24px;
   }
 
+  .registration-workers{
+    @include flex(column, center, center);
+
+    & > div:first-child{
+      width: 100%;
+      max-width: 768px;
+    }
+  }
+
   .registration-bank{
+    @include flex(column, center, center);
+    background-color: var(--fond);
+    padding: 12px;
+    border-radius: 8px;
+
+    & > div:first-child{
+      text-align: center;
+    }
+
+    & > div:last-child{
+      width: 100%;
+      max-width: 768px;
+    }
 
     &:not(:last-child){
       margin-bottom: 24px;
@@ -83,6 +105,7 @@
 
     .title{
       position: relative;
+      display: inline-block;
       @include fontSemibold();
       font-size: 22px;
 
@@ -101,11 +124,11 @@
 
       & > span{
         display: inline-block;
-        background-color: var(--primary);
+        background-color: var(--grey);
         padding: 4px 12px;
         border-radius: 8px;
-        color: var(--alpha);
         @include fontSemibold();
+        font-size: 15px;
 
         &:not(:last-child){
           margin-right: 12px;
@@ -199,5 +222,10 @@
         }
       }
     }
+
+    .registration-bank{
+      padding: 24px;
+    }
+
   }
 }

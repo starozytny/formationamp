@@ -16,15 +16,19 @@ export function Step1 ({ step, errors, onNext, onSelectWorker, allWorkers, worke
 
     return <div className={"step-section step-workers" + (step === CURRENT_STEP ? " active" : "")}>
 
-        <TeamList isRegistration={true} onSelectWorker={onSelectWorker}
-                  data={allWorkers} workers={workers} workersRegistered={workersRegistered}/>
+        <div className="registration-workers">
+            <div>
+                <TeamList isRegistration={true} onSelectWorker={onSelectWorker}
+                          data={allWorkers} workers={workers} workersRegistered={workersRegistered}/>
 
-        {error}
+                {error}
 
-        <div className="line line-buttons">
-            <div/>
-            <div className="btns-submit">
-                <Button onClick={() => onNext(2)}>Etape suivante</Button>
+                <div className="line line-buttons">
+                    <div/>
+                    <div className="btns-submit">
+                        <Button onClick={() => onNext(2)}>Etape suivante</Button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
