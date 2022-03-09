@@ -1,13 +1,130 @@
 {% extends 'app/layout/layout.html.twig' %}
 
-{% block title %}Hello !{% endblock %}
+{% block meta_description %}
+    Spécialisé dans les métiers de l'immobilier, la Fnaim Formation Aix-Marseille-Provence (AMP) organise des
+    formations continues pour les professionnels de l'immobilier. La Formation AMP offre des formations pluri
+    disciplinaires à différents formats.
+{% endblock %}
+{% block meta_keywords %}fnaim formation, formation amp, formation immobilier, formation professionnelle continue{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app_homepage') }}
+{% endblock %}
+
+{% block title %}Fnaim Formation AMP{% endblock %}
 
 {% block main_content %}
-<div class="main-content">
-    <div class="title-page">
-        <h1>Hello ! ✅</h1>
-    </div>
+    <div class="main-content">
+        <section class="app-header">
+            <div class="col-1">
+                <h1>Formation AMP</h1>
+                <p>
+                    Bienvenue sur le site de la FNAIM Aix-Marseille-Provence dédié à la formation professionnelle continue !
+                    <br><br>
+                    Vous avez certainement déjà vu ou entendu parler du célèbre Cube jaune. Pour ceux qui ne savent pas
+                    encore qui nous sommes, la FNAIM est un syndicat professionnel, spécialisé dans les métiers de l'immobilier.
+                </p>
 
-    <p>Hello world</p>
-</div>
+                <div class="actions">
+                    <a href="{{ path('app_login') }}" class="btn btn-primary">Espace adhérent</a>
+                    <a href="{{ path('app_user_registration') }}" class="btn btn-outline-primary">Devenir adhérent</a>
+                </div>
+
+                <div class="image">
+                    <img src="{{ asset('build/app/images/datadocke.jpg') }}" alt="logo Certification de formateur">
+                </div>
+            </div>
+            <div class="col-2">
+                {% include 'app/layout/components/student-colour.svg' %}
+            </div>
+        </section>
+
+{#        <section class="actualite">#}
+{#            <h2>Actualités</h2>#}
+{#            <div class="uk-grid-match uk-child-width-expand@s" uk-grid>#}
+{#                {% for actualite in actualites %}#}
+{#                    <div>#}
+{#                        <div class="uk-card uk-card-default" data-aos="fade-up" >#}
+{#                            <div class="uk-card-body">#}
+{#                                <h3><a class="uk-link-reset" href="{{ path('app_actualite_show', {'slug': actualite.slug}) }}">#}
+{#                                        {{ actualite.title }}</a></h3>#}
+{#                                {% set text = actualite.intro | raw %}#}
+{#                                <p>{{ text | length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>#}
+{#                            </div>#}
+{#                            <div class="uk-card-footer">#}
+{#                                <div class="article-btn-show">#}
+{#                                    <a href="{{ path('app_actualite_show', {'slug': actualite.slug}) }}" class="uk-button uk-button-text">En savoir plus</a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </section>#}
+
+{#        <section class="who">#}
+{#            <div class="who-illustration">#}
+{#                <img class="app-who-illustration" data-aos="fade-right" src="{{ asset('build/images/team.jpg') }}">#}
+{#                <div></div>#}
+{#            </div>#}
+{#            <div class="who-content">#}
+{#                <h2>Qui sommes-nous ?</h2>#}
+{#                <p>#}
+{#                    Professionnalisme, éthique, déontologie, compétences, telles sont les valeurs que nous partageons,#}
+{#                    développons et défendons afin de protéger et de garantir vos intérêts.#}
+{#                </p>#}
+{#                <p>#}
+{#                    Crée en 1903 à Marseille, la FNAIM Aix-Marseille-Provence compte aujourd'hui  400 adhérents#}
+{#                    professionnels : gestionnaires, syndics, transactionnaires, immobilier d'entreprises, experts, diagnostiqueurs, location saisonnière...#}
+{#                </p>#}
+{#                <p>#}
+{#                    Située dans le centre-ville de Marseille (11 place du Général de Gaulle, 13001), la Chambre#}
+{#                    départementale est présidée depuis 2017 par Didier BERTRAND.#}
+{#                </p>#}
+{#                <p>#}
+{#                    Depuis 2018, la chambre départementale a mis en place la FNAIM AMP FORMATIONS, organisme agréé#}
+{#                    et datadocké de formation continue à destination à destination des professionnels de l’immobilier#}
+{#                    dans les 13 métiers.#}
+{#                </p>#}
+{#            </div>#}
+{#        </section>#}
+{#        <section class="who-suite">#}
+{#            <div class="who-suite-content">#}
+{#                <p>#}
+{#                    Nous vous rappelons que, dans le cadre de <strong>la loi ALUR</strong>, la formation professionnelle#}
+{#                    continue est obligatoire pour le titulaire de la carte professionnelle comme pour celles de vos#}
+{#                    collaborateurs salariés (carte blanche) et non-salariés (agent commercial) pour un total de 42H#}
+{#                    sur 3 ans ou 14H par an et ce, afin de pouvoir renouveler vos cartes professionnelles.#}
+{#                    <br> A défaut, celles-ci ne vous seraient pas délivrées.#}
+{#                </p>#}
+{#            </div>#}
+{#            <div class="who-suite-illustration">#}
+{#                <img class="app-who-illustration"data-aos="fade-right"  src="{{ asset('build/images/team-2.jpg') }}">#}
+{#                <div></div>#}
+{#            </div>#}
+{#        </section>#}
+{#        <section>#}
+{#            <p class="who-warning">#}
+{#                <b>Sur ce portail, vous trouverez une offre de formations pluri disciplinaires à différents formats#}
+{#                    (durée de 2H à 7H) avec un large éventail de tarifs selon le format que vous aurez choisi.#}
+{#                    Il ne vous reste plus qu’à inscrire vos collaborateurs et vous-même.</b>#}
+{#            </p>#}
+{#        </section>#}
+
+{#        <section>#}
+{#            <h2>Nos partenaires</h2>#}
+{#            <div class="partenaires-gallery">#}
+{#                <img src="{{ asset('build/images/logo-asseur.png') }}" alt="logo asseur partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="0">#}
+{#                <img src="{{ asset('build/images/logo-bexter.png') }}" alt="logo bexter partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="100">#}
+{#                <img src="{{ asset('build/images/logo-coutot.png') }}" alt="logo coutot partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="200">#}
+{#                <img src="{{ asset('build/images/logo-galian.jpg') }}" alt="logo galian partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="300">#}
+{#                <img src="{{ asset('build/images/logo-gercop.jpg') }}" alt="logo gercop partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="400">#}
+{#                <img src="{{ asset('build/images/logo-grdf.png') }}" alt="logo grdf partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="500">#}
+{#                <img src="{{ asset('build/images/logo-nd.png') }}" alt="logo nd partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="600">#}
+{#                <img src="{{ asset('build/images/logo-prox.png') }}" alt="logo prox partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="700">#}
+{#                <img src="{{ asset('build/images/logo-syassur.png') }}" alt="logo syassur partenaire" class="logo-partenaire" data-aos="fade-up" data-aos-delay="800">#}
+{#            </div>#}
+{#        </section>#}
+    </div>
 {% endblock %}
