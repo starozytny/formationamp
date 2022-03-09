@@ -55,6 +55,13 @@ if(el){
     </div>, el)
 }
 
+el = document.getElementById("bank-update");
+if(el){
+    render(<div className="main-content">
+        <BankFormulaire type="update" element={JSON.parse(el.dataset.element)} />
+    </div>, el)
+}
+
 el = document.getElementById("profil-orders");
 if(el){
     render(<Orders {...el.dataset} />, el)
