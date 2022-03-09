@@ -12,15 +12,15 @@ export class BanksList extends Component {
         const { isRegistration=false, data, bank, onOpenAside } = this.props;
 
         return <div className="profil-section">
-            <div className="profil-section-title">
+            {!isRegistration && <div className="profil-section-title">
                 <div className="title"><span>Mes comptes bancaires</span></div>
                 <div className="toolbar">
                     <div className="item create">
-                    {!isRegistration ? <Button element="a" onClick={Routing.generate('user_bank_create')}>Ajouter un RIB</Button>
-                        : <Button onClick={() => onOpenAside("create")}>Ajouter un RIB</Button>}
+                        {!isRegistration ? <Button element="a" onClick={Routing.generate('user_bank_create')}>Ajouter un RIB</Button>
+                            : <Button onClick={() => onOpenAside("create")}>Ajouter un RIB</Button>}
                     </div>
                 </div>
-            </div>
+            </div>}
             <div>
                 <div className="items-table">
                     <div className="items items-default">

@@ -14,7 +14,7 @@
 
     &.active{
       background-color: var(--primary);
-      color: var(--txt);
+      color: var(--alpha);
     }
 
     span:first-child{
@@ -36,7 +36,7 @@ h2{
   .item{
     cursor: initial;
   }
-  
+
   .col-1, .col-2{
     cursor: pointer;
   }

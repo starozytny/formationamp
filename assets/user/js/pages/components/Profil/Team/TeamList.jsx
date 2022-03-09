@@ -68,17 +68,19 @@ export class TeamList extends Component {
         </>
 
         return <div className="profil-section">
-            <div className="title"><span>Mon équipe</span></div>
-            {!isRegistration && <div className="toolbar">
-                <div className="item create">
-                    <Button element="a" onClick={Routing.generate('user_team_create')}>Ajouter un membre</Button>
+            {!isRegistration && <>
+                <div className="title"><span>Mon équipe</span></div>
+                <div className="toolbar">
+                    <div className="item create">
+                        <Button element="a" onClick={Routing.generate('user_team_create')}>Ajouter un membre</Button>
+                    </div>
+                    <div className="item filter-search">
+                        <Filter ref={this.filter} items={itemsFilter} onGetFilters={onGetFilters} />
+                        <Search onSearch={onSearch} placeholder="Recherche par nom ou prénom.."/>
+                        <FilterSelected filters={filters} itemsFiltersLabel={filtersLabel} itemsFiltersId={filtersId} onChange={this.handleFilter}/>
+                    </div>
                 </div>
-                <div className="item filter-search">
-                    <Filter ref={this.filter} items={itemsFilter} onGetFilters={onGetFilters} />
-                    <Search onSearch={onSearch} placeholder="Recherche par nom ou prénom.."/>
-                    <FilterSelected filters={filters} itemsFiltersLabel={filtersLabel} itemsFiltersId={filtersId} onChange={this.handleFilter}/>
-                </div>
-            </div>}
+            </>}
             <div>
                 <div className="items-table">
                     <div className="items items-default">

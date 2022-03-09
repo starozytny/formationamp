@@ -205,7 +205,7 @@ export class Registration extends Component {
 
 export function FormActions ({ onNext, currentStep }) {
     return <div className="line line-buttons">
-        <Button type="reverse" onClick={() => onNext(currentStep - 1, currentStep)}>Etape précédente</Button>
+        <Button type="default" outline={true} onClick={() => onNext(currentStep - 1, currentStep)}>Etape précédente</Button>
         <div/>
         <div className="btns-submit">
             <Button onClick={() => onNext(currentStep + 1)}>Etape suivante</Button>
