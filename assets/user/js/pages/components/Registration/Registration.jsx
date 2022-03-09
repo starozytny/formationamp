@@ -6,6 +6,7 @@ import Routing    from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 import { Button } from "@dashboardComponents/Tools/Button";
 import { Aside }  from "@dashboardComponents/Tools/Aside";
 
+import helperRegistration from "./functions/helper";
 import Helper     from "@commonComponents/functions/helper";
 import Validateur from "@commonComponents/functions/validateur";
 import Formulaire from "@dashboardComponents/functions/Formulaire";
@@ -117,15 +118,27 @@ export class Registration extends Component {
     }
 
     handleNext = (stepClicked, stepInitial = null) => {
-        const { workers, bank } = this.state;
+        const { workers, bank, bankSpecials } = this.state;
 
         let paramsToValidate = [];
         if(stepInitial === null){
             switch (stepClicked){
                 case 3:
-                    paramsToValidate = [
-                        {type: "text",  id: 'bank', value: bank},
-                    ];
+                    let [workersRegulars, workersSpecials] = helperRegistration.getWorkers(workers);
+
+                    if(workersRegulars.length !== 0 || (workersSpecials.length !== 0 && bankSpecials.length === 0 && bank === null)){
+                        paramsToValidate = [...paramsToValidate,
+                            ...[{type: "text",  id: 'bank', value: bank}]
+                        ];
+                    }
+
+                    if(workersSpecials.length !== 0){
+                        if(bank === null){
+                            paramsToValidate = [...paramsToValidate,
+                                ...[{type: "array",  id: 'bankSpecials', value: bankSpecials}]
+                            ];
+                        }
+                    }
                     break;
                 default:
                     paramsToValidate = [

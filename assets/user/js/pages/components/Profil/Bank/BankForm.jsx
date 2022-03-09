@@ -260,6 +260,7 @@ class Form extends Component {
                     <div className="line">
                         <div className="form-button">
                             <Button onClick={this.handleSubmit}>Valider les informations</Button>
+                            <Alert type="reverse">Si vous ne validez par ce formulaire, la banque d'agence sera sélectionné automatiquement.</Alert>
                         </div>
                     </div>
                 </>}

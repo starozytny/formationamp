@@ -1,5 +1,7 @@
 import React from "react";
 
+import helperRegistration from "../functions/helper";
+
 import { FormActions }    from "@userPages/components/Registration/Registration";
 import { BanksList }      from "@userPages/components/Profil/Bank/BanksList";
 import { Alert }          from "@dashboardComponents/Tools/Alert";
@@ -9,25 +11,22 @@ const CURRENT_STEP = 2;
 
 export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAside, allBanks, bank, workers, bankSpecials,
                            arrayPostalCode, arrayBic, onBankCommercial }) {
-    let error = null;
+    let error = null, error2 = null;
     errors.length !== 0 && errors.forEach(err => {
         if(err.name === "bank"){
-            error = <Alert type="danger">Veuillez sélectionner au moins 1 banque.</Alert>
+            error = <Alert type="danger">Veuillez sélectionner au moins une banque pour l'agence.</Alert>
+        }
+
+        if(err.name === "bankSpecials"){
+            error2 = <Alert type="danger">Veuillez sélectionner une banque pour les agents commerciaux.</Alert>
         }
     })
 
-    let workersRegulars = [], workersSpecials = [];
-    workers.forEach(worker => {
-        if(worker.type !== 2) {
-            workersRegulars.push(worker)
-        }else{
-            workersSpecials.push(worker)
-        }
-    })
+    let [workersRegulars, workersSpecials] = helperRegistration.getWorkers(workers);
 
     return <div className={"step-section step-workers" + (step === CURRENT_STEP ? " active" : "")}>
 
-        {workersRegulars.length !== 0 && <section className="registration-bank">
+        <section className="registration-bank">
             <div>
                 <div className="title"><span>Agence : </span></div>
                 <div className="workers-selectionned">
@@ -39,7 +38,7 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
 
             <BanksList isRegistration={true} data={allBanks} bank={bank}
                        onSelectBank={onSelectBank} onOpenAside={onOpenAside} onDelete={onDelete}/>
-        </section>}
+        </section>
 
         {workersSpecials.map(worker => {
 
@@ -67,6 +66,9 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
 
             </section>
         })}
+
+        {error}
+        {error2}
 
         <FormActions onNext={onNext} currentStep={CURRENT_STEP} />
     </div>
