@@ -18,7 +18,6 @@ const TXT_CREATE_BUTTON_FORM = "Enregistrer";
 const TXT_UPDATE_BUTTON_FORM = "Enregistrer les modifications";
 
 let arrayBicSave = [];
-let i = 0;
 
 export function BankFormulaire ({ type, element, onUpdateList, isRegistration=false,
                                     worker = null, zipcodes = [], arrayBic = [], onBankCommercial = null })
@@ -72,8 +71,6 @@ export function BankFormulaire ({ type, element, onUpdateList, isRegistration=fa
 class Form extends Component {
     constructor(props) {
         super(props);
-
-        console.log(props)
 
         this.state = {
             titulaire: props.titulaire,
@@ -153,7 +150,7 @@ class Form extends Component {
         const { context, url, messageSuccess, identifiant } = this.props;
         const { titulaire, iban, bic, address, zipcode, city } = this.state;
 
-        this.setState({ success: false})
+        this.setState({ success: false, errors: []})
 
         let method = context === "create" ? "POST" : "PUT";
 

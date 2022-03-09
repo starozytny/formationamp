@@ -8,7 +8,7 @@ import { BankFormulaire } from "@userPages/components/Profil/Bank/BankForm";
 const CURRENT_STEP = 2;
 
 export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAside, allBanks, bank, workers, bankSpecials,
-                           arrayPostalCode, arrayBic }) {
+                           arrayPostalCode, arrayBic, onBankCommercial }) {
     let error = null;
     errors.length !== 0 && errors.forEach(err => {
         if(err.name === "bank"){
@@ -42,6 +42,14 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
         </section>}
 
         {workersSpecials.map(worker => {
+
+            let workerBank = null;
+            bankSpecials.forEach(b => {
+                if(b.workerId === worker.id){
+                    workerBank = b.bank
+                }
+            })
+
             return <section className="registration-bank" key={worker.id}>
                 <div>
                     <div className="title"><span>Agent commercial : </span></div>
@@ -50,8 +58,13 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
                     </div>
                 </div>
 
-                <BankFormulaire type="commercial" isRegistration={true} identifiant={worker.id}
-                                zipcodes={arrayPostalCode} arrayBic={arrayBic}/>
+                {workerBank === null ? <>
+                    <BankFormulaire type="commercial" isRegistration={true} worker={worker}
+                                    zipcodes={arrayPostalCode} arrayBic={arrayBic}
+                                    onBankCommercial={onBankCommercial}/>
+                </> : <BanksList isRegistration={true} data={[workerBank]} bank={workerBank} workerId={worker.id}
+                                 isCommercial={true} onBankCommercial={onBankCommercial} />}
+
             </section>
         })}
 

@@ -9,7 +9,7 @@ import { BanksItem }   from "./BanksItem";
 
 export class BanksList extends Component {
     render () {
-        const { isRegistration=false, data, bank, onOpenAside } = this.props;
+        const { isRegistration=false, isCommercial=false, data, bank, onOpenAside } = this.props;
 
         return <div className="profil-section">
             {!isRegistration && <div className="profil-section-title">
@@ -35,10 +35,10 @@ export class BanksList extends Component {
                                 </div>
                             </div>
                         </div>
-                        {data && data.length !== 0 ? data.map(elem => {
-                            return <BanksItem {...this.props} bank={bank} elem={elem} key={elem.id}/>
+                        {data && data.length !== 0 ? data.map((elem, index) => {
+                            return <BanksItem {...this.props} bank={bank} elem={elem} key={index} />
                         }) : <Alert>Aucun résultat</Alert>}
-                        {isRegistration && <div className="item">
+                        {(isRegistration && !isCommercial) && <div className="item">
                             <Button onClick={() => onOpenAside("create")}>Ajouter un RIB</Button>
                         </div>}
                     </div>

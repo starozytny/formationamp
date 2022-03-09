@@ -91,8 +91,29 @@ export class Registration extends Component {
         this.asideBank.current.handleOpen();
     }
 
-    handleBankCommercial = (worker, bank) =>{
+    handleBankCommercial = (workerId, bank) =>{
         const { bankSpecials } = this.state;
+
+        let nBanks = [];
+
+        let find = false;
+        bankSpecials.forEach(b => {
+            if(b.workerId === workerId){
+                find = true;
+            }
+        })
+
+        if(find){
+            nBanks = bankSpecials.filter(el => el.workerId !== workerId);
+        }else{
+            nBanks = bankSpecials;
+            nBanks.push({
+                workerId: workerId,
+                bank: bank
+            })
+        }
+
+        this.setState({ bankSpecials: nBanks })
     }
 
     handleNext = (stepClicked, stepInitial = null) => {

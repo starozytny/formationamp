@@ -8,7 +8,16 @@ import Sanitaze         from "@commonComponents/functions/sanitaze";
 
 export class BanksItem extends Component {
     render () {
-        const { isRegistration, elem, onDelete, onSwitchMain, bank, onSelectBank, onOpenAside } = this.props
+        const { isRegistration, isCommercial, elem, onDelete, onSwitchMain, bank, onSelectBank, onOpenAside, onBankCommercial, workerId = null } = this.props
+
+        let editAction = <ButtonIcon icon="pencil" element="a" onClick={Routing.generate('user_bank_update', {'id': elem.id})}>Modifier</ButtonIcon>;
+        if(isRegistration){
+            editAction = <ButtonIcon icon="pencil" onClick={() => onOpenAside("update", elem)}>Modifier</ButtonIcon>
+        }
+
+        if(isCommercial){
+            editAction = <ButtonIcon icon="trash" onClick={() => onBankCommercial(workerId, bank)}>Supprimer</ButtonIcon>
+        }
 
         return <div className="item">
             {isRegistration && <div className="selector" onClick={() => onSelectBank(elem)}>
@@ -31,8 +40,7 @@ export class BanksItem extends Component {
                             <div className="sub">{elem.bic}</div>
                         </div>
                         <div className="col-3 actions">
-                            {!isRegistration ? <ButtonIcon icon="pencil" element="a" onClick={Routing.generate('user_bank_update', {'id': elem.id})}>Modifier</ButtonIcon>
-                                : <ButtonIcon icon="pencil" onClick={() => onOpenAside("update", elem)}>Modifier</ButtonIcon>}
+                            {editAction}
                             {(!bank || bank.id !== elem.id) && <ButtonIcon icon="trash" onClick={() => onDelete(elem)}>Supprimer</ButtonIcon>}
                         </div>
                     </div>
