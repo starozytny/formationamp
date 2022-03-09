@@ -22,6 +22,9 @@ import { BankFormulaire } from "@userPages/components/Profil/Bank/BankForm";
 const URL_CREATE_REGISTRATION = 'api_registration_create';
 const URL_DELETE_BANK         = 'api_banks_delete';
 
+let arrayBicSave = [];
+let arrayZipcodes = [];
+
 export class Registration extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +40,8 @@ export class Registration extends Component {
             workers: [],
             bankSpecials: [],
             errors: [],
+            arrayPostalCode: [],
+            arrayBic: [],
             step: 1
         }
 
@@ -50,6 +55,11 @@ export class Registration extends Component {
         this.handleOpenAsideBank = this.handleOpenAsideBank.bind(this);
 
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount = () => {
+        Helper.getPostalCodes(this);
+        Helper.getBicCodes(this);
     }
 
     handleUpdateList = (element, context, type) => {
@@ -79,6 +89,10 @@ export class Registration extends Component {
     handleOpenAsideBank = (contextBank, bank= null) => {
         this.setState({ contextBank, bank })
         this.asideBank.current.handleOpen();
+    }
+
+    handleBankCommercial = (worker, bank) =>{
+        const { bankSpecials } = this.state;
     }
 
     handleNext = (stepClicked, stepInitial = null) => {
@@ -134,6 +148,11 @@ export class Registration extends Component {
 
             this.state.workersId = workersId;
 
+            arrayZipcodes = this.state.arrayPostalCode;
+            delete this.state.arrayPostalCode;
+            arrayBicSave = this.state.arrayBic;
+            delete this.state.arrayBic;
+
             axios({ method: "POST", url: Routing.generate(URL_CREATE_REGISTRATION, {'session': session.id}), data: this.state })
                 .then(function (response) {
                     let data = response.data;
@@ -151,7 +170,7 @@ export class Registration extends Component {
     }
 
     render () {
-        const { step, contextBank, bank } = this.state;
+        const { step, contextBank, bank, arrayPostalCode, arrayBic } = this.state;
 
         let steps = [
             {id: 1, label: "Participants"},
@@ -178,6 +197,9 @@ export class Registration extends Component {
         let contentBank = contextBank === "create" ? <BankFormulaire type="create" isRegistration={true} onUpdateList={this.handleUpdateList}/>
             : <BankFormulaire type="update" element={bank} isRegistration={true} onUpdateList={this.handleUpdateList} key={bank.id}/>
 
+        let nArrayPostalCode = arrayPostalCode ? arrayPostalCode : arrayZipcodes;
+        let nArrayBic = arrayBic ? arrayBic : arrayBicSave;
+
         return <>
             <div className="main-content">
                 <div className="session-registration">
@@ -192,7 +214,9 @@ export class Registration extends Component {
                         <Step1 {...this.state} onNext={this.handleNext} onSelectWorker={this.handleSelectWorker} />
 
                         <Step2 {...this.state} onNext={this.handleNext} onSelectBank={this.handleSelectBank}
-                               onOpenAside={this.handleOpenAsideBank} onDelete={this.handleDeleteBank}/>
+                               onOpenAside={this.handleOpenAsideBank} onDelete={this.handleDeleteBank}
+                               onBankCommercial={this.handleBankCommercial}
+                               arrayPostalCode={nArrayPostalCode} arrayBic={nArrayBic} />
 
                         {step === 3 && <Step3 {...this.state} onNext={this.handleNext} onSubmit={this.handleSubmit}/>}
 

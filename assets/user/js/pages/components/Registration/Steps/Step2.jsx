@@ -1,13 +1,14 @@
 import React from "react";
 
-import { FormActions } from "@userPages/components/Registration/Registration";
-import { BanksList }   from "@userPages/components/Profil/Bank/BanksList";
-import { Alert }       from "@dashboardComponents/Tools/Alert";
-import {BankFormulaire} from "@userPages/components/Profil/Bank/BankForm";
+import { FormActions }    from "@userPages/components/Registration/Registration";
+import { BanksList }      from "@userPages/components/Profil/Bank/BanksList";
+import { Alert }          from "@dashboardComponents/Tools/Alert";
+import { BankFormulaire } from "@userPages/components/Profil/Bank/BankForm";
 
 const CURRENT_STEP = 2;
 
-export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAside, allBanks, bank, workers, bankSpecials }) {
+export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAside, allBanks, bank, workers, bankSpecials,
+                           arrayPostalCode, arrayBic }) {
     let error = null;
     errors.length !== 0 && errors.forEach(err => {
         if(err.name === "bank"){
@@ -28,7 +29,7 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
 
         {workersRegulars.length !== 0 && <section className="registration-bank">
             <div>
-                <div className="title"><span>Compte bancaire pour les non-commerciaux : </span></div>
+                <div className="title"><span>Agence : </span></div>
                 <div className="workers-selectionned">
                     {workersRegulars.map(worker => {
                         return <span key={worker.id}>{worker.lastname} {worker.firstname}</span>
@@ -43,13 +44,14 @@ export function Step2 ({ step, errors, onNext, onSelectBank, onDelete, onOpenAsi
         {workersSpecials.map(worker => {
             return <section className="registration-bank" key={worker.id}>
                 <div>
-                    <div className="title"><span>Compte bancaire pour : </span></div>
+                    <div className="title"><span>Agent commercial : </span></div>
                     <div className="workers-selectionned">
                         <span>{worker.lastname} {worker.firstname}</span>
                     </div>
                 </div>
 
-                <BankFormulaire type="commercial" isRegistration={true} />
+                <BankFormulaire type="commercial" isRegistration={true} identifiant={worker.id}
+                                zipcodes={arrayPostalCode} arrayBic={arrayBic}/>
             </section>
         })}
 
