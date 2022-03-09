@@ -19,9 +19,9 @@ class SecurityController extends AbstractController
     {
         $this->doctrine = $doctrine;
     }
-    
+
     /**
-     * @Route("/login", options={"expose"=true}, name="app_login")
+     * @Route("/connexion", options={"expose"=true}, name="app_login")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */

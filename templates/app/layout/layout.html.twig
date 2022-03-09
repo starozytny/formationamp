@@ -65,13 +65,13 @@
         {% set menuLogged = [
             {
                 'path': path('app_user_registration'),
-                'label': 'S\'inscrire',
-                'name': 'creation-compte'
+                'label': 'Devenir adhérent',
+                'name': 'devenir-adherent'
             },
             {
                 'path': path('app_login'),
-                'label': 'Espace client',
-                'name': 'login'
+                'label': 'Espace adhérent',
+                'name': 'connexion'
             }
         ] %}
         {% set menuBottom = menuBottom | merge(menuLogged) %}
