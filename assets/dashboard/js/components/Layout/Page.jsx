@@ -106,7 +106,7 @@ export class Layout extends Component {
         })
     }
 
-    handleUpdatePerPage = (sorter = null, perPage) => {
+    handleUpdatePerPage = (perPage, sorter = null) => {
         const { data } = this.state;
 
         this.page.current.handlePerPage(perPage);

@@ -14,24 +14,12 @@
     top: 0; left: 0;
     border-radius: 100px;
   }
-  &.progress-25{
-    &:after{
-      width: 25%;
-    }
-  }
-  &.progress-50{
-    &:after{
-      width: 50%;
-    }
-  }
-  &.progress-75{
-    &:after{
-      width: 75%;
-    }
-  }
-  &.progress-100{
-    &:after{
-      width: 100%;
+
+  @for $i from 1 through 100{
+    &.progress-#{$i}{
+      &:after{
+        width: calc(#{$i} * 1%);
+      }
     }
   }
 }

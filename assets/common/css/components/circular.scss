@@ -1,0 +1,124 @@
+$configs: (
+        chart-two: (
+                svgSize: 64px,
+                percentage: 20,
+                strokeWidth: 6px,
+                backgroundColor: var(--grey),
+                foregroundColor: var(--primary),
+                labelColor: var(--txt),
+                labelFontSize: 14px,
+                duration: 3s,
+                animationDelay: 1s
+        ),
+);
+
+
+/* ------- DO NOT EDIT BELOW --------- */
+$pi: 3.14;
+$labelData: '';
+@for $i from 0 to 101 {
+  $labelData: $labelData + $i + '%' + '\a';
+
+  $c: (64px - 6px) * $pi;
+  $cOffSet: (($i)/100)*$c;
+
+  .chart-two-#{$i} {
+
+    &.animate {
+      figcaption:after {
+        animation: chart-two-#{$i}-label 3s steps($i) forwards;
+      }
+    }
+
+    svg {
+
+      .circle-foreground {
+        stroke-dasharray: $cOffSet $c;
+        stroke-dashoffset: $cOffSet;
+      }
+    }
+
+
+    figcaption {
+      &:after {
+        content: $labelData;
+      }
+    }
+  }
+  @keyframes chart-two-#{$i}-label {
+    100% {
+      transform: translateY(14px * (-($i)));
+    }
+  }
+}
+
+@each $chart, $param in $configs {
+  $c: (map-get($param, svgSize) - map-get($param, strokeWidth)) * $pi;
+  $cOffSet: (map-get($param, percentage)/100)*$c;
+
+  .#{$chart} {
+    width: map-get($param, svgSize);
+    height: map-get($param, svgSize);
+    margin: 0;
+    position: relative;
+
+    &.animate {
+      svg .circle-foreground {
+        animation: offset map-get($param, duration) ease-in-out forwards;
+        animation-delay: map-get($param, animationDelay);
+      }
+      figcaption:after {
+        animation-delay: map-get($param, animationDelay);
+      }
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      .circle-background {
+        r: (map-get($param, svgSize) - map-get($param, strokeWidth))/2;
+        cx: 50%;
+        cy: 50%;
+        fill: none;
+        stroke: map-get($param, backgroundColor);
+        stroke-width: map-get($param, strokeWidth);
+      }
+      .circle-foreground {
+        @extend .circle-background;
+        stroke: map-get($param, foregroundColor);
+        stroke-linecap: round;
+        transform-origin: 50% 50%;
+        transform: rotate(-90deg);
+      }
+    }
+
+    figcaption {
+      display: inline-block;
+      width: 100%;
+      height: map-get($param, labelFontSize);
+      overflow: hidden;
+      text-align: center;
+      color: map-get($param, labelColor);
+      position: absolute;
+      top: calc(50% - #{map-get($param, labelFontSize)/2});
+      left: 0;
+      font-size: 0;
+      &:after {
+        display: inline-block;
+        white-space: pre;
+        font-size: map-get($param, labelFontSize);
+        line-height: map-get($param, labelFontSize);
+      }
+    }
+  }
+  @keyframes #{$chart}-label {
+    100% {
+      transform: translateY(map-get($param, labelFontSize) * (-(map-get($param, percentage))));
+    }
+  }
+}
+@keyframes offset {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}

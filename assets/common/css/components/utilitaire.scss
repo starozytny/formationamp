@@ -1,0 +1,34 @@
+.ut-phones{
+
+  .phone-main{
+    @include flex(row, center, flex-start);
+
+    & > span:first-child{
+      display: inline-block;
+      margin-right: 4px;
+    }
+  }
+
+  .btn-phone-details{
+    @include flex(row, center, flex-start);
+    font-size: 14px;
+    color: var(--primary);
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s ease-in-out;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+
+  .phone-details{
+    display: none;
+  }
+
+  &.active{
+    .phone-details{
+      display: block;
+    }
+  }
+}

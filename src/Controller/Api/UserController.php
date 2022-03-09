@@ -30,6 +30,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class UserController extends AbstractController
 {
+    const FOLDER_AVATARS = User::FOLDER_AVATARS;
+    
     const ICON = "user";
 
     private $doctrine;
@@ -48,7 +50,7 @@ class UserController extends AbstractController
      *
      * @OA\Response(
      *     response=200,
-     *     description="Returns array of users"
+     *     description="Returns array"
      * )
      * @OA\Tag(name="Users")
      *
@@ -88,7 +90,7 @@ class UserController extends AbstractController
             $obj->setPassword($passwordHasher->hashPassword($obj, $data->password));
 
             if ($file) {
-                $fileName = $fileUploader->upload($file, User::FOLDER_AVATARS);
+                $fileName = $fileUploader->upload($file, self::FOLDER_AVATARS);
                 $obj->setAvatar($fileName);
             }
         }else{
@@ -97,7 +99,7 @@ class UserController extends AbstractController
             }
 
             if ($file) {
-                $fileName = $fileUploader->replaceFile($file, $obj->getAvatar(),User::FOLDER_AVATARS);
+                $fileName = $fileUploader->replaceFile($file, $obj->getAvatar(),self::FOLDER_AVATARS);
                 $obj->setAvatar($fileName);
             }
 
@@ -143,11 +145,13 @@ class UserController extends AbstractController
     /**
      * Create a user
      *
+     * @Security("is_granted('ROLE_MANAGER')")
+     *
      * @Route("/", name="create", options={"expose"=true}, methods={"POST"})
      *
      * @OA\Response(
      *     response=200,
-     *     description="Returns a new user object"
+     *     description="Returns a new object"
      * )
      *
      * @OA\Response(
@@ -183,7 +187,7 @@ class UserController extends AbstractController
      *
      * @OA\Response(
      *     response=200,
-     *     description="Returns an user object"
+     *     description="Returns an object"
      * )
      * @OA\Response(
      *     response=403,
@@ -222,9 +226,9 @@ class UserController extends AbstractController
     }
 
     /**
-     * Admin - Delete an user
+     * Manager - Delete an user
      *
-     * @Security("is_granted('ROLE_ADMIN')")
+     * @Security("is_granted('ROLE_MANAGER')")
      *
      * @Route("/{id}", name="delete", options={"expose"=true}, methods={"DELETE"})
      *
@@ -264,7 +268,7 @@ class UserController extends AbstractController
         $em->remove($obj);
         $em->flush();
 
-        $fileUploader->deleteFile($obj->getAvatar(), User::FOLDER_AVATARS);
+        $fileUploader->deleteFile($obj->getAvatar(), self::FOLDER_AVATARS);
         return $apiResponse->apiJsonResponseSuccessful("Supression réussie !");
     }
 
@@ -323,7 +327,7 @@ class UserController extends AbstractController
         $em->flush();
 
         foreach($avatars as $avatar){
-            $fileUploader->deleteFile($avatar, User::FOLDER_AVATARS);
+            $fileUploader->deleteFile($avatar, self::FOLDER_AVATARS);
         }
 
         return $apiResponse->apiJsonResponseSuccessful("Supression de la sélection réussie !");

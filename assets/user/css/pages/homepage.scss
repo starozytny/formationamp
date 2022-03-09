@@ -157,3 +157,100 @@
     margin-left: 48px;
   }
 }
+.dash-card-changelogs{
+  max-width: 1024px;
+
+  .card-header{
+    @include flex(row, center, flex-start);
+    @include fontSemibold();
+    font-size: 20px;
+    margin-bottom: 24px;
+
+    .icon{
+      margin-bottom: 0;
+    }
+
+    .title{
+      margin-bottom: 0;
+      margin-left: 8px;
+      opacity: 1;
+    }
+  }
+}
+
+.changelogs{
+  .changelog{
+
+    .changelog-date{
+      color: var(--grey3);
+      margin-bottom: 8px;
+    }
+
+    .changelog-content{
+      width: 100%;
+    }
+
+    .name{
+      @include fontSemibold();
+      opacity: 1;
+      margin-bottom: 8px;
+
+      & > span:last-child{
+        margin-left: 8px;
+      }
+    }
+
+    .content{
+      font-size: 15px;
+      width: 100%;
+    }
+
+    &:not(:last-child){
+      margin-bottom: 12px;
+      padding-bottom:12px;
+      border-bottom: 2px solid var(--greyShadow);
+    }
+  }
+
+}
+
+
+//                      __   _____ __    ___    __
+//                     | _| |___  / /_  ( _ )  |_ |
+//    _____ _____ _____| |     / / '_ \ / _ \   | |_____ _____ _____
+//   |_____|_____|_____| |    / /| (_) | (_) |  | |_____|_____|_____|
+//                     | |   /_/  \___/ \___/   | |
+//                     |__|                    |__|
+@media (min-width:768px) {
+  .dash-card-changelogs{
+    width: calc(100% - 48px);
+    margin-right: 0;
+  }
+
+  .changelogs{
+    .changelog{
+      @include flex(row, flex-start, flex-start);
+
+      .changelog-date{
+        width: 180px;
+      }
+
+      .changelog-content{
+        margin-left: 48px;
+        width: calc(100% - 180px - 48px);
+      }
+    }
+  }
+}
+
+//                      __   _ ____  ___   ___    __
+//                     | _| / |___ \( _ ) / _ \  |_ |
+//    _____ _____ _____| |  | | __) / _ \| | | |  | |_____ _____ _____
+//   |_____|_____|_____| |  | |/ __/ (_) | |_| |  | |_____|_____|_____|
+//                     | |  |_|_____\___/ \___/   | |
+//                     |__|                      |__|
+@media (min-width:1280px) {
+  .dash-card-changelogs{
+    width: calc(60% - 48px);
+  }
+}

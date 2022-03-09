@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Changelog;
 use App\Entity\Formation\FoRegistration;
 use App\Entity\Formation\FoSession;
 use App\Entity\Formation\FoWorker;
@@ -9,8 +10,9 @@ use App\Entity\Paiement\PaBank;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\Blog\BoArticle;
 use App\Entity\User;
-use App\Repository\Formation\FoSessionRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Repository\Formation\FoSessionRepository;
 use App\Repository\Blog\BoArticleRepository;
 use Http\Discovery\Exception\NotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,10 +90,10 @@ class UserController extends AbstractController
      */
     public function profilUpdate(SerializerInterface $serializer): Response
     {
-        /** @var User $data */
-        $data = $this->getUser();
-        $data = $serializer->serialize($data, 'json', ['groups' => User::ADMIN_READ]);
-        return $this->render('user/pages/profil/update.html.twig',  ['donnees' => $data]);
+        /** @var User $obj */
+        $obj = $this->getUser();
+        $data = $serializer->serialize($obj, 'json', ['groups' => User::ADMIN_READ]);
+        return $this->render('user/pages/profil/update.html.twig',  ['elem' => $obj, 'donnees' => $data]);
     }
 
     /**

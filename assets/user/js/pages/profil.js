@@ -5,6 +5,7 @@ import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
 import { render } from "react-dom";
+import { Users }          from "@userPages/components/Profil/User/Users";
 import { UserFormulaire } from "@userPages/components/Profil/UserForm";
 import { BankFormulaire } from "@userPages/components/Profil/Bank/BankForm";
 import { TeamFormulaire } from "@userPages/components/Profil/Team/TeamForm";
@@ -17,7 +18,9 @@ Routing.setRoutingData(routes);
 let el = document.getElementById("profil-update");
 if(el){
     render(<div className="main-content">
-        <UserFormulaire type="profil" element={JSON.parse(el.dataset.donnees)} />
+        <UserFormulaire type="profil"
+                        element={JSON.parse(el.dataset.donnees)}
+                        societyId={el.dataset.societyId} />
     </div>, el)
 }
 

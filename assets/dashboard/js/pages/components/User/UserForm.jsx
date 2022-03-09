@@ -4,7 +4,7 @@ import axios                   from "axios";
 import { uid }                 from "uid";
 import Routing                 from '@publicFolder/bundles/fosjsrouting/js/router.min.js';
 
-import { Input, Checkbox }     from "@dashboardComponents/Tools/Fields";
+import { Input, Checkbox, SelectReactSelectize } from "@dashboardComponents/Tools/Fields";
 import { Alert }               from "@dashboardComponents/Tools/Alert";
 import { Button }              from "@dashboardComponents/Tools/Button";
 import { Drop }                from "@dashboardComponents/Tools/Drop";
@@ -78,6 +78,7 @@ export class Form extends Component {
             email: props.email,
             roles: props.roles,
             avatar: props.avatar,
+            society: props.society,
             password: '',
             passwordConfirm: '',
             name: props.name,
@@ -127,6 +128,8 @@ export class Form extends Component {
         this.setState({[name]: value})
     }
 
+    handleChangeSelect = (name, e) => { this.setState({ [name]: e !== undefined ? e.value : "" }) }
+
     handleSubmit = (e) => {
         e.preventDefault();
 
@@ -148,6 +151,10 @@ export class Form extends Component {
                     ...[{type: "password", id: 'password', value: password, idCheck: 'passwordConfirm', valueCheck: passwordConfirm}]
                 ];
             }
+        }
+
+        if(context !== "profil"){
+            paramsToValidate = [...paramsToValidate, ...[{type: "text", id: 'society', value: society}]];
         }
 
         let inputAvatar = this.inputAvatar.current;
@@ -219,8 +226,9 @@ export class Form extends Component {
             address, zipcode, city, type } = this.state;
 
         let rolesItems = [
-            { value: 'ROLE_ADMIN', label: 'Admin',          identifiant: 'admin' },
-            { value: 'ROLE_USER',  label: 'Utilisateur',    identifiant: 'utilisateur' },
+            { value: 'ROLE_ADMIN',      label: 'Admin',          identifiant: 'admin' },
+            { value: 'ROLE_USER',       label: 'Utilisateur',    identifiant: 'utilisateur' },
+            { value: 'ROLE_MANAGER',    label: 'Manager',        identifiant: 'manager' },
         ]
 
         let switcherItems = [ { value: 1, label: 'Oui', identifiant: 'oui' } ]
@@ -298,7 +306,7 @@ export class Form extends Component {
                 {(context !== "profil" && !isRegistration) && <div className="line line-2">
                     <Checkbox items={rolesItems} identifiant="roles" valeur={roles} errors={errors} onChange={this.handleChange}>Roles</Checkbox>
 
-                    <Drop ref={this.inputAvatar} identifiant="avatar" file={avatar} folder="avatars" errors={errors} accept={"image/*"} maxFiles={1}
+                    <Drop ref={this.inputAvatar} identifiant="avatar" previewFile={avatar} errors={errors} accept={"image/*"} maxFiles={1}
                           label="Téléverser un avatar" labelError="Seules les images sont acceptées.">Avatar (facultatif)</Drop>
                 </div>}
 

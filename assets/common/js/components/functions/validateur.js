@@ -1,4 +1,4 @@
-const {func} = require("prop-types");
+const Sanitaze = require('@commonComponents/functions/sanitaze');
 
 function validateDate($value) {
     if($value === "" || $value === null){
@@ -57,8 +57,6 @@ function validatePassword($value, $valueCheck){
         };
     }
 
-    return {'code': true};
-
     if (/^(?=.{12,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\w).*$/.test($value)){
 
         if($value !== $valueCheck){
@@ -105,6 +103,59 @@ function validateMinMax($value, $valueCheck) {
             'message': 'La valeur MIN doit être inférieur à la valeur MAX.'
         };
     }
+    return {'code': true};
+}
+
+function validateDateCompare($value, $valueCheck) {
+    if($value.getTime() > $valueCheck.getTime()){
+        return {
+            'code': false,
+            'message': 'Incohérence des dates.'
+        };
+    }
+    return {'code': true};
+}
+
+function validateDateLimitHours($value, $min, $max) {
+    if($value.getHours() < $min || $value.getHours() > $max){
+        return {
+            'code': false,
+            'message': 'L\'heure doit être comprise entre ' + $min + 'h et ' + $max + 'h.'
+        }
+    }
+
+    return {'code': true};
+}
+
+function validateDateLimitMinutes($value, $min, $max) {
+    if($value.getMinutes() < $min || $value.getMinutes() > $max){
+        return {
+            'code': false,
+            'message': 'Les minutes doivent être comprises entre ' + $min + 'h et ' + $max + 'h.'
+        };
+    }
+
+    return {'code': true};
+}
+
+function validateDateLimitHoursMinutes($value, $minH, $maxH, $minM, $maxM) {
+    let $msg = 'L\'horaire doit être compris entre '
+        + $minH + 'h' + Sanitaze.addZeroToNumber($minM) +'min et ' + $maxH + 'h' + Sanitaze.addZeroToNumber($maxM) + 'min.';
+
+    if($value.getHours() < $minH || $value.getHours() > $maxH){
+        return {
+            'code': false,
+            'message': '[H]' + $msg
+        };
+    }else{
+        if($value.getMinutes() < $minM || $value.getMinutes() > $maxM){
+            return {
+                'code': false,
+                'message': '[M]' + $msg
+            };
+        }
+    }
+
     return {'code': true};
 }
 
@@ -157,11 +208,23 @@ function switchCase(element){
         case 'atLeastOne':
             validate = validateAtLeastOne(element.value, element.valueCheck);
             break;
+        case 'minMax':
+            validate = validateMinMax(element.value, element.valueCheck);
+            break;
         case 'date':
             validate = validateDate(element.value);
             break;
-        case 'minMax':
-            validate = validateMinMax(element.value, element.valueCheck);
+        case 'dateCompare':
+            validate = validateDateCompare(element.value, element.valueCheck);
+            break;
+        case 'dateLimitH':
+            validate = validateDateLimitHours(element.value, element.min, element.max);
+            break;
+        case 'dateLimitM':
+            validate = validateDateLimitMinutes(element.value, element.min, element.max);
+            break;
+        case 'dateLimitHM':
+            validate = validateDateLimitHoursMinutes(element.value, element.minH, element.maxH, element.minM, element.maxM);
             break;
         case 'iban':
             validate = validateIban(element.value);

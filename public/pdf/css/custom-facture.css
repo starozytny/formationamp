@@ -1,0 +1,153 @@
+@page {
+    margin: 18px 24px;
+}
+
+body{
+    font-size: 11px;
+    color: #000000;
+}
+
+b{
+    font-weight: bold;
+}
+
+h1{
+    font-size: 16px;
+    margin: 0;
+}
+
+.tableau{
+    border-radius: 8px;
+    border: 1px solid #0000;
+    margin-bottom: 24px;
+}
+
+.table{
+    margin-bottom: 0;
+}
+
+table.table tr th{
+    height: 20px;
+    background-color: #ececec;
+    border-radius: 8px;
+    text-align: center;
+}
+
+table.table tr th,
+table.table tr td{
+    border-bottom: 1px solid #0000;
+    border-right: 1px solid #0000;
+    padding: 4px 8px;
+}
+
+.bloc-table{
+    float: right;
+    border-radius: 8px;
+    border: 1px solid #000;
+    width: 140px;
+}
+
+.bloc-table .title,
+.bloc-table .content{
+    padding: 2px 12px;
+    text-align: center;
+}
+
+.bloc-table .title{
+    border-bottom: 1px solid #000;
+    background-color: #e3e3e3;
+}
+
+.header {
+    width: 100%;
+}
+
+.header .bloc-table{
+    position: relative;
+    margin-right: 4px;
+}
+
+.header .image{
+    float: left;
+    width: 100px;
+}
+
+.infos-fnaim td{
+    padding-bottom: 4px;
+    font-size: 11px;
+    color: #000000;
+}
+
+.crochet-up-left,
+.crochet-up-right,
+.crochet-down-left,
+.crochet-down-right{
+    width: 22px; height: 22px;
+}
+
+.crochet-up-left{
+    float: left;
+    border-top: 1px solid #000000;
+    border-left: 1px solid #000000;
+}
+
+.crochet-up-right{
+    float: right;
+    border-top: 1px solid #000000;
+    border-right: 1px solid #000000;
+}
+
+.crochet-down-left{
+    float: left;
+    border-bottom: 1px solid #000000;
+    border-left: 1px solid #000000;
+}
+
+.crochet-down-right{
+    float: right;
+    border-bottom: 1px solid #000000;
+    border-right: 1px solid #000000;
+}
+
+.infos-fnaim{
+    float: left;
+    width: 40%;
+}
+
+.infos-client{
+    float: right;
+    width: 55%;
+}
+
+.table .line td{
+    vertical-align: top;
+}
+
+.table .last-line td{
+    border-bottom: none;
+}
+
+.table .line-paid td{
+    border-right: none;
+    text-align: right;
+}
+
+.table .line-paid th{
+    text-align: left;
+    border: none;
+    font-weight: initial;
+}
+
+.table .line-paid .borderBottom{
+    border-bottom: 1px solid #000000;
+}
+
+.paid .tableau-1{
+    float: left;
+    width: 42%;
+}
+
+.paid .tableau-2{
+    float: right;
+    width: 45%;
+}

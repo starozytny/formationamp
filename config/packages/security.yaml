@@ -43,7 +43,8 @@ security:
 
     role_hierarchy:
         ROLE_DEVELOPER: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
-        ROLE_ADMIN: ROLE_USER
+        ROLE_ADMIN: ROLE_MANAGER
+        ROLE_MANAGER: ROLE_USER
 
     access_control:
          - { path: ^/api/login_check,        roles: PUBLIC_ACCESS }

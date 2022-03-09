@@ -3,8 +3,10 @@
 namespace App\Command;
 
 use App\Entity\Notification;
+use App\Entity\Society;
 use App\Entity\Fnaim\FnAgency;
 use App\Entity\User;
+use App\Service\Data\Society\DataSociety;
 use App\Service\DatabaseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
@@ -19,13 +21,16 @@ class AdminUsersCreateCommand extends Command
     protected static $defaultName = 'admin:users:create';
     private $em;
     private $databaseService;
+    private $dataSociety;
 
-    public function __construct(EntityManagerInterface $entityManager, DatabaseService $databaseService)
+    public function __construct(EntityManagerInterface $entityManager, DatabaseService $databaseService,
+                                DataSociety $dataSociety)
     {
         parent::__construct();
 
         $this->em = $entityManager;
         $this->databaseService = $databaseService;
+        $this->dataSociety = $dataSociety;
     }
 
     protected function configure()
@@ -41,7 +46,7 @@ class AdminUsersCreateCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $io->title('Reset des tables');
-        $this->databaseService->resetTable($io, [Notification::class, User::class]);
+        $this->databaseService->resetTable($io, [Notification::class, User::class, Society::class]);
 
         $users = array(
             [
@@ -64,10 +69,40 @@ class AdminUsersCreateCommand extends Command
                 'lastname' => 'Shanks',
                 'email' => 'shanks@hotmail.fr',
                 'roles' => ['ROLE_USER']
-            ]
+            ],
+            [
+                'username' => 'manager',
+                'firstname' => 'Manager',
+                'lastname' => 'Shan',
+                'email' => 'chanbora.manager@outlook.fr',
+                'roles' => ['ROLE_USER', 'ROLE_MANAGER']
+            ],
         );
 
         $password = password_hash("azerty", PASSWORD_ARGON2I);
+
+        $io->title('Création de la société Logilink');
+        $data = [
+            "name" => "Logilink",
+            "siren" => "",
+            "siret" => "",
+            "rcs" => "",
+            "numeroTva" => "",
+            "forme" => 1,
+            "address" => "17 rue de la république",
+            "zipcode" => "13002",
+            "city" => "MARSEILLE 02",
+            "complement" => "",
+            "country" => "France",
+            "email" => "chanbora@logilink.fr",
+            "phone1" => "0652XXXXXX",
+        ];
+        $data = json_decode(json_encode($data));
+
+        $society = $this->dataSociety->setData(new Society(), $data, 0);
+
+        $this->em->persist($society);
+        $io->text('SOCIETE : Logilink créé' );
 
         $io->title('Création des utilisateurs');
         foreach ($users as $user) {
@@ -78,6 +113,7 @@ class AdminUsersCreateCommand extends Command
                 ->setFirstname(ucfirst($user['firstname']))
                 ->setLastname(mb_strtoupper($user['lastname']))
                 ->setPassword($password)
+                ->setSociety($society)
             ;
 
             $agency = (new FnAgency())
@@ -100,17 +136,43 @@ class AdminUsersCreateCommand extends Command
         }
 
         if ($input->getOption('fake')) {
-            $io->title('Création de 110 utilisateurs lambdas');
+            $io->title('Création de 10 société fake');
+            $societies = [];
+            $fake = Factory::create();
+            for($i=0; $i<10 ; $i++) {
+                $data = [
+                    "name" => $fake->name,
+                    "siren" => "",
+                    "siret" => "",
+                    "rcs" => "",
+                    "numeroTva" => "",
+                    "forme" => $fake->numberBetween(0, 4),
+                    "address" => $fake->streetName,
+                    "zipcode" => $fake->postcode,
+                    "city" => $fake->city,
+                    "complement" => $fake->lastName
+                ];
+
+                $data = json_decode(json_encode($data));
+
+                $new = $this->dataSociety->setData(new Society(), $data, $i+1);
+
+                $this->em->persist($new);
+                $societies[] = $new;
+            }
+            $io->text('SOCIETE : Sociétés fake créées' );
+
+            $io->title('Création de 110 utilisateurs fake');
             $fake = Factory::create();
             for($i=0; $i<110 ; $i++) {
                 $new = (new User())
                     ->setUsername($fake->userName)
                     ->setEmail($fake->freeEmail)
-//                    ->setEmail("undefined@undefined.fr")
                     ->setRoles(['ROLE_USER'])
                     ->setFirstname(ucfirst($fake->firstName))
                     ->setLastname(mb_strtoupper($fake->lastName))
                     ->setPassword($password)
+                    ->setSociety($societies[$fake->numberBetween(0,9)])
                 ;
 
                 $this->em->persist($new);

@@ -234,6 +234,22 @@ function setDateOrEmptyIfNull (value, defaultValue = "") {
     return value ? new Date(value) : defaultValue;
 }
 
+function setToInt (value) {
+    value = value.toString();
+    value = value !== "" ? value.replaceAll(" ", "") : "";
+    value = value !== "" ? parseInt(value) : "";
+
+    return value
+}
+
+function setToFloat (value) {
+    value = value.toString();
+    value = value !== "" ? value.replaceAll(" ", "") : "";
+    value = value !== "" ? parseFloat(value) : "";
+
+    return value
+}
+
 module.exports = {
     loader,
     displayErrors,
@@ -251,5 +267,7 @@ module.exports = {
     showErrors,
     switchFunction,
     setValueEmptyIfNull,
-    setDateOrEmptyIfNull
+    setDateOrEmptyIfNull,
+    setToFloat,
+    setToInt,
 }

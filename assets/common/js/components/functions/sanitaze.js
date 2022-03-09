@@ -72,6 +72,10 @@ function toFormatBytesToSize(bytes) {
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 }
 
+function addZeroToNumber (data) {
+    return data > 9 ? data : "0" + data;
+}
+
 function toFormatIban(elem)
 {
     if(elem !== "" && elem !== undefined && elem !== null){
@@ -103,5 +107,6 @@ module.exports = {
     toFormatCurrency,
     toFormatBytesToSize,
     toFormatIban,
-    toFormatIbanHidden
+    toFormatIbanHidden,
+    addZeroToNumber
 }

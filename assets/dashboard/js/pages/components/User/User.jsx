@@ -8,6 +8,8 @@ import Routing           from '@publicFolder/bundles/fosjsrouting/js/router.min.
 
 import { Layout }        from "@dashboardComponents/Layout/Page";
 import Sort              from "@commonComponents/functions/sort";
+import Filter            from "@commonComponents/functions/filter";
+import TopToolbar        from "@commonComponents/functions/topToolbar";
 import Formulaire        from "@dashboardComponents/functions/Formulaire";
 
 import { UserList }       from "./UserList";
@@ -28,24 +30,6 @@ let sorters = [
 
 let sortersFunction = [Sort.compareLastname, Sort.compareUsername, Sort.compareEmail];
 
-function filterFunction(dataImmuable, filters){
-    let newData = [];
-    if(filters.length === 0) {
-        newData = dataImmuable
-    }else{
-        dataImmuable.forEach(el => {
-            filters.forEach(filter => {
-                if(filter === el.highRoleCode){
-                    newData.filter(elem => elem.id !== el.id)
-                    newData.push(el);
-                }
-            })
-        })
-    }
-
-    return newData;
-}
-
 export class User extends Component {
     constructor(props) {
         super(props);
@@ -58,7 +42,9 @@ export class User extends Component {
             msgDeleteElement: MSG_DELETE_ELEMENT,
             pathDeleteGroup: URL_DELETE_GROUP,
             msgDeleteGroup: MSG_DELETE_GROUP,
-            sessionName: "user.pagination"
+            sessionName: "user.pagination",
+            isClient: props.isClient ? props.isClient : false,
+            societies: props.societies ? JSON.parse(props.societies) : []
         }
 
         this.layout = React.createRef();
@@ -67,9 +53,10 @@ export class User extends Component {
         this.handleUpdateList = this.handleUpdateList.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleGetFilters = this.handleGetFilters.bind(this);
-        this.handleRegenPassword = this.handleRegenPassword.bind(this);
         this.handlePerPage = this.handlePerPage.bind(this);
         this.handleChangeCurrentPage = this.handleChangeCurrentPage.bind(this);
+        this.handleSorter = this.handleSorter.bind(this);
+        this.handleRegenPassword = this.handleRegenPassword.bind(this);
 
         this.handleContentList = this.handleContentList.bind(this);
         this.handleContentCreate = this.handleContentCreate.bind(this);
@@ -81,24 +68,15 @@ export class User extends Component {
 
     handleUpdateList = (element, newContext=null) => { this.layout.current.handleUpdateList(element, newContext); }
 
-    handleGetFilters = (filters) => { this.layout.current.handleGetFilters(filters, filterFunction); }
+    handleGetFilters = (filters) => { this.layout.current.handleGetFilters(filters, Filter.filterHighRoleCode); }
 
-    handleSearch = (search) => { this.layout.current.handleSearch(search, "user", true, filterFunction); }
+    handleSearch = (search) => { this.layout.current.handleSearch(search, "user", true, Filter.filterHighRoleCode); }
 
-    handlePerPage = (perPage) => {
-        this.layout.current.handleUpdatePerPage(SORTER, perPage);
-        this.setState({ perPage: perPage });
-    }
+    handlePerPage = (perPage) => { TopToolbar.onPerPage(this, perPage, SORTER) }
 
     handleChangeCurrentPage = (currentPage) => { this.setState({ currentPage }); }
 
-    handleSorter = (nb) => {
-        const { perPage } = this.state;
-
-        SORTER = sortersFunction[nb];
-        this.layout.current.handleUpdatePerPage(SORTER, perPage);
-        this.setState({ sorter: SORTER });
-    }
+    handleSorter = (nb) => { SORTER = TopToolbar.onSorter(this, nb, sortersFunction, this.state.perPage) }
 
     handleRegenPassword = (elem) => {
         const self = this;
@@ -141,16 +119,19 @@ export class User extends Component {
                          sorters={sorters}
                          onSorter={this.handleSorter}
                          //data
+                         isClient={this.state.isClient}
                          onRegenPassword={this.handleRegenPassword}
                          data={currentData} />
     }
 
     handleContentCreate = (changeContext) => {
-        return <UserFormulaire type="create" onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        const { societies } = this.state;
+        return <UserFormulaire type="create" societies={societies} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     handleContentUpdate = (changeContext, element) => {
-        return <UserFormulaire type="update" element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
+        const { societies } = this.state;
+        return <UserFormulaire type="update" societies={societies} element={element} onChangeContext={changeContext} onUpdateList={this.handleUpdateList}/>
     }
 
     handleContentRead = (changeContext, element) => {

@@ -17,11 +17,14 @@
           "0" var(--danger),
           "1" var(--primary),
           "2" var(--warning),
-          "3" var(--grey3),
+          "3" var(--success),
+          "4" var(--grey3),
+          "5" var(--grey2),
           "default" var(--grey),
           "danger" var(--danger),
           "warning" var(--warning),
           "primary" var(--primary),
+          "success" var(--success),
 ;
 
   @each $number, $bg in $status {
@@ -51,7 +54,7 @@
 
   & > .items{
     & > .item{
-      @include flex(row, center, flex-start);
+      @include flex(row, flex-start, flex-start);
       padding: 24px 12px 12px 12px;
 
       &:hover{
@@ -79,14 +82,14 @@
     flex-wrap: wrap;
   }
 
-  .badges + .name{
-    margin-top: 8px;
-  }
-
   .badges{
     & > .badge:not(:last-child),
     & > .role:not(:last-child){
       margin-right: 8px;
+    }
+
+    & > .role,
+    & > .badge{
       margin-bottom: 8px;
     }
   }
@@ -129,6 +132,20 @@
         &:before{
           opacity: 1;
         }
+      }
+    }
+  }
+
+  .item-image{
+    cursor: pointer;
+
+    img{
+      transition: all 0.2s ease-in-out;
+    }
+
+    &:hover{
+      img{
+        transform: scale(1.05);
       }
     }
   }

@@ -56,7 +56,8 @@
         "symfony/web-profiler-bundle": "5.4.*",
         "symfony/webpack-encore-bundle": "^1.8",
         "symfony/workflow": "5.4.*",
-        "symfony/yaml": "5.3.*"
+        "symfony/yaml": "5.3.*",
+      "ext-openssl": "*"
     },
     "config": {
         "optimize-autoloader": true,

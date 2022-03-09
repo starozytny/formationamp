@@ -168,21 +168,24 @@ export class TopSorterPagination extends Component {
 
         let pageCount = Math.ceil(taille / perPage);
 
-        return <div className="sorter-pagination">
-            <div className="actions-sorter">
-                {sorters && <div className="line">
-                    <Select noEmpty={true} items={sorters} identifiant="sorter" valeur={sorter} errors={errors} onChange={this.handleChange}>Trier par</Select>
-                </div>}
-            </div>
+        return <>
+            <div className="sorter-pagination">
+                <div className="actions-sorter">
+                    {sorters && <div className="line">
+                        <Select noEmpty={true} items={sorters} identifiant="sorter" valeur={sorter} errors={errors} onChange={this.handleChange}>Trier par</Select>
+                    </div>}
+                </div>
 
-            <div className="actions-pagination">
-                {onClick && <div className="line line-2">
-                    <Select noEmpty={true} items={selectItems} identifiant="perPage" valeur={perPage} errors={errors} onChange={this.handleChange}>Nombre de résultats par page</Select>
-                    <div className="pagination-container">
-                        <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={onClick}/>
-                    </div>
-                </div>}
+                <div className="actions-pagination">
+                    {onClick && <div className="line line-2">
+                        <Select noEmpty={true} items={selectItems} identifiant="perPage" valeur={perPage} errors={errors} onChange={this.handleChange}>Résultats par page</Select>
+                        <div className="pagination-container">
+                            <PaginationView pageCount={pageCount} currentPage={currentPage} onClick={onClick}/>
+                        </div>
+                    </div>}
+                </div>
             </div>
-        </div>
+            <div className="pagination-results">{taille} Résultat{taille > 1 ? "s" : ""}</div>
+        </>
     }
 }

@@ -118,6 +118,13 @@ class DataEntity
         return $civilities[$civility];
     }
 
+    public function getFileOrDefault($file, $folder, $default = "/placeholders/placeholder.jpg")
+    {
+        return $file ? "/" . $folder . "/" . $file : $default;
+    }
+
+
+
     /**
      * encrypt or decrypt iban or bic
      *
@@ -158,5 +165,12 @@ class DataEntity
         }
 
         return null;
+    }
+
+    public function setDateTimeZone($value, $timeZone = "Europe/Paris")
+    {
+        $value->setTimezone(new \DateTimeZone($timeZone));
+
+        return $value;
     }
 }

@@ -220,6 +220,8 @@ export class StyleguideForm extends Component {
         let switcherItems = [ { value: 0, label: 'Non', identifiant: 'non' } ]
 
         let includeTimesMorning = Helper.setIncludeTimes(6, 12, 0, 55);
+        let minTime = Helper.createTimeHoursMinutes(8);
+        let maxTime = Helper.createTimeHoursMinutes(20, 30);
 
         return (
             <>
@@ -285,7 +287,11 @@ export class StyleguideForm extends Component {
 
                             <div className="line line-3">
                                 <DatePick identifiant="birthday" valeur={birthday} errors={errors} onChange={(e) => this.handleChangeDate("birthday", e)}>Date de naissance</DatePick>
-                                <DateTimePick identifiant="createAt" valeur={createAt} errors={errors} onChange={(e) => this.handleChangeDate("createAt", e)}>Date de création</DateTimePick>
+                                <DateTimePick identifiant="createAt" valeur={createAt} errors={errors}
+                                              minTime={minTime} maxTime={maxTime}
+                                              onChange={(e) => this.handleChangeDate("createAt", e)}>
+                                    Date de création
+                                </DateTimePick>
                                 <TimePick identifiant="arrived" valeur={arrived} errors={errors} onChange={(e) => this.handleChangeDate("arrived", e)} includeTimes={includeTimesMorning}>Heure d'arrivée</TimePick>
                             </div>
 

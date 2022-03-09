@@ -62,11 +62,11 @@ export class Drop extends Component {
     }
 
     render () {
-        const { file, folder, children, accept, maxFiles, labelError, label, labelFiles="Ajouter" } = this.props;
+        const { previewFile, children, accept, maxFiles, maxSize=5330000, labelError, label, labelFiles="Ajouter" } = this.props;
 
         let content = <div className="form-files">
-            {file && folder && <div className="preview-form-oldFile">
-                <img src={"/" + folder + "/" + file} alt="preview file"/>
+            {previewFile && <div className="preview-form-oldFile">
+                <img src={previewFile} alt="preview file"/>
             </div>}
             <Dropzone
                 ref={this.drop}
@@ -74,6 +74,7 @@ export class Drop extends Component {
                 onChangeStatus={this.handleChangeStatus}
                 accept={accept}
                 maxFiles={maxFiles}
+                maxSizeBytes={maxSize}
                 multiple={maxFiles > 1}
                 canCancel={false}
                 inputContent={(files, extra) => (extra.reject ? labelError : label)}

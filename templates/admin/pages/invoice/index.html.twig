@@ -1,0 +1,9 @@
+{% extends 'admin/pages/invoice/template.html.twig' %}
+
+{% set page_title %}Facturations{% endset %}
+
+{% block main_content %}
+    <div id="invoices" data-donnees="{{ donnees }}">
+        {% include "dashboard/layout/components/spinner.html.twig" %}
+    </div>
+{% endblock %}

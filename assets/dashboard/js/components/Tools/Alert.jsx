@@ -15,11 +15,11 @@ export function Alert(props){
             break;
         case "info":
             alert = "primary";
-            icon = iconCustom ? iconCustom : "information";
+            icon = iconCustom ? iconCustom : "exclamation";
             break;
         case "reverse":
             alert = "default-reverse";
-            icon = iconCustom ? iconCustom : "information";
+            icon = iconCustom ? iconCustom : "exclamation";
             break;
         default:
             alert = "default";

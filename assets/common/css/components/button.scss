@@ -94,6 +94,14 @@ $icons:
   border-color: var(--grey);
 }
 
+.btn-isPublished{
+  &.true{
+    .btn-icon{
+      color: var(--warning);
+    }
+  }
+}
+
 .dark-mode{
   $icons:
           "primary" var(--txt),

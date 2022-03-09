@@ -1,5 +1,9 @@
 @import '~react-dropzone-uploader/dist/styles.css';
 
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--disabled{
+  display: none;
+}
+
 .form{
   background-color: var(--alpha);
   border-radius: 4px;
@@ -41,6 +45,23 @@
   }
 }
 
+.alert + .line:nth-child(2),
+.line:first-child{
+  .line-separator{
+    margin-top: 0;
+
+    .title{
+      margin-top: 0;
+    }
+  }
+}
+
+.preview-form-oldFile{
+  img{
+    width: 42px; height: 42px;
+  }
+}
+
 .form-rgpd{
   font-size: 14px;
   color: var(--grey2);
@@ -65,6 +86,17 @@
   .react-selectize.default.root-node{
     width: 100%;
     @include fontRegular();
+
+    &.disabled{
+      pointer-events: initial;
+
+      &:not(.open){
+        .react-selectize-control{
+          background: var(--greyShadow);
+          cursor: not-allowed;
+        }
+      }
+    }
 
     &:not(.open){
       .react-selectize-control{
@@ -488,6 +520,12 @@ select{
 //                     | |   /_/  \___/ \___/   | |
 //                     |__|                    |__|
 @media (min-width:768px) {
+  .preview-form-oldFile{
+    img{
+      width: 64px; height: 64px;
+    }
+  }
+
   .line{
     &.line-2, &.line-3, &.line-4, &.line-infinite{
       flex-direction: row;

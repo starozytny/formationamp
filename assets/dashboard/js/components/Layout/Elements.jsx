@@ -2,6 +2,12 @@ import React, { Component } from "react";
 
 import { Button } from "@dashboardComponents/Tools/Button";
 
+function ButtonBack ({ onChangeContext, url = null, text = "Retour à la liste"})
+{
+    return onChangeContext ? <Button outline={true} icon="left-arrow" type="primary" onClick={() => onChangeContext("list")}>{text}</Button>
+        :  <Button element="a" outline={true} icon="left-arrow" type="primary" onClick={url}>{text}</Button>
+}
+
 export class FormLayout extends Component{
     render() {
         const { onChangeContext, children, form, url = null, text = "Retour à la liste" } = this.props;
@@ -9,11 +15,7 @@ export class FormLayout extends Component{
         return <div>
             <div className="toolbar">
                 <div className="item">
-                    {onChangeContext ?
-                        <Button outline={true} icon="left-arrow" type="primary" onClick={() => onChangeContext("list")}>{text}</Button>
-                        :  <Button element="a" outline={true} icon="left-arrow" type="primary" onClick={url}>{text}</Button>
-                    }
-
+                    <ButtonBack onChangeContext={onChangeContext} url={url} text={text} />
                 </div>
             </div>
 
@@ -23,4 +25,12 @@ export class FormLayout extends Component{
             </div>
         </div>
     }
+}
+
+export function Back ({ onChangeContext, url = null, text = "Retour" }) {
+    return <div className="toolbar">
+        <div className="item">
+            <ButtonBack onChangeContext={onChangeContext} url={url} text={text} />
+        </div>
+    </div>
 }

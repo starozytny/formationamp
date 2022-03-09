@@ -3,7 +3,7 @@
 {% set page_title %}Mon profil{% endset %}
 
 {% block main_content %}
-    <div id="profil-update" data-donnees="{{ donnees }}">
+    <div id="profil-update" data-donnees="{{ donnees }}" data-society-id="{{ elem.society.id }}">
         {% include "dashboard/layout/components/spinner.html.twig" %}
     </div>
 {% endblock %}

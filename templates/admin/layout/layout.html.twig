@@ -9,8 +9,14 @@
         'name': 'admin'
     },
     {
+        'path': path('admin_societies_index'),
+        'icon': 'shield',
+        'label': 'Sociétés',
+        'name': 'societes'
+    },
+    {
         'path': path('admin_users_index'),
-        'icon': 'user',
+        'icon': 'group',
         'label': 'Utilisateurs',
         'name': 'utilisateurs'
     },
@@ -25,6 +31,18 @@
         'icon': 'chat-2',
         'label': 'Contact',
         'name': 'contact'
+    },
+    {
+        'path': path('admin_changelogs_index'),
+        'icon': 'follow',
+        'label': 'Changelog',
+        'name': 'changelogs'
+    },
+    {
+        'path': path('admin_invoice_index'),
+        'icon': 'file',
+        'label': 'Facturations',
+        'name': 'facturations'
     },
     {
         'path': path('admin_formations_index'),

@@ -157,6 +157,14 @@
     padding: 24px;
   }
 
+  #profil-users{
+    .toolbar{
+      .filter-search{
+        width: calc(100% - 214px);
+      }
+    }
+  }
+
   .profil-card-footer{
     margin-top: 24px;
   }

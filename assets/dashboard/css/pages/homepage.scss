@@ -37,7 +37,7 @@
   box-shadow: 0 4px 12px var(--greyShadow);
   border-radius: 12px;
   padding: 12px;
-  width: 100%;
+  width: calc(100% - 24px);
   max-width: 272px;
   transition: width 0.2s ease-in-out;
 
