@@ -9,7 +9,7 @@
         <p style="width: 540px;">
             Bonjour, <br><br>
             Vous avez fait une demande d'inscription
-            à "{{ title }}" {{ session.fullDateHuman}} {{ session.fullTime}} pour {{ participants }}
+            à "<b>{{ title }}</b>" {{ session.fullDateHuman}} {{ session.fullTime}} pour <b>{{ participants }}</b>
             participant{{ participants > 1 ? "s" : "" }}. <br>
             Adresse : {{ session.fullAddress }}
         </p>
@@ -29,12 +29,15 @@
         <h2>Récapitulatif</h2>
 
         <table>
-            <tbody>
-            {% if orderRegulars | length !== 0 %}
-                <th>Details AGENCE</th>
+            {% if orderRegulars | length != 0 %}
+                <thead>
+                    <tr><th>Details AGENCE</th></tr>
+                </thead>
             {% endif %}
+            <tbody>
             {% for order in orderRegulars %}
-                {% for worker in order.workers %}
+                {% for registration in order.registrations %}
+                    {% set worker = registration.worker %}
                     <tr>
                         <td style="text-align: left; padding-right: 15px;">{{ worker.nom | upper }} {{ worker.prenom | capitalize }}</td>
                     </tr>
@@ -47,12 +50,15 @@
         </table>
 
         <table>
-            <tbody>
-            {% if orderSpecials | length !== 0 %}
-                <th>Details AGENTS COMMERCIAUX</th>
+            {% if orderSpecials | length != 0 %}
+                <thead>
+                    <tr><th>Details AGENTS COMMERCIAUX</th></tr>
+                </thead>
             {% endif %}
+            <tbody>
             {% for order in orderSpecials %}
-                {% for worker in order.workers %}
+                {% for registration in order.registrations %}
+                    {% set worker = registration.worker %}
                     <tr>
                         <td style="text-align: left; padding-right: 15px;">{{ worker.nom | upper }} {{ worker.prenom | capitalize }}</td>
                     </tr>
@@ -74,12 +80,14 @@
             https://127.0.0.1:8000/client/paiements/verification-code/1062/84d4fd7d40d96394b80665b87d2601c5daa926e87de671225441e360102cedf6/8cfab201
         </p>
 
-        <p  style="width: 540px; color: #ff5500">
+        <p style="width: 540px; color: #ff5500">
             <br>
             <br>
             <br>
             Si vous n'êtes pas à l'origine de cette demande, supprimez simplement ce message.
             <b>Veuillez contacter contact@formationamp.immo</b>
+        </p>
+        <p style="width: 540px; color: #ff5500">
             <br><br><br>
             Une fois la confirmation réalisée, vous pourrez trouver votre reçu dans votre espace client dans la rubrique Profil > Paiements.
         </p>
