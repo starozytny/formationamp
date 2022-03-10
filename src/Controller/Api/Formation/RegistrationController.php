@@ -8,12 +8,14 @@ use App\Entity\Formation\FoWorker;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\User;
 use App\Service\ApiResponse;
+use App\Service\Expiration;
 use App\Service\MailerService;
 use App\Service\NotificationService;
 use App\Service\Registration\RegistrationService;
 use App\Service\SettingsService;
 use DateTime;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Http\Discovery\Exception\NotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,6 +23,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @Route("/api/registration", name="api_registration_")
@@ -53,13 +56,12 @@ class RegistrationController extends AbstractController
      * @param ApiResponse $apiResponse
      * @param MailerService $mailerService
      * @param SettingsService $settingsService
-     * @param NotificationService $notificationService
      * @param RegistrationService $registrationService
      * @return JsonResponse
      */
     public function create(Request $request, FoSession $session, ApiResponse $apiResponse,
                            MailerService $mailerService, SettingsService $settingsService,
-                           NotificationService $notificationService, RegistrationService $registrationService): JsonResponse
+                           RegistrationService $registrationService): JsonResponse
     {
         $em = $this->doctrine->getManager();
         $data = json_decode($request->getContent());
@@ -99,7 +101,7 @@ class RegistrationController extends AbstractController
                 return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
             }
 
-            $orderRegulars[] = $registration["data"];
+            $orderRegulars[] = $registration["data"]->getId();
         }
 
         // Specials = agents commerciaux
@@ -124,9 +126,14 @@ class RegistrationController extends AbstractController
                     return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
                 }
 
-                $orderSpecials[] = $registration["data"];
+                $orderSpecials[] = $registration["data"]->getId();
             }
         }
+
+        $em->flush();
+
+        $orderRegulars = $em->getRepository(PaOrder::class)->findBy(['id' => $orderRegulars]);
+        $orderSpecials = $em->getRepository(PaOrder::class)->findBy(['id' => $orderSpecials]);
 
         // Send mails
         if($mailerService->sendMail(
@@ -138,9 +145,14 @@ class RegistrationController extends AbstractController
                     'settings' => $settingsService->getSettings(),
                     'title' => $nameFormation,
                     'session' => $session,
-                    "orderRegulars" => $orderRegulars,
-                    "orderSpecials" => $orderSpecials,
-                    'participants' => count($workersRegulars) + count($workersSpecials)
+                    'orderRegulars' => $orderRegulars,
+                    'orderSpecials' => $orderSpecials,
+                    'participants' => count($workersRegulars) + count($workersSpecials),
+                    'urlConfirmation' => $this->generateUrl('api_registration_confirmation', [
+                        'token' => $user->getToken(),
+                        'numGroup' => $user->getId().$code,
+                        'code' => $code
+                    ], UrlGeneratorInterface::ABSOLUTE_URL)
                 ]
             ) != true)
         {
@@ -150,16 +162,86 @@ class RegistrationController extends AbstractController
             ]]);
         }
 
-        $em->flush();
+        return $apiResponse->apiJsonResponseSuccessful("Success");
+    }
+
+    /**
+     * @Route("/confirmation/{token}/{numGroup}/{code}", name="confirmation", options={"expose"=true}, methods={"GET"})
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns a message",
+     * )
+     *
+     * @OA\Tag(name="Registration")
+     *
+     * @param $token
+     * @param $numGroup
+     * @param $code
+     * @param Expiration $expiration
+     * @param NotificationService $notificationService
+     * @return RedirectResponse
+     */
+    public function confirmation($token, $numGroup, $code, Expiration $expiration, NotificationService $notificationService): RedirectResponse
+    {
+        $em = $this->doctrine->getManager();
+
+        /** @var User $user */
+        $user = $this->getUser();
+        if($token != $user->getToken()){
+            return $this->redirectToRoute('app_login');
+        }
+
+        $orders = $em->getRepository(PaOrder::class)->findBy(['numGroup' => $numGroup]);
+
+        if(count($orders) <= 0){
+            throw new NotFoundException("Inscription introuvable.");
+        }
+
+        $session = "";
+
+        foreach($orders as $order){
+            $status = $order->getStatus();
+            $session = $order->getSession();
+
+            $error = $status !== PaOrder::STATUS_ATTENTE;
+            $msg = "";
+
+            if( $status == PaOrder::STATUS_EXPIRER
+                || $expiration->isExpiredByHours($order->getCodeAt(), new DateTime(), 2)
+                || $order->getCode() !== $code
+            ){
+                $error = true;
+                $msg = 'Le lien a expiré. Inscription et paiement annulé.';
+            }
+
+            if( $status == PaOrder::STATUS_ANNULER ){
+                $msg = 'Le lien est invalide car l\'inscription et le paiement ont été annulé.';
+            }
+
+            if( $status == PaOrder::STATUS_VALIDER || $status == PaOrder::STATUS_TRAITER){
+                $msg = 'Le lien a déjà été utilisé pour confirmer l\'inscription à la formation : ' . $order->getName();
+            }
+
+            if($error){
+                $this->addFlash('notice_error', $msg);
+                return $this->redirectToRoute('user_profil', ['_fragment' => "profil-orders"]);
+            }
+
+            $order->setStatus(PaOrder::STATUS_VALIDER);
+            $this->addFlash('notice_success', "Inscription confirmée !");
+        }
 
         $notificationService->createNotification(
-            "Inscription - " . $fullNameFormation,
+            "Inscription - " . $session->getFormation()->getName(),
             self::ICON,
             $this->getUser(),
             $this->generateUrl('admin_sessions_read', ['slug' => $session->getSlug()])
         );
 
-        return $apiResponse->apiJsonResponseSuccessful("Success");
+        $em->flush();
+
+        return $this->redirectToRoute('user_profil', ['_fragment' => "profil-orders"]);
     }
 
     /**
@@ -226,8 +308,6 @@ class RegistrationController extends AbstractController
                                 }
                             }
                         }
-
-
                     }
                 }
             }

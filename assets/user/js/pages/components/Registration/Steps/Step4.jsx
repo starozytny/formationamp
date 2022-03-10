@@ -7,7 +7,7 @@ export function Step4 ({ step, email }) {
 
         <div className="validation">
             <div className="review-infos">
-                <h2 className="txt-primary">Inscription validée</h2>
+                <h2 className="txt-primary">Inscription à confirmer par mail</h2>
                 <div className="content">
                     <p>
                         Un mail de confirmation vous sera envoyé à l'adresse suivante : <b>{email}</b>

@@ -55,6 +55,12 @@
                 <div id="profil-teams" data-donnees="{{ teams }}" data-data-archived="{{ teamsArchived }}">
                     {% include "dashboard/layout/components/spinner.html.twig" %}
                 </div>
+                {% for message in app.flashes('notice_success') %}
+                    <div class="flash-notification" data-type="success" data-donnees="{{ message }}"></div>
+                {% endfor %}
+                {% for message in app.flashes('notice_error') %}
+                    <div class="flash-notification" data-type="error" data-donnees="{{ message }}"></div>
+                {% endfor %}
                 <div id="profil-orders" data-donnees="{{ orders }}">
                     {% include "dashboard/layout/components/spinner.html.twig" %}
                 </div>

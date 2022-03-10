@@ -4,8 +4,8 @@ const routes = require('@publicFolder/js/fos_js_routes.json');
 import Routing from '@publicFolder/bundles/fosjsrouting/js/router.min';
 
 import React from "react";
+import Swal from "sweetalert2";
 import { render } from "react-dom";
-import { Users }          from "@userPages/components/Profil/User/Users";
 import { UserFormulaire } from "@userPages/components/Profil/UserForm";
 import { BankFormulaire } from "@userPages/components/Profil/Bank/BankForm";
 import { TeamFormulaire } from "@userPages/components/Profil/Team/TeamForm";
@@ -14,6 +14,13 @@ import { Banks }          from "@userPages/components/Profil/Bank/Banks";
 import { Orders }         from "@userPages/components/Profil/Order/Orders";
 
 Routing.setRoutingData(routes);
+
+let flashMessages = document.querySelectorAll('.flash-notification');
+flashMessages.forEach(flashMessage => {
+    let type    = flashMessage.dataset.type;
+    let message = flashMessage.dataset.donnees;
+    Swal.fire(type === "error" ? "Erreur" : "Information", message, type);
+})
 
 let el = document.getElementById("profil-update");
 if(el){

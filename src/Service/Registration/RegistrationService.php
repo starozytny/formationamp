@@ -8,7 +8,6 @@ use App\Entity\Formation\FoSession;
 use App\Entity\Formation\FoWorker;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\User;
-use App\Service\ApiResponse;
 use App\Service\Data\Formation\DataRegistration;
 use App\Service\Data\Paiement\DataPaiement;
 use App\Service\ValidatorService;
@@ -96,6 +95,7 @@ class RegistrationService
         if(!$order instanceof PaOrder){
             return ["code" => 0, "data" => $order];
         }
+        $order->setNumGroup($user->getId().$code);
         $em->persist($order);
 
         foreach($workers as $worker){

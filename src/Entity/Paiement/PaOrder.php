@@ -154,6 +154,11 @@ class PaOrder extends DataEntity
     private $session;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $numGroup;
+
+    /**
      * @throws Exception
      */
     public function __construct()
@@ -476,6 +481,18 @@ class PaOrder extends DataEntity
     public function setSession(?FoSession $session): self
     {
         $this->session = $session;
+
+        return $this;
+    }
+
+    public function getNumGroup(): ?string
+    {
+        return $this->numGroup;
+    }
+
+    public function setNumGroup(string $numGroup): self
+    {
+        $this->numGroup = $numGroup;
 
         return $this;
     }

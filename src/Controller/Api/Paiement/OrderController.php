@@ -131,8 +131,14 @@ class OrderController extends AbstractController
     {
         $em = $this->doctrine->getManager();
 
-        $obj->setCodeAt($dataService->createDate());
-        $obj->setUpdatedAt($dataService->createDate());
+        $objs = $em->getRepository(PaOrder::class)->findBy(['numGroup' => $obj->getNumGroup()]);
+
+        $newDate = $dataService->createDate();
+        foreach($objs as $item){
+            $item->setCodeAt($newDate);
+            $item->setUpdatedAt($newDate);
+        }
+
         $em->flush();
 
         return $apiResponse->apiJsonResponse($obj, User::ADMIN_READ);

@@ -11,10 +11,10 @@
             Vous avez fait une demande d'inscription
             à "<b>{{ title }}</b>" {{ session.fullDateHuman}} {{ session.fullTime}} pour <b>{{ participants }}</b>
             participant{{ participants > 1 ? "s" : "" }}. <br>
-            Adresse : {{ session.fullAddress }}
+            Adresse : {{ session.fullAddress }} <br>
         </p>
 
-        <h2><a href="">Lien de confirmation d'inscription</a></h2>
+        <h2><a href="{{ urlConfirmation }}">Lien de confirmation d'inscription</a></h2>
 
         <p style="width: 540px;">
             <br><br>
@@ -42,9 +42,11 @@
                         <td style="text-align: left; padding-right: 15px;">{{ worker.nom | upper }} {{ worker.prenom | capitalize }}</td>
                     </tr>
                 {% endfor %}
-                 <p>
-                    <b>Total : </b><span style="color: #dabf00;"><b>{{ order.price | price }} € TTC</b></span>
-                </p>
+                <tr>
+                    <td style="text-align: left; padding-right: 15px;">
+                        <b>Total : </b><span style="color: #dabf00;"><b>{{ order.price | price }} € TTC</b></span>
+                    </td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
@@ -63,9 +65,11 @@
                         <td style="text-align: left; padding-right: 15px;">{{ worker.nom | upper }} {{ worker.prenom | capitalize }}</td>
                     </tr>
                 {% endfor %}
-                 <p>
-                    <b>Total : </b><span style="color: #dabf00;"><b>{{ order.price | price }} € TTC</b></span>
-                </p>
+                <tr>
+                    <td style="text-align: left; padding-right: 15px;">
+                        <b>Total : </b><span style="color: #dabf00;"><b>{{ order.price | price }} € TTC</b></span>
+                    </td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
@@ -77,7 +81,7 @@
         <p style="width: 540px;">
             Si le lien ne fonctionne pas, vous pouvez saisir manuellement ou copier/coller le lien suivant dans la barre d'adresse de votre navigateur :
             <br>
-            https://127.0.0.1:8000/client/paiements/verification-code/1062/84d4fd7d40d96394b80665b87d2601c5daa926e87de671225441e360102cedf6/8cfab201
+            {{ urlConfirmation }}
         </p>
 
         <p style="width: 540px; color: #ff5500">
