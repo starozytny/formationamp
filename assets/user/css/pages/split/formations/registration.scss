@@ -176,9 +176,15 @@
   .review-participants{
     .items-default{
       .infos{
+
+        .col-1{
+          width: calc(100% - 40% - 48px - 228px);;
+        }
+
         .actions{
           flex-direction: column;
           align-items: flex-end;
+          width: 228px;
 
           .total{
             margin-top: 8px;

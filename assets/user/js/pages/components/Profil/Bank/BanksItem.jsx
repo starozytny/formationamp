@@ -28,7 +28,7 @@ export class BanksItem extends Component {
                     <div className="infos infos-col-3">
                         <div className="col-1" onClick={onSelectBank ? () => onSelectBank(elem) : null}>
                             <div className="name">
-                                <span>{Sanitaze.toFormatIbanHidden(elem.iban)}</span>
+                                <span>{elem.iban}</span>
                             </div>
                             {!isRegistration && <div className="role">
                                 <span>{elem.isMain ? "Principal" : "Secondaire" }</span>
