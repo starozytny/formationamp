@@ -93,7 +93,7 @@ class PaBank extends DataEntity
      */
     public function getIbanHidden(): string
     {
-        return $this->toFormatIbanHidden($this->iban);
+        return $this->toFormatIbanHidden($this->getIban());
     }
 
     public function getIban(): ?string
