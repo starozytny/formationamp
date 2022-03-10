@@ -242,7 +242,7 @@ class SessionController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-        $registrations = $em->getRepository(FoRegistration::class)->findBy(['session' => $session, 'user' => $user]);
+        $registrations = $em->getRepository(FoRegistration::class)->findBy(['session' => $session, 'user' => $user, 'status' => FoRegistration::STATUS_ACTIVE]);
         $workers = [];
         foreach($registrations as $registration){
             $workers[] = $registration->getWorker();
@@ -288,7 +288,7 @@ class SessionController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-        $registrationsTotal = $em->getRepository(FoRegistration::class)->findBy(['session' => $session]);
+        $registrationsTotal = $em->getRepository(FoRegistration::class)->findBy(['session' => $session, 'status' => FoRegistration::STATUS_ACTIVE]);
         $registrations = $em->getRepository(FoRegistration::class)->findBy(['session' => $session, 'user' => $user]);
 
         $mpdf = $fileCreator->initPDF("Attestations");
@@ -348,7 +348,7 @@ class SessionController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-        $registrations = $em->getRepository(FoRegistration::class)->findBy(['session' => $session]);
+        $registrations = $em->getRepository(FoRegistration::class)->findBy(['session' => $session, 'status' => FoRegistration::STATUS_ACTIVE]);
 
         $workers = [];
         foreach($registrations as $registration){
