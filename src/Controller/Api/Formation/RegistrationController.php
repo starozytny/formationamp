@@ -85,7 +85,8 @@ class RegistrationController extends AbstractController
 
         $code = uniqid();
 
-        $orders = [];
+        $orderRegulars = [];
+        $orderSpecials = [];
 
         // Regulars = agence
         if(count($workersRegulars) != 0){
@@ -98,7 +99,7 @@ class RegistrationController extends AbstractController
                 return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
             }
 
-            $orders[] = $registration["data"];
+            $orderRegulars[] = $registration["data"];
         }
 
         // Specials = agents commerciaux
@@ -123,17 +124,24 @@ class RegistrationController extends AbstractController
                     return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
                 }
 
-                $orders[] = $registration["data"];
+                $orderSpecials[] = $registration["data"];
             }
         }
 
         // Send mails
         if($mailerService->sendMail(
                 $settingsService->getEmailContact(),
-                "[" . $settingsService->getWebsiteName() ."] Inscription à " . $fullNameFormation,
-                "Inscription à " . $fullNameFormation . " chez " . $settingsService->getWebsiteName(),
+                $settingsService->getWebsiteName() ." - Inscription à confirmer pour : " . $fullNameFormation,
+                "Inscription à confirmer pour : " . $fullNameFormation,
                 'user/email/formation/registration.html.twig',
-                ['title' => $nameFormation, 'session' => $session, 'settings' => $settingsService->getSettings(), "orders" => $orders]
+                [
+                    'settings' => $settingsService->getSettings(),
+                    'title' => $nameFormation,
+                    'session' => $session,
+                    "orderRegulars" => $orderRegulars,
+                    "orderSpecials" => $orderSpecials,
+                    'participants' => count($workersRegulars) + count($workersSpecials)
+                ]
             ) != true)
         {
             return $apiResponse->apiJsonResponseValidationFailed([[

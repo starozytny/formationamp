@@ -2,13 +2,110 @@
 
 {% block preheader %}Inscription {{ title }} chez {{ settings.websiteName }}{% endblock %}
 
-{% block title %}Inscription {{ title }}{% endblock %}
+{% block title %}Inscription à confirmer{% endblock %}
 
 {% block body %}
     <div>
-        <div>Inscription réalisé par </div>
         <p style="width: 540px;">
-            Message : <br>
+            Bonjour, <br><br>
+            Vous avez fait une demande d'inscription
+            à "{{ title }}" {{ session.fullDateHuman}} {{ session.fullTime}} pour {{ participants }}
+            participant{{ participants > 1 ? "s" : "" }}. <br>
+            Adresse : {{ session.fullAddress }}
+        </p>
+
+        <h2><a href="">Lien de confirmation d'inscription</a></h2>
+
+        <p style="width: 540px;">
+            <br><br>
+            <b>Attention</b> ! Le lien de confirmation restera actif durant <b>2 heures</b>. Passé ce délai, il vous
+            faudra renouveler votre demande à partir du site, car elle sera annulée.
+        </p>
+
+        <br>
+        <hr>
+        <br>
+
+        <h2>Récapitulatif</h2>
+
+        <table>
+            <tbody>
+            {% if orderRegulars | length !== 0 %}
+                <th>Details AGENCE</th>
+            {% endif %}
+            {% for order in orderRegulars %}
+                {% for worker in order.workers %}
+                    <tr>
+                        <td style="text-align: left; padding-right: 15px;">{{ worker.nom | upper }} {{ worker.prenom | capitalize }}</td>
+                    </tr>
+                {% endfor %}
+                 <p>
+                    <b>Total : </b><span style="color: #dabf00;"><b>{{ order.price | price }} € TTC</b></span>
+                </p>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <table>
+            <tbody>
+            {% if orderSpecials | length !== 0 %}
+                <th>Details AGENTS COMMERCIAUX</th>
+            {% endif %}
+            {% for order in orderSpecials %}
+                {% for worker in order.workers %}
+                    <tr>
+                        <td style="text-align: left; padding-right: 15px;">{{ worker.nom | upper }} {{ worker.prenom | capitalize }}</td>
+                    </tr>
+                {% endfor %}
+                 <p>
+                    <b>Total : </b><span style="color: #dabf00;"><b>{{ order.price | price }} € TTC</b></span>
+                </p>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        <hr>
+        <br>
+
+        <p style="width: 540px;">
+            Si le lien ne fonctionne pas, vous pouvez saisir manuellement ou copier/coller le lien suivant dans la barre d'adresse de votre navigateur :
+            <br>
+            https://127.0.0.1:8000/client/paiements/verification-code/1062/84d4fd7d40d96394b80665b87d2601c5daa926e87de671225441e360102cedf6/8cfab201
+        </p>
+
+        <p  style="width: 540px; color: #ff5500">
+            <br>
+            <br>
+            <br>
+            Si vous n'êtes pas à l'origine de cette demande, supprimez simplement ce message.
+            <b>Veuillez contacter contact@formationamp.immo</b>
+            <br><br><br>
+            Une fois la confirmation réalisée, vous pourrez trouver votre reçu dans votre espace client dans la rubrique Profil > Paiements.
+        </p>
+        <br>
+        <br>
+        <hr>
+        <p style="width: 540px;">
+            <br>
+            En confirmant ce mandat de prélèvement SEPA unique, vous autorisez :
+            <br><br>
+            (A) FNAIM FORMATION à envoyer des instructions à votre banque pour débiter votre compte.
+            (B) votre banque à débiter votre compte conformément aux instructions de FNAIM FORMATION.
+            <br><br>
+            Vous bénéficiez du droit d'être remboursé par votre banque selon les conditions décrites
+            dans la convention que vous avez passée avec elle. Une demande de remboursement doit être présentée
+            dans les 8 semaines suivant la date de débit de votre compte pour un prélèvement autorisé.
+            <br><br>
+            Si vous n'êtes pas à l'origine de cette demande, supprimez simplement ce message. Aucun paiement de
+            votre part ne sera engagé. En revanche, cela signifie qu'une personne non autorisée a probablement
+            accès à votre compte. Nous vous suggérons de modifier le mot de passe d'accès à notre site et vous
+            engageons à prendre les précautions nécessaires pour sécuriser vos appareils et vos accès à internet.
+        </p>
+
+        <br>
+        <p style="width: 540px;">
+            Nous vous souhaitons une agréable visite sur <a href="https://formationamp.immo">formationamp.immo</a>
         </p>
     </div>
 {% endblock %}

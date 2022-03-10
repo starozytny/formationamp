@@ -49,7 +49,7 @@ export function Step3 ({ step, onNext, onSubmit, email, session, workers, bank, 
                                 <div className="item-content">
                                     <div className="item-body">
                                         <div className="infos infos-col-3">
-                                            <div className="col-1">Compte bancaire AGENCE</div>
+                                            <div className="col-1">Details AGENCE</div>
                                             <div className="col-2">Participants</div>
                                             <div className="col-3 actions">Montant TTC</div>
                                         </div>
@@ -61,7 +61,7 @@ export function Step3 ({ step, onNext, onSubmit, email, session, workers, bank, 
                                 <div className="item-content">
                                     <div className="item-body">
                                         <div className="infos infos-col-3">
-                                            <div className="col-1">Compte bancaire AGENTS COMMERCIAUX</div>
+                                            <div className="col-1">Détails AGENTS COMMERCIAUX</div>
                                             <div className="col-2">Participants</div>
                                             <div className="col-3 actions">Montant TTC</div>
                                         </div>
