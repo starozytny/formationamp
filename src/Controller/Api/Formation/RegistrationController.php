@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController
 
                     $registration = $registrationService->createOrderAndRegistration(
                         $em, "A", $code,
-                        $user, $bankWorker, $session, $nameOrder, $workers, $bankWorker,
+                        $user, $agency, $session, $nameOrder, $workers, $bankWorker,
                         $request->getClientIp()
                     );
                     if($registration["code"] != 1){
@@ -119,7 +119,7 @@ class RegistrationController extends AbstractController
                     }
 
                     $orderSpecials[] = $registration["data"];
-                    $workersRegularsFinal[] = $w;
+                    $workersSpecialsFinal[] = $w;
                 }
             }
         }
@@ -136,10 +136,8 @@ class RegistrationController extends AbstractController
             }
 
             $orderRegulars[] = $registration["data"];
-            $workersSpecialsFinal[] = $workersRegulars;
+            $workersRegularsFinal = $workersRegulars;
         }
-
-        $em->flush();
 
         // Send mails
         if($mailerService->sendMail(
@@ -169,6 +167,8 @@ class RegistrationController extends AbstractController
                 'message' => "Le message n\'a pas pu être délivré. Veuillez contacter le support."
             ]]);
         }
+
+        $em->flush();
 
         return $apiResponse->apiJsonResponseSuccessful("Success");
     }

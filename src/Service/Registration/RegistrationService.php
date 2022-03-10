@@ -47,7 +47,7 @@ class RegistrationService
      */
     public function createOrder($type, $code, User $user, FnAgency $agency, FoSession $session, $nameOrder, $workers, $bank, $ip)
     {
-        $dataOrder = $this->dataPaiement->createDataOrderJson($user, $agency, $session, $nameOrder, $workers, $bank);
+        $dataOrder = $this->dataPaiement->createDataOrderJson($user, $type === "A" ? $bank : $agency, $session, $nameOrder, $workers, $bank);
         $order =  $this->dataPaiement->setDataOrder(new PaOrder(), $dataOrder, $user, $session, $type . $agency->getNumCompta(), $code, $ip);
 
         $noErrors = $this->validator->validate($order);
@@ -81,7 +81,7 @@ class RegistrationService
      * @param $type
      * @param $code
      * @param User $user
-     * @param $agency
+     * @param FnAgency $agency
      * @param FoSession $session
      * @param $nameOrder
      * @param $workers
@@ -89,7 +89,7 @@ class RegistrationService
      * @param $ip
      * @return array
      */
-    public function createOrderAndRegistration($em, $type, $code, User $user, $agency, FoSession $session, $nameOrder, $workers, $bank, $ip): array
+    public function createOrderAndRegistration($em, $type, $code, User $user, FnAgency $agency, FoSession $session, $nameOrder, $workers, $bank, $ip): array
     {
         $order = $this->createOrder($type, $code, $user, $agency, $session, $nameOrder, $workers, $bank, $ip);
         if(!$order instanceof PaOrder){

@@ -16,7 +16,7 @@ class DataPaiement
         $this->privateDirectory = $privateDirectory;
     }
 
-    public function createDataOrderJson(User $user, FnAgency $agency, FoSession $session, $nameOrder, array $workers, $bank)
+    public function createDataOrderJson(User $user, $agency, FoSession $session, $nameOrder, array $workers, $bank)
     {
         $dataOrder = [
             "participants" => count($workers),
@@ -26,9 +26,9 @@ class DataPaiement
             "iban" => $bank->iban,
             "bic" => $bank->bic,
             "email" => $user->getEmail(),
-            "address" => $agency->getAddress(),
-            "zipcode" => $agency->getZipcode(),
-            "city" => $agency->getCity()
+            "address" => ($agency instanceof FnAgency) ? $agency->getAddress() : $bank->address,
+            "zipcode" => ($agency instanceof FnAgency) ? $agency->getZipcode() : $bank->zipcode,
+            "city" => ($agency instanceof FnAgency) ? $agency->getCity() : $bank->city,
         ];
 
         return json_decode(json_encode($dataOrder));
