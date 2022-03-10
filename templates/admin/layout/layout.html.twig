@@ -33,18 +33,6 @@
         'name': 'contact'
     },
     {
-        'path': path('admin_changelogs_index'),
-        'icon': 'follow',
-        'label': 'Changelog',
-        'name': 'changelogs'
-    },
-    {
-        'path': path('admin_invoice_index'),
-        'icon': 'file',
-        'label': 'Facturations',
-        'name': 'facturations'
-    },
-    {
         'path': path('admin_formations_index'),
         'icon': 'book',
         'label': 'Formations',
@@ -55,7 +43,19 @@
         'icon': 'credit-card',
         'label': 'Paiements',
         'name': 'paiements'
-    }
+    },
+    {
+        'path': path('admin_invoice_index'),
+        'icon': 'file',
+        'label': 'Facturations',
+        'name': 'facturations'
+    },
+    {
+        'path': path('admin_changelogs_index'),
+        'icon': 'follow',
+        'label': 'Changelog',
+        'name': 'changelogs'
+    },
 ] %}
 
 {% if is_granted("ROLE_DEVELOPER") %}
