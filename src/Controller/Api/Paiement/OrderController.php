@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api\Paiement;
 
+use App\Entity\Formation\FoRegistration;
 use App\Entity\Paiement\PaLot;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\User;
@@ -9,6 +10,7 @@ use App\Service\ApiResponse;
 use App\Service\Data\DataService;
 use App\Service\Data\Paiement\DataPaiement;
 use App\Service\FileCreator;
+use App\Service\Registration\RegistrationService;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Exception;
 use Mpdf\MpdfException;
@@ -35,8 +37,6 @@ class OrderController extends AbstractController
     }
 
     /**
-     * Developer - Delete an order
-     *
      * @Security("is_granted('ROLE_DEVELOPER')")
      *
      * @Route("/{id}", name="delete", options={"expose"=true}, methods={"DELETE"})
@@ -50,16 +50,18 @@ class OrderController extends AbstractController
      *
      * @param PaOrder $obj
      * @param DataService $dataService
+     * @param RegistrationService $registrationService
      * @return JsonResponse
      */
-    public function delete(PaOrder $obj, DataService $dataService): JsonResponse
+    public function delete(PaOrder $obj, DataService $dataService, RegistrationService $registrationService): JsonResponse
     {
+        $em = $this->doctrine->getManager();
+        $registrations = $em->getRepository(FoRegistration::class)->findBy(['paOrder' => $obj->getId()]);
+        $registrationService->cancelRegistrationsFromOrder($registrations, $obj);
         return $dataService->delete($obj);
     }
 
     /**
-     * Developer - Delete a group of order
-     *
      * @Security("is_granted('ROLE_DEVELOPER')")
      *
      * @Route("/", name="delete_group", options={"expose"=true}, methods={"DELETE"})
@@ -72,17 +74,30 @@ class OrderController extends AbstractController
      * @OA\Tag(name="Orders")
      *
      * @param Request $request
-     * @param DataService $dataService
+     * @param ApiResponse $apiResponse
+     * @param RegistrationService $registrationService
      * @return JsonResponse
      */
-    public function deleteSelected(Request $request, DataService $dataService): JsonResponse
+    public function deleteSelected(Request $request, ApiResponse $apiResponse, RegistrationService $registrationService): JsonResponse
     {
-        return $dataService->deleteSelected(PaOrder::class, json_decode($request->getContent()));
+        $em = $this->doctrine->getManager();
+
+
+        $objs = $em->getRepository(PaOrder::class)->findBy(['id' => json_decode($request->getContent())]);
+        $registrations = $em->getRepository(FoRegistration::class)->findBy(['paOrder' => $objs]);
+
+        if ($objs) {
+            foreach ($objs as $obj) {
+                $registrationService->cancelRegistrationsFromOrder($registrations, $obj);
+                $em->remove($obj);
+            }
+        }
+
+        $em->flush();
+        return $apiResponse->apiJsonResponseSuccessful("Supression de la sélection réussie !");
     }
 
     /**
-     * Cancel an order
-     *
      * @Route("/cancel/{id}", name="cancel", options={"expose"=true}, methods={"POST"})
      *
      * @OA\Response(
@@ -95,11 +110,15 @@ class OrderController extends AbstractController
      * @param PaOrder $obj
      * @param ApiResponse $apiResponse
      * @param DataService $dataService
+     * @param RegistrationService $registrationService
      * @return JsonResponse
      */
-    public function cancel(PaOrder $obj, ApiResponse $apiResponse, DataService $dataService): JsonResponse
+    public function cancel(PaOrder $obj, ApiResponse $apiResponse, DataService $dataService, RegistrationService $registrationService): JsonResponse
     {
         $em = $this->doctrine->getManager();
+
+        $registrations = $em->getRepository(FoRegistration::class)->findBy(['paOrder' => $obj->getId()]);
+        $registrationService->cancelRegistrationsFromOrder($registrations, $obj);
 
         $obj->setStatus(PaOrder::STATUS_ANNULER);
         $obj->setUpdatedAt($dataService->createDate());

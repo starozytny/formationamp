@@ -25,6 +25,19 @@ class RegistrationService
         $this->dataRegistration = $dataRegistration;
     }
 
+    /**
+     * @param FoRegistration[] $registrations
+     * @return void
+     */
+    public function cancelRegistrationsFromOrder(array $registrations, PaOrder $order)
+    {
+        foreach($registrations as $registration){
+            if($registration->getPaOrder()->getId() == $order->getId()){
+                $registration->setStatus(FoRegistration::STATUS_INACTIVE);
+            }
+        }
+    }
+
     public function createNameOrder(FoSession $session): string
     {
         $nameFormation = $session->getFormation()->getName();

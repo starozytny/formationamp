@@ -2,9 +2,11 @@
 
 namespace App\Command\Cron;
 
+use App\Entity\Formation\FoRegistration;
 use App\Entity\Paiement\PaOrder;
 use App\Service\Data\DataService;
 use App\Service\Expiration;
+use App\Service\Registration\RegistrationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,14 +19,17 @@ class AdminOrderRefreshCommand extends Command
     private $em;
     private $dataService;
     private $expiration;
+    private $registrationService;
 
-    public function __construct(EntityManagerInterface $entityManager, DataService $dataService, Expiration $expiration)
+    public function __construct(EntityManagerInterface $entityManager, DataService $dataService, Expiration $expiration,
+                                RegistrationService $registrationService)
     {
         parent::__construct();
 
         $this->em = $entityManager;
         $this->dataService = $dataService;
         $this->expiration = $expiration;
+        $this->registrationService = $registrationService;
     }
 
     protected function configure()
@@ -39,6 +44,7 @@ class AdminOrderRefreshCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $objs = $this->em->getRepository(PaOrder::class)->findBy(['status' => PaOrder::STATUS_ATTENTE], ['codeAt' => 'ASC']);
+        $registrations = $this->em->getRepository(FoRegistration::class)->findBy(['paOrder' => $objs]);
 
         $total = 0;
         $now = $this->dataService->createDate();
@@ -47,6 +53,8 @@ class AdminOrderRefreshCommand extends Command
                $obj->setStatus(PaOrder::STATUS_EXPIRER);
                $obj->setUpdatedAt($this->dataService->createDate());
                $total++;
+
+               $this->registrationService->cancelRegistrationsFromOrder($registrations, $obj);
             }
         }
 
