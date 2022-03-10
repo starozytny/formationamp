@@ -72,7 +72,7 @@ export class TeamItemRegistration extends Component {
                             <div className={"badge badge-" + elem.type}>{elem.typeString}</div>
                         </div>
                         <div className="col-3 actions">
-                            <div className="sub">{active ? "Sélectionné(e)" : ""}</div>
+                            <div className="sub">{active ? "Sélectionné(e)" : (disabled ? "Inscrit(e)" : "")}</div>
                         </div>
                     </div>
                 </div>

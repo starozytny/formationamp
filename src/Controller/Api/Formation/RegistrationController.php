@@ -101,7 +101,7 @@ class RegistrationController extends AbstractController
                 return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
             }
 
-            $orderRegulars[] = $registration["data"]->getId();
+            $orderRegulars[] = $registration["data"];
         }
 
         // Specials = agents commerciaux
@@ -126,14 +126,11 @@ class RegistrationController extends AbstractController
                     return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
                 }
 
-                $orderSpecials[] = $registration["data"]->getId();
+                $orderSpecials[] = $registration["data"];
             }
         }
 
         $em->flush();
-
-        $orderRegulars = $em->getRepository(PaOrder::class)->findBy(['id' => $orderRegulars]);
-        $orderSpecials = $em->getRepository(PaOrder::class)->findBy(['id' => $orderSpecials]);
 
         // Send mails
         if($mailerService->sendMail(
@@ -147,6 +144,8 @@ class RegistrationController extends AbstractController
                     'session' => $session,
                     'orderRegulars' => $orderRegulars,
                     'orderSpecials' => $orderSpecials,
+                    'workersRegulars' => $workersRegulars,
+                    'workersSpecials' => $workersSpecials,
                     'participants' => count($workersRegulars) + count($workersSpecials),
                     'urlConfirmation' => $this->generateUrl('api_registration_confirmation', [
                         'token' => $user->getToken(),

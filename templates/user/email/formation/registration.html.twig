@@ -31,15 +31,14 @@
         <table>
             {% if orderRegulars | length != 0 %}
                 <thead>
-                    <tr><th>Details AGENCE</th></tr>
+                    <tr><td><b>Details AGENCE</b></td></tr>
                 </thead>
             {% endif %}
             <tbody>
             {% for order in orderRegulars %}
-                {% for registration in order.registrations %}
-                    {% set worker = registration.worker %}
+                {% for worker in workersRegulars %}
                     <tr>
-                        <td style="text-align: left; padding-right: 15px;">{{ worker.nom | upper }} {{ worker.prenom | capitalize }}</td>
+                        <td style="text-align: left; padding-right: 15px;">{{ worker.lastname }} {{ worker.firstname }}</td>
                     </tr>
                 {% endfor %}
                 <tr>
@@ -54,15 +53,14 @@
         <table>
             {% if orderSpecials | length != 0 %}
                 <thead>
-                    <tr><th>Details AGENTS COMMERCIAUX</th></tr>
+                    <tr><td><b>Details AGENT COMMERCIAL</b></td></tr>
                 </thead>
             {% endif %}
             <tbody>
             {% for order in orderSpecials %}
-                {% for registration in order.registrations %}
-                    {% set worker = registration.worker %}
+                {% for worker in workersSpecials %}
                     <tr>
-                        <td style="text-align: left; padding-right: 15px;">{{ worker.nom | upper }} {{ worker.prenom | capitalize }}</td>
+                        <td style="text-align: left; padding-right: 15px;">{{ worker.lastname }} {{ worker.firstname }}</td>
                     </tr>
                 {% endfor %}
                 <tr>
