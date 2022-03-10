@@ -9,7 +9,7 @@ const URL_DELETE_ELEMENT    = 'api_orders_delete';
 const URL_DELETE_GROUP      = 'api_orders_delete_group';
 const MSG_DELETE_ELEMENT    = 'Supprimer ce lot ?';
 const MSG_DELETE_GROUP      = 'Aucun lot sélectionné.';
-const SORTER = Sort.compareCreatedAt;
+const SORTER = Sort.compareCreatedAtInverse;
 
 export class Lots extends Component {
     constructor(props) {
