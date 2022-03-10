@@ -44,7 +44,7 @@ class FoFormation extends DataEntity
      * @ORM\Column(type="boolean")
      * @Groups({"admin:read"})
      */
-    private $isPublished = false;
+    private $isPublished = true;
 
     /**
      * @ORM\Column(type="float", nullable=true)

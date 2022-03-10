@@ -49,7 +49,7 @@ export function SessionsFormulaire ({ type, onChangeContext, onUpdateList, eleme
         priceHt={element ? Formulaire.setValueEmptyIfNull(element.priceHT) : ""}
         priceTtc={element ? Formulaire.setValueEmptyIfNull(element.priceTTC) : ""}
         tva={element ? Formulaire.setValueEmptyIfNull(element.tva, 20) : 20}
-        min={element ? Formulaire.setValueEmptyIfNull(element.min) : ""}
+        min={element ? Formulaire.setValueEmptyIfNull(element.min, 0) : 0}
         max={element ? Formulaire.setValueEmptyIfNull(element.max) : ""}
         address={element ? Formulaire.setValueEmptyIfNull(element.address) : ""}
         zipcode={element ? Formulaire.setValueEmptyIfNull(element.zipcode) : ""}
@@ -231,7 +231,7 @@ export class Form extends Component {
             timeMorningStart, timeMorningEnd, timeAfterStart, timeAfterEnd,
         } = this.state;
 
-        this.setState({ success: false })
+        this.setState({ success: false, errors: [] })
 
         let method = context === "create" ? "POST" : "PUT";
 
@@ -365,7 +365,7 @@ export class Form extends Component {
                 </div>
 
                 <div className="line line-2">
-                    <Input identifiant="animator" valeur={animator} errors={errors} onChange={this.handleChange}>Animateur (s)</Input>
+                    <Input identifiant="animator" valeur={animator} errors={errors} onChange={this.handleChange}>Animateur (s) *</Input>
                     <Select items={selectItems} identifiant="type" valeur={type} errors={errors} onChange={this.handleChange} noEmpty={true}>Type de formation ?</Select>
                 </div>
 
@@ -377,7 +377,7 @@ export class Form extends Component {
 
                 <div className="line line-2">
                     <DatePick identifiant="start" valeur={start} errors={errors} onChange={(e) => this.handleChangeDate('start', e)} minDate={new Date()} maxDate={end ? end : ""}>
-                        Date de début
+                        Date de début *
                     </DatePick>
                     <DatePick identifiant="end"   valeur={end} errors={errors}   onChange={(e) => this.handleChangeDate('end', e)} minDate={start ? start : new Date()}>
                         Date de fin
@@ -421,8 +421,8 @@ export class Form extends Component {
                 </div>
 
                 <div className="line line-2">
-                    <Input identifiant="min" valeur={min} errors={errors} onChange={this.handleChange} type="number">Place min</Input>
-                    <Input identifiant="max" valeur={max} errors={errors} onChange={this.handleChange} type="number">Place max</Input>
+                    <Input identifiant="min" valeur={min} errors={errors} onChange={this.handleChange} type="number">Place min *</Input>
+                    <Input identifiant="max" valeur={max} errors={errors} onChange={this.handleChange} type="number">Place max *</Input>
                 </div>
 
                 <div className="line">
@@ -432,9 +432,9 @@ export class Form extends Component {
                 </div>
 
                 <div className="line line-3">
-                    <Input identifiant="priceHt"  valeur={priceHt} errors={errors} onChange={this.handleChange}  type="number" step={"any"}>Prix HT (€)</Input>
-                    <Input identifiant="tva"      valeur={tva} errors={errors} onChange={this.handleChange}      type="number" step={"any"}>TVA (%)</Input>
-                    <Input identifiant="priceTtc" valeur={priceTtc} errors={errors} onChange={this.handleChange} type="number" step={"any"}>Prix TTC (€)</Input>
+                    <Input identifiant="priceHt"  valeur={priceHt} errors={errors} onChange={this.handleChange}  type="number" step={"any"}>Prix HT (€) *</Input>
+                    <Input identifiant="tva"      valeur={tva} errors={errors} onChange={this.handleChange}      type="number" step={"any"}>TVA (%) *</Input>
+                    <Input identifiant="priceTtc" valeur={priceTtc} errors={errors} onChange={this.handleChange} type="number" step={"any"}>Prix TTC (€) *</Input>
                 </div>
 
                 <div className="line">
@@ -444,7 +444,7 @@ export class Form extends Component {
                 </div>
 
                 <div className="line line-3">
-                    <Input identifiant="address" valeur={address} errors={errors} onChange={this.handleChange} placeholder="'En ligne' - si formation à distance">Adresse</Input>
+                    <Input identifiant="address" valeur={address} errors={errors} onChange={this.handleChange} placeholder="'En ligne' - si formation à distance">Adresse *</Input>
                     <Input identifiant="zipcode" valeur={zipcode} errors={errors} onChange={this.handleChangeZipcodeCity} type="number">Code postal</Input>
                     <Input identifiant="city" valeur={city} errors={errors} onChange={this.handleChange}>Ville</Input>
                 </div>

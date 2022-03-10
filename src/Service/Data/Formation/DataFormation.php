@@ -32,14 +32,16 @@ class DataFormation extends DataConstructor
     public function setDataSession(FoFormation $formation, FoSession $obj, $data): FoSession
     {
         $animator = $this->sanitizeData->sanitizeString($data->animator);
+        $start = $this->sanitizeData->createDateFromString($data->start);
+        $end = $this->sanitizeData->createDateFromString($data->end, $start);
 
         return ($obj)
             ->setSlug(null)
             ->setFormation($formation)
             ->setAnimator($animator)
             ->setType((int) $data->type)
-            ->setStart($this->sanitizeData->createDateFromString($data->start))
-            ->setEnd($this->sanitizeData->createDateFromString($data->end))
+            ->setStart($start)
+            ->setEnd($end)
             ->setTime($data->time ? trim($data->time) : null)
             ->setTime2($data->time2 ? trim($data->time2) : null)
             ->setDuration(trim($data->duration))

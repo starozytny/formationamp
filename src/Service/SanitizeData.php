@@ -43,9 +43,9 @@ class SanitizeData
         return $value;
     }
 
-    public function createDateFromString($date, $timezone="Europe/Paris", $return = null): \DateTime
+    public function createDateFromString($date, $timezone="Europe/Paris", $return = null)
     {
-        if($date != null){
+        if($date != null && $date != ""){
             try {
                 $date = new \DateTime(str_replace('/', '-', $date));
             } catch (Exception $e) {

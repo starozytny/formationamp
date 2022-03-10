@@ -128,9 +128,9 @@ function getDurationTotal(duration, duration2, start, end)
 function setTimeToString(start, end)
 {
     let a = setToStringDatabase(start.getHours(), start.getMinutes());
-    let b = setToStringDatabase(end.getHours(), end.getMinutes())
+    let b = end !== "" ? setToStringDatabase(end.getHours(), end.getMinutes()) : null;
 
-    return a + " - " + b;
+    return a + (b ? " - " + b : "");
 }
 
 function getTimeFromDatabase(time)
