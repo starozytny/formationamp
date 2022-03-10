@@ -5,12 +5,14 @@
 {% block main_content %}
     {% if error is defined %}
         <div class="main-content">
-            <div class="alert alert-danger">
-                <span class="icon-information"></span>
-                <p>Veuillez finaliser votre inscription en cours.</p>
-            </div>
-            <div class="line-buttons">
-                <a href="{{ path('user_formation_sessions') }}" class="btn btn-primary">Retourner à la liste des formations</a>
+            <div class="form">
+                <div class="alert alert-danger">
+                    <span class="icon-information"></span>
+                    <p>Veuillez finaliser votre inscription en cours.</p>
+                </div>
+                <div class="line-buttons">
+                    <a href="{{ path('user_profil', {'_fragment': 'profil-orders'}) }}" class="btn btn-primary">Mes paiements</a>
+                </div>
             </div>
         </div>
     {% else %}
