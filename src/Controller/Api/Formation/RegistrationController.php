@@ -90,6 +90,40 @@ class RegistrationController extends AbstractController
         $orderRegulars = [];
         $orderSpecials = [];
 
+        $workersRegularsFinal = [];
+        $workersSpecialsFinal = [];
+
+        // Specials = agents commerciaux
+        if(count($workersSpecials) != 0){
+            foreach($workersSpecials as $w){
+
+                $bankWorker = null;
+                foreach($bankSpecials as $item){
+                    if($item->workerId == $w->getId()){
+                        $bankWorker = $item->bank;
+                    }
+                }
+
+                if($bankWorker == null){
+                    $workersRegulars[] = $w;
+                }else{
+                    $workers = [$w];
+
+                    $registration = $registrationService->createOrderAndRegistration(
+                        $em, "A", $code,
+                        $user, $bankWorker, $session, $nameOrder, $workers, $bankWorker,
+                        $request->getClientIp()
+                    );
+                    if($registration["code"] != 1){
+                        return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
+                    }
+
+                    $orderSpecials[] = $registration["data"];
+                    $workersRegularsFinal[] = $w;
+                }
+            }
+        }
+
         // Regulars = agence
         if(count($workersRegulars) != 0){
             $registration = $registrationService->createOrderAndRegistration(
@@ -102,32 +136,7 @@ class RegistrationController extends AbstractController
             }
 
             $orderRegulars[] = $registration["data"];
-        }
-
-        // Specials = agents commerciaux
-        if(count($workersSpecials) != 0){
-            foreach($workersSpecials as $w){
-
-                $workers = [$w];
-
-                $bankWorker = null;
-                foreach($bankSpecials as $item){
-                    if($item->workerId == $w->getId()){
-                        $bankWorker = $item->bank;
-                    }
-                }
-
-                $registration = $registrationService->createOrderAndRegistration(
-                    $em, "A", $code,
-                    $user, $bankWorker ?: $agency, $session, $nameOrder, $workers, $bankWorker ?: $bank,
-                    $request->getClientIp()
-                );
-                if($registration["code"] != 1){
-                    return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
-                }
-
-                $orderSpecials[] = $registration["data"];
-            }
+            $workersSpecialsFinal[] = $workersRegulars;
         }
 
         $em->flush();
@@ -144,8 +153,8 @@ class RegistrationController extends AbstractController
                     'session' => $session,
                     'orderRegulars' => $orderRegulars,
                     'orderSpecials' => $orderSpecials,
-                    'workersRegulars' => $workersRegulars,
-                    'workersSpecials' => $workersSpecials,
+                    'workersRegulars' => $workersRegularsFinal,
+                    'workersSpecials' => $workersSpecialsFinal,
                     'participants' => count($workersRegulars) + count($workersSpecials),
                     'urlConfirmation' => $this->generateUrl('api_registration_confirmation', [
                         'token' => $user->getToken(),
