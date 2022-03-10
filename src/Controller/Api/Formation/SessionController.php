@@ -8,7 +8,7 @@ use App\Entity\Formation\FoSession;
 use App\Entity\User;
 use App\Service\ApiResponse;
 use App\Service\Data\DataService;
-use App\Service\Data\Formation\DataRegistration;
+use App\Service\Data\Formation\DataFormation;
 use App\Service\FileCreator;
 use App\Service\ValidatorService;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -35,7 +35,7 @@ class SessionController extends AbstractController
     }
 
     public function submitForm($type, FoFormation $formation, FoSession $obj, Request $request, ApiResponse $apiResponse,
-                               ValidatorService $validator, DataRegistration $dataEntity): JsonResponse
+                               ValidatorService $validator, DataFormation $dataEntity): JsonResponse
     {
         $em = $this->doctrine->getManager();
         $data = json_decode($request->getContent());
@@ -75,11 +75,11 @@ class SessionController extends AbstractController
      * @param FoFormation $formation
      * @param ValidatorService $validator
      * @param ApiResponse $apiResponse
-     * @param DataRegistration $dataEntity
+     * @param DataFormation $dataEntity
      * @return JsonResponse
      */
-    public function create(Request          $request, FoFormation $formation, ValidatorService $validator, ApiResponse $apiResponse,
-                           DataRegistration $dataEntity): JsonResponse
+    public function create(Request $request, FoFormation $formation, ValidatorService $validator, ApiResponse $apiResponse,
+                           DataFormation $dataEntity): JsonResponse
     {
         return $this->submitForm("create", $formation, new FoSession(), $request, $apiResponse, $validator, $dataEntity);
     }
@@ -108,11 +108,11 @@ class SessionController extends AbstractController
      * @param FoSession $obj
      * @param ValidatorService $validator
      * @param ApiResponse $apiResponse
-     * @param DataRegistration $dataEntity
+     * @param DataFormation $dataEntity
      * @return JsonResponse
      */
-    public function update(Request     $request, FoFormation $formation, FoSession $obj, ValidatorService $validator,
-                           ApiResponse $apiResponse, DataRegistration $dataEntity): JsonResponse
+    public function update(Request $request, FoFormation $formation, FoSession $obj, ValidatorService $validator,
+                           ApiResponse $apiResponse, DataFormation $dataEntity): JsonResponse
     {
         return $this->submitForm("update", $formation, $obj, $request, $apiResponse, $validator, $dataEntity);
     }

@@ -31,7 +31,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class UserController extends AbstractController
 {
     const FOLDER_AVATARS = User::FOLDER_AVATARS;
-    
+
     const ICON = "user";
 
     private $doctrine;
@@ -40,7 +40,7 @@ class UserController extends AbstractController
     {
         $this->doctrine = $doctrine;
     }
-    
+
     /**
      * Admin - Get array of users
      *
@@ -176,7 +176,7 @@ class UserController extends AbstractController
                            FileUploader $fileUploader, NotificationService $notificationService, DataUser $dataEntity,
                            MailerService $mailerService, SettingsService $settingsService): JsonResponse
     {
-        return $this->submitForm("create", new User(), $request, $apiResponse, $validator, $dataEntity,
+        return $this->submitForm("update", new User(), $request, $apiResponse, $validator, $dataEntity,
             $passwordHasher, $fileUploader, $notificationService, $mailerService, $settingsService);
     }
 
