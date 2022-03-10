@@ -98,7 +98,7 @@ export function Step3 ({ step, onNext, onSubmit, email, session, workers, bank, 
             <Button type="default" outline={true} onClick={() => onNext(CURRENT_STEP - 1, CURRENT_STEP)}>Etape précédente</Button>
             <div/>
             <div className="btns-submit">
-                <Button onClick={onSubmit}>Valider</Button>
+                <Button onClick={onSubmit}>Valider ces informations</Button>
             </div>
         </div>
     </div>

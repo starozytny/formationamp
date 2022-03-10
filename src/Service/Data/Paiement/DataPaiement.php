@@ -2,6 +2,7 @@
 
 namespace App\Service\Data\Paiement;
 
+use App\Entity\Fnaim\FnAgency;
 use App\Entity\Formation\FoSession;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\User;
@@ -15,10 +16,29 @@ class DataPaiement
         $this->privateDirectory = $privateDirectory;
     }
 
+    public function createDataOrderJson(User $user, FnAgency $agency, FoSession $session, $nameOrder, array $workers, $bank)
+    {
+        $dataOrder = [
+            "participants" => count($workers),
+            "price" => $session->getPriceTTC() * count($workers),
+            "name" => $nameOrder,
+            "titulaire" => $bank->titulaire,
+            "iban" => $bank->iban,
+            "bic" => $bank->bic,
+            "email" => $user->getEmail(),
+            "address" => $agency->getAddress(),
+            "zipcode" => $agency->getZipcode(),
+            "city" => $agency->getCity()
+        ];
+
+        return json_decode(json_encode($dataOrder));
+    }
+
     /**
      * @param PaOrder $obj
      * @param $data
      * @param User $user
+     * @param FoSession $session
      * @param $rum
      * @param $code
      * @param $ip

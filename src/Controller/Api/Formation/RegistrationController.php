@@ -8,11 +8,10 @@ use App\Entity\Formation\FoWorker;
 use App\Entity\Paiement\PaOrder;
 use App\Entity\User;
 use App\Service\ApiResponse;
-use App\Service\Data\Paiement\DataPaiement;
 use App\Service\MailerService;
 use App\Service\NotificationService;
+use App\Service\Registration\RegistrationService;
 use App\Service\SettingsService;
-use App\Service\ValidatorService;
 use DateTime;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -51,17 +50,16 @@ class RegistrationController extends AbstractController
      *
      * @param Request $request
      * @param FoSession $session
-     * @param ValidatorService $validator
      * @param ApiResponse $apiResponse
-     * @param DataPaiement $dataPaiement
      * @param MailerService $mailerService
      * @param SettingsService $settingsService
      * @param NotificationService $notificationService
+     * @param RegistrationService $registrationService
      * @return JsonResponse
      */
-    public function create(Request $request, FoSession $session, ValidatorService $validator, ApiResponse $apiResponse,
-                           DataPaiement $dataPaiement, MailerService $mailerService, SettingsService $settingsService,
-                           NotificationService $notificationService): JsonResponse
+    public function create(Request $request, FoSession $session, ApiResponse $apiResponse,
+                           MailerService $mailerService, SettingsService $settingsService,
+                           NotificationService $notificationService, RegistrationService $registrationService): JsonResponse
     {
         $em = $this->doctrine->getManager();
         $data = json_decode($request->getContent());
@@ -72,61 +70,70 @@ class RegistrationController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-        $workers = $em->getRepository(FoWorker::class)->findBy(['id' => $data->workersId]);
+        $agency = $user->getAgency();
+
+        $workersRegulars = $em->getRepository(FoWorker::class)->findBy(['id' => $data->workersRegularsId]);
+        $workersSpecials = $em->getRepository(FoWorker::class)->findBy(['id' => $data->workersSpecialsId]);
+
+        $bank         = $data->bank;
+        $bankSpecials = $data->bankSpecials;
 
         $nameFormation = $session->getFormation()->getName();
         $dateFormation = $session->getFullDateHuman();
         $fullNameFormation = $nameFormation . " " . $dateFormation;
-        $nameOrder = strlen($fullNameFormation) < 255 ? $fullNameFormation : $nameFormation . " #" . $session->getId();
-
-        $bank = $data->bank;
-
-        $dataOrder = [
-            "price" => $session->getPriceTTC() * count($workers),
-            "name" => $nameOrder,
-            "titulaire" => $bank->titulaire,
-            "iban" => $bank->iban,
-            "bic" => $bank->bic,
-            "email" => $user->getEmail(),
-            "participants" => count($workers),
-            "address" => "ADRESSE A COMPLETER",
-            "zipcode" => "ADRESSE A COMPLETER",
-            "city" => "ADRESSE A COMPLETER"
-        ];
-        $dataOrder = json_decode(json_encode($dataOrder));
+        $nameOrder =  strlen($fullNameFormation) < 255 ? $fullNameFormation : $nameFormation . " #" . $session->getId();
 
         $code = uniqid();
-        $order = $dataPaiement->setDataOrder(new PaOrder(), $dataOrder, $user, $session, $user->getId().time(), $code, $request->getClientIp());
 
-        $noErrors = $validator->validate($order);
-        if ($noErrors !== true) {
-            return $apiResponse->apiJsonResponseValidationFailed($noErrors);
+        $orders = [];
+
+        // Regulars = agence
+        if(count($workersRegulars) != 0){
+            $registration = $registrationService->createOrderAndRegistration(
+                $em, "", $code,
+                $user, $agency, $session, $nameOrder, $workersRegulars, $bank,
+                $request->getClientIp()
+            );
+            if($registration["code"] != 1){
+                return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
+            }
+
+            $orders[] = $registration["data"];
         }
 
-        foreach($workers as $worker){
+        // Specials = agents commerciaux
+        if(count($workersSpecials) != 0){
+            foreach($workersSpecials as $w){
 
-            $obj = (new FoRegistration())
-                ->setUser($user)
-                ->setFormation($session->getFormation())
-                ->setSession($session)
-                ->setWorker($worker)
-                ->setPaOrder($order)
-            ;
+                $workers = [$w];
 
-            $em->persist($obj);
+                $bankWorker = null;
+                foreach($bankSpecials as $item){
+                    if($item->workerId == $w->getId()){
+                        $bankWorker = $item->bank;
+                    }
+                }
 
-            $noErrors = $validator->validate($obj);
-            if ($noErrors !== true) {
-                return $apiResponse->apiJsonResponseValidationFailed($noErrors);
+                $registration = $registrationService->createOrderAndRegistration(
+                    $em, "A", $code,
+                    $user, $bankWorker ?: $agency, $session, $nameOrder, $workers, $bankWorker ?: $bank,
+                    $request->getClientIp()
+                );
+                if($registration["code"] != 1){
+                    return $apiResponse->apiJsonResponseValidationFailed($registration["data"]);
+                }
+
+                $orders[] = $registration["data"];
             }
         }
 
+        // Send mails
         if($mailerService->sendMail(
                 $settingsService->getEmailContact(),
                 "[" . $settingsService->getWebsiteName() ."] Inscription à " . $fullNameFormation,
                 "Inscription à " . $fullNameFormation . " chez " . $settingsService->getWebsiteName(),
                 'user/email/formation/registration.html.twig',
-                ['title' => $nameFormation, 'session' => $session, 'settings' => $settingsService->getSettings()]
+                ['title' => $nameFormation, 'session' => $session, 'settings' => $settingsService->getSettings(), "orders" => $orders]
             ) != true)
         {
             return $apiResponse->apiJsonResponseValidationFailed([[
@@ -135,7 +142,6 @@ class RegistrationController extends AbstractController
             ]]);
         }
 
-        $em->persist($order);
         $em->flush();
 
         $notificationService->createNotification(

@@ -174,13 +174,17 @@ export class Registration extends Component {
             Formulaire.loader(true);
             let self = this;
 
-            // TO ADJUST
-            let workersId = [];
+            let workersRegulars = [], workersSpecials = [];
             workers.forEach(worker => {
-                workersId.push(worker.id)
+                if(worker.type !== 2) {
+                    workersRegulars.push(worker.id)
+                }else{
+                    workersSpecials.push(worker.id)
+                }
             })
 
-            this.state.workersId = workersId;
+            this.state.workersRegularsId = workersRegulars;
+            this.state.workersSpecialsId = workersSpecials;
 
             arrayZipcodes = this.state.arrayPostalCode;
             delete this.state.arrayPostalCode;
