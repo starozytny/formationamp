@@ -43,7 +43,7 @@ export function FormationsFormulaire ({ type, onChangeContext, onUpdateList, ele
         skills={element ? Formulaire.setValueEmptyIfNull(element.skills) : ""}
         target={element ? Formulaire.setValueEmptyIfNull(element.target) : ""}
         cat={element ? Formulaire.setValueEmptyIfNull(element.cat) : ""}
-        isAca={element ? Formulaire.setValueEmptyIfNull(element.isAca, 0) : 0}
+        isAca={element ? Formulaire.setValueEmptyIfNull(element.isAca ? 1 : 0, 0) : 0}
         accessibility={element ? Formulaire.setValueEmptyIfNull(element.accessibility, 0) : 0}
         categories={element ? Formulaire.setValueEmptyIfNull(element.categories, []) : []}
         onUpdateList={onUpdateList}
@@ -185,8 +185,6 @@ export class FormationForm extends Component {
             { value: 0, label: 'Bâtiment non conforme', identifiant: 'bat-not-conforme' },
             { value: 1, label: 'Bâtiment conforme', identifiant: 'bat-conforme' },
         ]
-
-        console.log(isAca)
 
         let switcherItems = [ { value: 1, label: 'Oui', identifiant: 'oui' } ]
 

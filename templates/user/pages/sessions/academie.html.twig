@@ -1,0 +1,82 @@
+{% extends 'user/pages/sessions/template.html.twig' %}
+
+{% set page_title %}{{ formation.name }}{% endset %}
+
+{% block main_content %}
+    <div class="main-content">
+        <div class="page-session">
+            <div class="line-1">
+                <div class="col-1">
+                    <div class="content">
+                        <div class="title"><span>Description</span></div>
+                        <div>{{ formation.content | raw }}</div>
+                    </div>
+                    <div class="content">
+                        Planning
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="card-session-register">
+                        <div class="card-header">
+                            {% if session.isPublished %}
+                            <div>
+                                <a href="" class="btn btn-primary">S'inscrire</a>
+                            </div>
+                            {% else %}
+                                <div>
+                                    <a class="btn btn-danger">Inscription fermée</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-body card-body-price">
+                            <div class="item">
+                                <span>{{ session.priceHT }} € HT</span>
+                            </div>
+                            <div class="item item-price">
+                                <span>{{ session.priceTTC }} € TTC</span>
+                            </div>
+                        </div>
+{#                        <div class="card-body">#}
+{#                            <div class="item">#}
+{#                                <span>Accessibilité handicapé : {{ formation.accessibilityString }}</span>#}
+{#                            </div>#}
+{#                            <div class="item">#}
+{#                                <span>Type de formation : <span class="badge">{{ session.typeString }}</span></span>#}
+{#                            </div>#}
+{#                        </div>#}
+                        <div class="card-body">
+                            <div class="item">
+                                <span class="icon-calendar"></span>
+                                <span>{{ session.fullDate }}</span>
+                            </div>
+{#                            {% if session.fullTime %}#}
+{#                                <div class="item">#}
+{#                                    <span class="icon-time"></span>#}
+{#                                    <span>{{ session.fullTime }}</span>#}
+{#                                </div>#}
+{#                                <div class="item">#}
+{#                                    <span class="icon-book"></span>#}
+{#                                    <span>{{ session.durationByDay }} par jour</span>#}
+{#                                </div>#}
+{#                                <div class="item">#}
+{#                                    <span class="icon-book"></span>#}
+{#                                    <span>{{ session.durationTotal }} au total</span>#}
+{#                                </div>#}
+{#                            {% endif %}#}
+                        </div>
+                        <div class="card-body">
+                            <div class="item">
+                                <span class="icon-user"></span>
+                                <span>{{ session.animator }}</span>
+                            </div>
+                            <div class="item">
+                                <span class="icon-placeholder"></span>
+                                <span>{{ session.fullAddress }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

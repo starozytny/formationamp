@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Changelog;
+use App\Entity\Formation\FoFormation;
 use App\Entity\Formation\FoRegistration;
 use App\Entity\Formation\FoSession;
 use App\Entity\Formation\FoWorker;
@@ -140,7 +141,7 @@ class UserController extends AbstractController
     public function sessions(SerializerInterface $serializer): Response
     {
         $em = $this->doctrine->getManager();
-        $objs          = $em->getRepository(FoSession::class)->findBy(['isPublished' => true, 'isAca' => false], ['start' => 'ASC']);
+        $objs          = $em->getRepository(FoSession::class)->findBy(['isPublished' => true, 'isAca' => false], ['start' => 'DESC']);
         $registrations = $em->getRepository(FoRegistration::class)->findBy(['status' => FoRegistration::STATUS_ACTIVE]);
 
         $objs          = $serializer->serialize($objs, 'json', ['groups' => User::ADMIN_READ]);
@@ -152,6 +153,20 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/academie", name="academie_index")
+     */
+    public function academie(): Response
+    {
+        $em = $this->doctrine->getManager();
+        $formation = $em->getRepository(FoFormation::class)->findOneBy(['isAca' => true], ['createdAt' => 'DESC']);
+        $session   = $em->getRepository(FoSession::class)->findOneBy(['formation' => $formation], ['start' => 'DESC']);
+
+        return $this->render('user/pages/sessions/academie.html.twig', [
+            'formation' => $formation,
+            'session' => $session
+        ]);
+    }
 
     /**
      * @Route("/formations/e-learning", name="formation_elearning")
