@@ -34,7 +34,7 @@ class DataFormation extends DataConstructor
     {
         $animator = $this->sanitizeData->sanitizeString($data->animator);
         $start = $this->sanitizeData->createDateFromString($data->start);
-        $end = $this->sanitizeData->createDateFromString($data->end, $start);
+        $end = $this->sanitizeData->createDateFromString($data->end, "Europe/Paris", $start);
 
         return ($obj)
             ->setSlug(null)
@@ -61,6 +61,7 @@ class DataFormation extends DataConstructor
             ->setModEval($data->modEval->html ? trim($data->modEval->html) : null)
             ->setModPeda($data->modPeda->html ? trim($data->modPeda->html) : null)
             ->setModAssi($data->modAssi->html ? trim($data->modAssi->html) : null)
-            ;
+            ->setIsAca($formation->getIsAca())
+        ;
     }
 }

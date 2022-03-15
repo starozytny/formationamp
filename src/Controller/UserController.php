@@ -140,7 +140,7 @@ class UserController extends AbstractController
     public function sessions(SerializerInterface $serializer): Response
     {
         $em = $this->doctrine->getManager();
-        $objs          = $em->getRepository(FoSession::class)->findBy(['isPublished' => true], ['start' => 'ASC']);
+        $objs          = $em->getRepository(FoSession::class)->findBy(['isPublished' => true, 'isAca' => false], ['start' => 'ASC']);
         $registrations = $em->getRepository(FoRegistration::class)->findBy(['status' => FoRegistration::STATUS_ACTIVE]);
 
         $objs          = $serializer->serialize($objs, 'json', ['groups' => User::ADMIN_READ]);

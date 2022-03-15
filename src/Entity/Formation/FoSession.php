@@ -197,6 +197,11 @@ class FoSession extends DataEntity
      */
     private $paOrders;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isAca = false;
+
     public function __construct()
     {
         $this->registrations = new ArrayCollection();
@@ -646,6 +651,18 @@ class FoSession extends DataEntity
                 $paOrder->setSession(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsAca(): ?bool
+    {
+        return $this->isAca;
+    }
+
+    public function setIsAca(bool $isAca): self
+    {
+        $this->isAca = $isAca;
 
         return $this;
     }
