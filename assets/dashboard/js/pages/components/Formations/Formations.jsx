@@ -14,7 +14,7 @@ const MSG_DELETE_ELEMENT    = 'Supprimer cette formation ?';
 const MSG_DELETE_GROUP      = 'Aucune formation sélectionnée.';
 const URL_SWITCH_PUBLISHED  = 'api_formations_formation_published';
 const MSG_SWITCH_PUBLISHED  = 'Formation';
-const SORTER = Sort.compareCreatedAt;
+const SORTER = Sort.compareCreatedAtInverse;
 
 export class Formations extends Component {
     constructor(props) {
