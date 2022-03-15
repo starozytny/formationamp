@@ -20,6 +20,9 @@ export class FormationsItem extends Component {
                 <div className="item-body">
                     <div className="infos infos-col-4">
                         <div className="col-1">
+                            <div className="badges">
+                                <div className={"badge badge-" + (elem.isAca ? 2 : 3)}>{elem.isAca ? "Académie" : "Formation"}</div>
+                            </div>
                             <div className="name">
                                 <span>{elem.name}</span>
                             </div>

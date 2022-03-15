@@ -139,6 +139,12 @@ class FoFormation extends DataEntity
      */
     private $categories = [];
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @Groups({"admin:read"})
+     */
+    private $isAca = false;
+
     public function __construct()
     {
         $this->createdAt = $this->initNewDate();
@@ -450,5 +456,17 @@ class FoFormation extends DataEntity
         $values = ["Bâtiment non conforme", "Bâtiment conforme"];
 
         return $values[$this->accessibility];
+    }
+
+    public function getIsAca(): ?bool
+    {
+        return $this->isAca;
+    }
+
+    public function setIsAca(bool $isAca): self
+    {
+        $this->isAca = $isAca;
+
+        return $this;
     }
 }

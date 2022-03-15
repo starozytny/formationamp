@@ -43,6 +43,7 @@ export function FormationsFormulaire ({ type, onChangeContext, onUpdateList, ele
         skills={element ? Formulaire.setValueEmptyIfNull(element.skills) : ""}
         target={element ? Formulaire.setValueEmptyIfNull(element.target) : ""}
         cat={element ? Formulaire.setValueEmptyIfNull(element.cat) : ""}
+        isAca={element ? Formulaire.setValueEmptyIfNull(element.isAca, 0) : 0}
         accessibility={element ? Formulaire.setValueEmptyIfNull(element.accessibility, 0) : 0}
         categories={element ? Formulaire.setValueEmptyIfNull(element.categories, []) : []}
         onUpdateList={onUpdateList}
@@ -67,6 +68,7 @@ export class FormationForm extends Component {
             skills: { value: props.skills ? props.skills : "", html: props.skills ? props.skills : "" },
             target: { value: props.target ? props.target : "", html: props.target ? props.target : "" },
             cat: { value: props.cat ? props.cat : "", html: props.cat ? props.cat : "" },
+            isAca: [props.isAca],
             categories: props.categories,
             accessibility: props.accessibility,
             errors: [],
@@ -93,6 +95,10 @@ export class FormationForm extends Component {
 
         if(name === "categories"){
             value = Formulaire.updateValueCheckbox(e, this.state.categories, parseInt(value));
+        }
+
+        if(name === "isAca"){
+            value = (e.currentTarget.checked) ? [parseInt(value)] : [];
         }
 
         this.setState({[name]: value})
@@ -157,6 +163,7 @@ export class FormationForm extends Component {
                             target: { value: "", html: ""},
                             cat: { value: "", html: ""},
                             accessibility: 0,
+                            isAca: [0]
                         })
                     }
                 })
@@ -172,12 +179,16 @@ export class FormationForm extends Component {
 
     render () {
         const { context } = this.props;
-        const { errors, success, name, content, prerequis, goals, aptitudes, skills, target, cat, accessibility, categories } = this.state;
+        const { errors, success, name, content, prerequis, goals, aptitudes, skills, target, cat, accessibility, categories, isAca } = this.state;
 
         let selectItems = [
             { value: 0, label: 'Bâtiment non conforme', identifiant: 'bat-not-conforme' },
             { value: 1, label: 'Bâtiment conforme', identifiant: 'bat-conforme' },
         ]
+
+        console.log(isAca)
+
+        let switcherItems = [ { value: 1, label: 'Oui', identifiant: 'oui' } ]
 
         let categoriesItems = helper.getCategories();
 
@@ -186,8 +197,12 @@ export class FormationForm extends Component {
 
                 {success !== false && <Alert type="info">{success}</Alert>}
 
-                <div className="line">
+                <div className="line line-2">
                     <Input valeur={name} identifiant="name" errors={errors} onChange={this.handleChange} >Intitulé</Input>
+                    <Checkbox isSwitcher={true} items={switcherItems} identifiant="isAca" valeur={isAca}
+                              errors={errors} onChange={this.handleChange}>
+                        Est-ce une académie ?
+                    </Checkbox>
                 </div>
                 <div className="line line-2">
                     <Select items={selectItems} identifiant="accessibility" valeur={accessibility} errors={errors} onChange={this.handleChange} noEmpty={true}>Accessibilité handicapé ?</Select>

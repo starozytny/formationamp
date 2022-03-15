@@ -5,3 +5,21 @@
 .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--disabled{
   display: none;
 }
+
+.switcher-items{
+  .switcher-item{
+    label{
+      &:after{
+        content: "\e913";
+      }
+    }
+
+    &.checked{
+      label{
+        &:after{
+          content: "\e95a";
+        }
+      }
+    }
+  }
+}
